@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><img src="/static/pic/logo.png"/>知识地图</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">知识地图</a></li>
+        </ul>
+
+        {% if user.is_authenticated %}
+        <ul class="navbar-text pull-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} Account<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <!--<li><a href="/accounts">My Account</a></li>-->
+                    <li><a href="/accounts/logout">Sign out</a></li>
+                </ul>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="nav navbar-nav pull-right">
+            <li> <a  href="/accounts/login">Sign in</a> </li>
+            <!--<li> <a  href="/accounts/register">Sign up</a> </li>-->
+        </ul>
+        {% endif %}
+    </div><!-- /.navbar-collapse -->
+</nav>
