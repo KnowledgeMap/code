@@ -6,7 +6,7 @@ import datetime
 
 class Proposition(models.Model):
     name = models.CharField(u'名称', max_length=100)
-    desc = models.TextField(u'简介', max_length=500) 
+    desc = models.TextField(u'简介', max_length=500, null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' %(self.name)
@@ -14,7 +14,7 @@ class Proposition(models.Model):
 
 class Relation(models.Model):  # edge
     name = models.CharField(u'名称', max_length=100)
-    desc = models.TextField(u'简介', max_length=500) 
+    desc = models.TextField(u'简介', max_length=500, null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' %(self.name)
@@ -36,7 +36,7 @@ class kGraph(models.Model):
     edge = models.ForeignKey(Relation)
     prop1 = models.ForeignKey(Proposition, related_name='prop1')
     prop2 = models.ForeignKey(Proposition, related_name='prop2')
-    prop3 = models.ForeignKey(Proposition, related_name='prop3')
+    prop3 = models.ForeignKey(Proposition, related_name='prop3', null=True, blank=True)
     editor = models.ForeignKey(User)
     timestamp = models.DateTimeField(u'时间', default=datetime.datetime.now)
 
