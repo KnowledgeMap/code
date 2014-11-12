@@ -48,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'kmap.urls'
+ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'kmap.wsgi.application'
 
