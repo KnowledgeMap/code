@@ -21,8 +21,8 @@ class Relation(models.Model):  # edge
 
 
 class MyKnown(models.Model):
-    known = models.ForeignKey(Proposition)
     owner = models.ForeignKey(User)
+    known = models.ForeignKey(Proposition)
     timestamp = models.DateTimeField(u'时间', default=datetime.datetime.now)
 
     class Meta:
