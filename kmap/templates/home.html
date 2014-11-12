@@ -5,6 +5,28 @@
 {% endblock %}
 
 {% block content %}
-Welcome!
+<div style="padding: 50px 100px;">
+   <form class="bs-example bs-example-form" role="form">
+      <div class="row">
+         <div class="col-lg-3 col-md-3"></div>
+         <div class="col-lg-6 col-md-6">
+            <div class="input-group  input-group-lg">
+               <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                    <img src="/static/pic/Induction.png"/>
+                  </button>
+               </span>
+               <input type="text" class="form-control" placeholder="please input">
+               <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">
+                     <img src="/static/pic/Deduction.png"/>
+                  </button>
+               </span>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-3"></div>
+      </div>
+   </form>
+</div>
 {% endblock %}
 
