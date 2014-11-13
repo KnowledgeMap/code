@@ -8,8 +8,9 @@ Dev Env
 
 1. python 2.7, pip(recommended)
 
-    [python dev install](www.misspy.com/blog/2013/09/02/python-dev-env/)
+    [python dev install steps](www.misspy.com/blog/2013/09/02/python-dev-env/)
 2. libs listed in requirement.txt
+
     ```shell
     $ sudo pip install -r requirement.txt
     ```
