@@ -32,6 +32,7 @@
 </head>
 
 <body>
+    <div id="kmap-overview"></div>
 	<script>
 
 		// d3 setup
@@ -47,7 +48,7 @@
 							.linkDistance(150).
 							linkStrength(0.6);
 
-		var svg = d3.select("body").append("svg")
+		var svg = d3.select("div#kmap-overview").append("svg")
 									.attr("width", svg_width)
 									.attr("height", svg_height);
 
