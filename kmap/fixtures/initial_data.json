@@ -1,0 +1,90 @@
+[
+{
+    "fields": {
+        "name": "1001",
+        "desc": "\u4e8c\u5143\u5173\u7cfb\uff1a\u7b49\u4ef7"
+    },
+    "model": "kmap.relation",
+    "pk": 3
+},
+{
+    "fields": {
+        "name": "1011",
+        "desc": "\u4e8c\u5143\u5173\u7cfb\uff1a\u8574\u6db5"
+    },
+    "model": "kmap.relation",
+    "pk": 4
+},
+{
+    "fields": {
+        "name": "10000011",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u672a\u547d\u540d"
+    },
+    "model": "kmap.relation",
+    "pk": 5
+},
+{
+    "fields": {
+        "name": "11000001",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u672a\u547d\u540d"
+    },
+    "model": "kmap.relation",
+    "pk": 6
+},
+{
+    "fields": {
+        "name": "11100001",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u5f52\u7ed3"
+    },
+    "model": "kmap.relation",
+    "pk": 7
+},
+{
+    "fields": {
+        "name": "10001011",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u672a\u547d\u540d"
+    },
+    "model": "kmap.relation",
+    "pk": 8
+},
+{
+    "fields": {
+        "name": "11101001",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u53cc\u6761\u4ef6\u4e09\u6bb5\u8bba"
+    },
+    "model": "kmap.relation",
+    "pk": 9
+},
+{
+    "fields": {
+        "name": "11001011",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u672a\u547d\u540d"
+    },
+    "model": "kmap.relation",
+    "pk": 10
+},
+{
+    "fields": {
+        "name": "10001111",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u672a\u547d\u540d"
+    },
+    "model": "kmap.relation",
+    "pk": 11
+},
+{
+    "fields": {
+        "name": "11101011",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u53cc\u6761\u4ef6\u8d4b\u503c"
+    },
+    "model": "kmap.relation",
+    "pk": 13
+},
+{
+    "fields": {
+        "name": "11101111",
+        "desc": "\u4e09\u5143\u5173\u7cfb\uff1a\u8d4b\u503c"
+    },
+    "model": "kmap.relation",
+    "pk": 14
+}
+]
