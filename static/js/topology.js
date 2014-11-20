@@ -1,7 +1,8 @@
 
 var draw = function () {
-        network = jSBGN_to_d3( JSON.parse(jSBGN_network) );
+    $.getJSON("/kmap/net/", function(json){
         // d3 setup
+        network = jSBGN_to_d3(json);
         var svg_width = window.innerWidth;
         var svg_height = window.innerHeight;
 
@@ -19,8 +20,6 @@ var draw = function () {
             .attr("width", svg_width)
             .attr("height", svg_height); 
 
-        console.log("d3 setup complete.");
-
         // setup arrow
         arrow = svg.append("defs").append("marker");
         arrow.attr('id', 'arrow').attr('orient', 'auto')
@@ -28,9 +27,6 @@ var draw = function () {
             .attr('refX', 20).attr('refY', 3);
         arrow.append('path').attr('d', 'M0,0 V6 L4,3 Z')
             .attr('fill', 'blue');
-
-        console.log(network.nodes.length+' nodes')
-        console.log(network.edges.length+' edges');
 
         // distance calculation requires link.source/target to be object links
         function getNodeById(id) {
@@ -56,8 +52,6 @@ var draw = function () {
         force.nodes(network.nodes)
             .links(network.edges)
             .start();
-
-        console.log("data import complete.");
 
         var edges = svg.selectAll("line.edge")
             .data(network.edges).enter()
@@ -100,4 +94,5 @@ var draw = function () {
             labels.attr("x", function(data) { return data.x; })
                 .attr("y", function(data) { return data.y; });
         });
-}
+    });
+};
