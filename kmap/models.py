@@ -9,7 +9,7 @@ class Proposition(models.Model):
     desc = models.TextField(u'简介', max_length=500, null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s' %(self.name)
+        return u'%s--%s' %(self.id, self.name)
 
 
 class Relation(models.Model):  # edge
@@ -17,7 +17,7 @@ class Relation(models.Model):  # edge
     desc = models.TextField(u'简介', max_length=500, null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s' %(self.name)
+        return u'%s-%s' %(self.id, self.name)
 
 
 class MyKnown(models.Model):
