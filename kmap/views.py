@@ -10,6 +10,14 @@ def home(request):
     content = dict()
     return render_to_response('home.html', RequestContext(request, content))
 
+
+def get_algorithm(request):
+    response_data = [
+            {'name': 'net1', 'url': '/kmap/net1'},
+            {'name': 'net2', 'url': '/kmap/net2'}
+            ]
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 def get_net(request):
     return get_net2(request)
 
@@ -74,3 +82,4 @@ def get_net2(request):
 
     response_data = {'nodes': nodes, 'links': edges}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
