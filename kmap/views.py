@@ -14,18 +14,29 @@ def get_net1(request):
     p = kGraph.objects.all()
     nodes = []
     edges = []
+
+    def insert_node(name, group=1):
+        content = {"id": name}
+        if content in nodes:
+            return nodes.index(content)
+        else:
+            nodes.append(content)
+            return len(nodes)-1
+
+    def insert_op(opid, name):
+        nodes.append({"id": '%s-%s' % (opid, name)})
+        return len(nodes)-1
+
     for item in p:
-        nodes.extend([
-            {"id": '%s-%s' % (item.id, item.edge.name)},
-            {"id": item.prop1.name},
-            {"id": item.prop2.name},
-            ])
+        insert_op(item.id, item.edge.name)
+        insert_node(item.prop1.name)
+        insert_node(item.prop2.name)
         edges.extend([
             {"source": '%s-%s' % (item.id, item.edge.name),"target": item.prop1.name},
             {"source": '%s-%s' % (item.id, item.edge.name),"target": item.prop2.name},
             ])
         if item.prop3:
-            nodes.append({"id": item.prop3.name})
+            insert_node(item.prop3.name)
             edges.append({"source": '%s-%s' % (item.id, item.edge.name),"target": item.prop3.name})
 
     response_data = {'nodes': nodes, 'edges': edges}
