@@ -1,4 +1,4 @@
-d3.json("/kmap/net2/", function(svgEvent, graph) {
+d3.json("/kmap/net/", function(svgEvent, graph) {
 		force
 			.nodes(svgEvent.nodes)
 			.links(svgEvent.links)
