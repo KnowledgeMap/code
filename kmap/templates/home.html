@@ -46,7 +46,7 @@
 			posY = 100,
 			scale = 1,
 			flag = false,
-			string = '<li data-url="{url}">{name}</li>';
+			string = '<li class="net-item-url" data-url="{url}">{name}</li>';
 
 		$("svg").attr('width',svg_width+"px").attr('height',svg_height+"px");
 		document.getElementById("svg").setAttribute('viewBox','0,0,' + scaleX+"," + scaleY);
@@ -111,13 +111,12 @@
 		d3.json('/kmap/ls-algorithm/',function (data, error){
     		var content = strFormatObj(string, data);
     		$("#list > ul").append(content);
-		});
 
-		$("ul.listContent").bind('click',function (){
-			var net_url = $(this).find('li').attr("data-url");
-            console.log(net_url);
-			$("g,line").remove();
-			loading(net_url);
+		    $("li.net-item-url").bind('click',function (){
+			    var net_url = $(this).attr("data-url");
+			    $("g,line").remove();
+			    loading(net_url);
+            });
 		});
 
     </script>
