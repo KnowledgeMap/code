@@ -14,7 +14,8 @@ def home(request):
 def get_algorithm(request):
     response_data = [
             {'name': 'net', 'url': '/kmap/net', 'brief': 'default algorithm'},
-            {'name': 'net2', 'url': '/kmap/net2', 'brief': 'detail relationship with operators'}
+            {'name': 'net2', 'url': '/kmap/net2', 'brief': 'detail relationship with operators'},
+            {'name': 'net3', 'url': '/kmap/net3', 'brief': 'net without operators'},
             ]
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
@@ -79,6 +80,34 @@ def get_net2(request):
             ])
         if item.prop3:
             edges.append({"source": n_op, "target": insert_node(item.prop3.name)})
+
+    response_data = {'nodes': nodes, 'links': edges}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def get_net3(request):
+    p = kGraph.objects.all()
+    nodes = []
+    edges = []
+
+    def insert_node(name, group=1):
+        content = {"name": name, "group": group}
+        if content in nodes:
+            return nodes.index(content)
+        else:
+            nodes.append(content)
+            return len(nodes)-1
+
+    for item in p:
+        n1 = insert_node(item.prop1.name)
+        n2 = insert_node(item.prop2.name)
+        edges.append({"source": n1, "target": n2})
+        if item.prop3:
+            n3 = insert_node(item.prop3.name)
+            edges.extend([
+                {"source": n1, "target": n3},
+                {"source": n2, "target": n3}
+                ])
 
     response_data = {'nodes': nodes, 'links': edges}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
