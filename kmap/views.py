@@ -35,20 +35,27 @@ def get_net2(request):
     p = kGraph.objects.all()
     nodes = []
     edges = []
+
+    def insert_node(name, group=1):
+        content = {"name": name, "group": group}
+        if content in nodes:
+            return nodes.index(content)
+        else:
+            nodes.append(content)
+            return len(nodes)-1
+
+    def insert_op(name):
+        nodes.append({"name": name})
+        return len(nodes)-1
+
     for item in p:
-        n = len(nodes)
-        nodes.extend([
-            {"name": item.edge.name},
-            {"name": item.prop1.name, "group": 1},
-            {"name": item.prop2.name, "group": 1},
-            ])
+        n_op = insert_op(item.edge.name)
         edges.extend([
-            {"source": n, "target": n+1},
-            {"source": n, "target": n+2}
+            {"source": n_op, "target": insert_node(item.prop1.name)},
+            {"source": n_op, "target": insert_node(item.prop2.name)},
             ])
         if item.prop3:
-            nodes.append({"name": item.prop3.name, "group": 1})
-            edges.append({"source": n,"target": n+3})
+            edges.append({"source": n_op, "target": insert_node(item.prop3.name)})
 
     response_data = {'nodes': nodes, 'links': edges}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
