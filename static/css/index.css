@@ -1,0 +1,53 @@
+*{
+	padding:0;
+	margin:0;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+}
+body{
+	overflow: hidden;
+}
+.edge{
+	stroke: #999;
+	stroke-opacity: .6;
+	stroke-width: 1.6px;
+}
+.rect{
+	fill: pink;
+	cursor: pointer;
+}
+.label{
+	fill: black;
+	font-family: Arial;
+	font-size: 7.5pt;
+	cursor: pointer;
+}
+#search{
+	position: absolute;
+	z-index: 2;
+}
+#scale{
+	width: 100%;
+	height: auto;
+	position: fixed;
+	bottom: 20px;
+	z-index: 2;
+}
+.scaleContent{
+	width: 100px;
+	margin:0 auto;
+}
+.scale{
+	position: absolute;
+	z-index: 1000;
+	left: 0;
+	top: 70px;
+	width: 100px;
+	height: 30px;
+	color: #000;
+	font-family: "微软雅黑";
+	line-height: 30px;
+	text-align: center;
+}

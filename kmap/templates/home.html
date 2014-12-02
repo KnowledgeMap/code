@@ -6,26 +6,8 @@
 
 {% block content %}
 
-	<style>
-		body		{
-				overflow:	hidden;
-				}
-		.edge	{
-				stroke: #999;
-				stroke-opacity: .6;
-				stroke-width: 1.6px;
-				}
-		.rect		{
-				fill: pink;
-				}
-		.label	{
-				fill: black;
-				font-family: Arial;
-				font-size: 7.5pt;
-				}
-	</style>
-
-<div style="padding: 50px 100px;">
+<!--搜索模块-->
+<div id="search">
    <form class="bs-example bs-example-form" role="form">
       <div class="row">
          <div class="col-lg-3 col-md-3"></div>
@@ -48,46 +30,69 @@
       </div>
    </form>
 </div>
+<!--搜索模块结束-->
 
-<div id="kmap-overview" style="position:absolute; top:70px;width:1000px;height:600px; z-index:0"></div>
-
-<div style="height:370px;z-index:-2"></div>
-<div>
-   <form class="bs-example bs-example-form" role="form">
-      <div class="row">
-        <div class="col-lg-5 col-md-5"></div>
-         <div class="col-lg-2 col-md-2">
-               <div class="row">
-        <div class="col-lg-4 col-md-4"></div>
-         <div class="col-lg-4 col-md-4">
-            <div class="input-group">
-               <div class="input-group-btn">
-                   <button type="button" class="btn btn-default btn-sm">
-                        <span><img src="/static/img/plus.png"/></span>
-                   </button>
-                   <button type="button" class="btn btn-default btn-sm">
-                        <span><img src="/static/img/minus.png"/></span>
-                   </button>
-               </div>
-            </div>
-            </div>
-            <div class="col-lg-4 col-md-4"></div>
-         </div>
-         <div class="col-lg-5 col-md-5"></div>
-      </div>
-      </div>
-   </form>
+<!--svg模块开始-->
+<div id="kmap-overview" style="position:absolute; top:50px;width:100%;height:100%; z-index:1">
+	<svg width="100%" height="100%"></svg>
 </div>
+<!--svg模块结束-->
+
+<!--缩放模块-->
+<div id="scale">
+	<div class="scaleContent">
+	    <button type="button" class="btn btn-default btn-sm add">
+            <span><img src="/static/img/plus.png"/></span>
+	    </button>
+	    <button type="button" class="btn btn-default btn-sm min">
+            <span><img src="/static/img/minus.png"/></span>
+	    </button>
+    </div>          
+</div>
+<!--缩放模块结束-->
 
 {% endblock %}
 
 
 {% block js %}
     <script src="/static/d3/d3.v2.js"></script>
-    <script src="/static/d3/convert.js"></script>
-    <script src="/static/js/topology.js"></script>
+    <script type="text/javascript">
+		var	svg_width = $("#kmap-overview").width(),
+			svg_height = $("#kmap-overview").height(),
+			scaleX = svg_width,
+			scaleY = svg_height;
 
-    <script>
-        draw()
+		$("svg").attr('viewBox','0 0 ' + scaleX+" " + scaleY);
+
+		var color = d3.scale.category20();//设置20种颜色类别
+
+		var force = d3.layout.force()//设置基于物理模拟的位置链接
+							.size([svg_width, svg_height])
+							.charge(-200)//获取或设置节点间的电荷数（电荷数决定节点时排斥还是吸引）
+							.gravity(0.08)//设置节点间的引力强度
+							.linkDistance(80)
+							.linkStrength(0.6);//连接强度
+
+		var svg = d3.select("svg");
+
+		$(".add").bind('click',function (){
+			scaleX *= 1.3,
+			scaleY *= 1.3;
+			//$("svg").css('transform','scale('+ scale +')');
+			//$(".scale").html('放大X'+scale.toFixed(1));
+			$("svg").attr('viewBox',"0 0 "+scaleX+" "+scaleY+" ");
+			setTimeout(function (){$(".scale").html('')},500);
+		});
+
+		$(".min").bind('click',function (){
+			scaleX /= 1.3,
+			scaleY /= 1.3;
+			//$("svg").css('transform','scale('+ scale +')');
+			//$(".scale").html('放大X'+scale.toFixed(1));
+			$(".svg").attr('viewBox',"0 0 "+scale+" "+scale+" ");
+			setTimeout(function (){$(".scale").html('')},500);
+		});
     </script>
+    <script type="text/javascript" src="/static/js/index.js"></script>
+
 {% endblock %}
