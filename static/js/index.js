@@ -78,4 +78,6 @@ setTimeout(hoverEvent,500);
 
 };
 
-loading("/kmap/net2")
+$(document).ready(function () {
+    loading("/kmap/net")
+});

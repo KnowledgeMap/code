@@ -13,7 +13,7 @@ def home(request):
 
 def get_algorithm(request):
     response_data = [
-            {'name': 'net1', 'url': '/kmap/net1'},
+            {'name': 'net', 'url': '/kmap/net'},
             {'name': 'net2', 'url': '/kmap/net2'}
             ]
     return HttpResponse(json.dumps(response_data), content_type="application/json")

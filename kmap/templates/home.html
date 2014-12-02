@@ -6,9 +6,16 @@
 
 {% block content %}
 
+<!--右侧列表模块开始-->
+<div id="list">
+    <ul class="listContent"></ul>
+</div>
+<!--右侧列表模块结束-->
+
 <!--svg模块开始-->
-<div id="kmap-overview" style="position:absolute; top:50px;width:100%;height:100%; z-index:1">
-	<svg width="100%" height="100%"></svg>
+<div id="kmap-overview" class="boxshadow">
+	<div class="openlist"><span class="glyphicon glyphicon-align-justify"></span></div>
+	<svg id="svg" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></svg>
 </div>
 <!--svg模块结束-->
 
@@ -35,8 +42,29 @@
 			svg_height = $("#kmap-overview").height(),
 			scaleX = svg_width,
 			scaleY = svg_height;
+			posX = 100,
+			posY = 100,
+			scale = 1,
+			flag = false,
+			string = '<li data-url="{url}">{name}</li>';
 
-		$("svg").attr('viewBox','0 0 ' + scaleX+" " + scaleY);
+		$("svg").attr('width',svg_width+"px").attr('height',svg_height+"px");
+		document.getElementById("svg").setAttribute('viewBox','0,0,' + scaleX+"," + scaleY);
+
+		var strFormatObj = function (){
+			if((arguments.length <= 0) || (typeof arguments[0] != "string"))
+				return null;
+			var value = arguments[0],result="";
+			for(var i in arguments[1]){
+				for(var key in arguments[1][i]){
+					var reg = new RegExp('\\{'+ key +'\\}','m');
+					value = value.replace(reg, arguments[1][i][key])
+				}
+				result += value;
+				value = arguments[0];
+			}
+			return result;
+		};
 
 		var color = d3.scale.category20();//设置20种颜色类别
 
@@ -44,28 +72,54 @@
 							.size([svg_width, svg_height])
 							.charge(-200)//获取或设置节点间的电荷数（电荷数决定节点时排斥还是吸引）
 							.gravity(0.08)//设置节点间的引力强度
-							.linkDistance(80)
+							.linkDistance(40)
 							.linkStrength(0.6);//连接强度
 
 		var svg = d3.select("svg");
 
 		$(".add").bind('click',function (){
-			scaleX *= 1.3,
-			scaleY *= 1.3;
-			//$("svg").css('transform','scale('+ scale +')');
-			//$(".scale").html('放大X'+scale.toFixed(1));
-			$("svg").attr('viewBox',"0 0 "+scaleX+" "+scaleY+" ");
+			scale *= 1.1;
+			scaleX *= 1.1,
+			scaleY *= 1.1;
+			document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+scaleX+','+scaleY+'');
+			$(".scale").html('放大X'+scale.toFixed(1));
 			setTimeout(function (){$(".scale").html('')},500);
 		});
 
 		$(".min").bind('click',function (){
+			scale /= 1.1;
 			scaleX /= 1.3,
 			scaleY /= 1.3;
-			//$("svg").css('transform','scale('+ scale +')');
-			//$(".scale").html('放大X'+scale.toFixed(1));
-			$(".svg").attr('viewBox',"0 0 "+scale+" "+scale+" ");
+			document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+scaleX+','+scaleY+'');
+			$(".scale").html('放大X'+scale.toFixed(1));
 			setTimeout(function (){$(".scale").html('')},500);
 		});
+
+		$(".openlist").click(function (){
+			if(!flag){
+				$("#kmap-overview").animate({"left":"20%"},200);
+				$("#list").animate({"width":"20%"},200);
+				$("#list > ul > li").css("borderBottom","1px solid #000");
+			}else{
+				$("#kmap-overview").animate({"left":"0%"},200);
+				$("#list").animate({"width":"0%"},200);
+				$("#list > ul > li").css("borderBottom","none");
+			}
+			flag = !flag;
+		});
+
+		d3.json('/kmap/ls-algorithm/',function (data, error){
+    		var content = strFormatObj(string, data);
+    		$("#list > ul").append(content);
+		});
+
+		$("ul.listContent").bind('click',function (){
+			var net_url = $(this).find('li').attr("data-url");
+            console.log(net_url);
+			$("g,line").remove();
+			loading(net_url);
+		});
+
     </script>
     <script type="text/javascript" src="/static/js/index.js"></script>
 
