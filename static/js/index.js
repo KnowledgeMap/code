@@ -27,8 +27,7 @@ d3.json("/kmap/net2/", function(svgEvent, graph) {
 						.attr('fill',function (data){var colors =  data.group ? color(data.group) : "#aaa"; return colors;});
 
 		var text = nodes.append("image")
-						.attr('xlink:href' , function(data){ var logo = data.group ? "" : "/static/svg/" + data.name + ".svg"; return logo})
-						.attr('class', 'text')
+						.attr('xlink:href' , function(data){ var logo = data.group ? "" : "/static/img/" + data.name + ".png"; return logo})
 						.attr('width' , 30)
 						.attr('height' , 30);
 
