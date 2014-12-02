@@ -1,4 +1,5 @@
-d3.json("/kmap/net/", function(svgEvent, graph) {
+function loading(data_url){
+    d3.json(data_url, function(svgEvent, graph) {
         force
             .nodes(svgEvent.nodes)
             .links(svgEvent.links)
@@ -73,5 +74,8 @@ var hoverEvent = function (){
         $(".appendChild").remove();
     });
 };
-
 setTimeout(hoverEvent,500);
+
+};
+
+loading("/kmap/net2")

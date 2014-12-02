@@ -18,16 +18,71 @@ body{
 	fill: pink;
 	cursor: pointer;
 }
+
+#kmap-overview{
+	position:absolute;
+	left:0%;
+	top:50px;
+	width:100%;
+	height:100%;
+	z-index:2;
+	box-shadow: -5px 1px 10px #000;
+	-webkit-box-shadow:-5px 1px 10px #000;
+}
+.openlist{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	left: 5px;
+	top: 5px;
+	border:none;
+	cursor: pointer;
+}
+#list{
+	position: absolute;
+	width: 0%;
+	height: 100%;
+	left: 0;
+	top: 50px;
+	background: #4c4c4c;
+}
+#list > ul{
+	list-style:none;
+	width: 100%;
+	height: 100%;
+}
+#list > ul >li{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	color: #fff;
+	font-family: 30px;
+	padding-left:20px;
+	cursor: pointer;
+	box-sizing:border-box;
+}
 .label{
 	fill: black;
 	font-family: Arial;
 	font-size: 7.5pt;
 	cursor: pointer;
 }
-#search{
+#search,#search > form,#search > form > div{
 	position: absolute;
-    display: none;
-	z-index: 2;
+	height: 50px;
+	vertical-align: middle;
+	width: 350px;
+	margin-top:2px;
+	left: 230px;
+}
+#search{
+	display: none;
+}
+#search > form,#search > form > div{
+	left: 0;
+	margin:0;
 }
 #scale{
 	width: 100%;
@@ -43,7 +98,7 @@ body{
 .scale{
 	position: absolute;
 	z-index: 1000;
-	left: 0;
+	right: 0;
 	top: 70px;
 	width: 100px;
 	height: 30px;
@@ -51,4 +106,13 @@ body{
 	font-family: "微软雅黑";
 	line-height: 30px;
 	text-align: center;
+}
+.navbar{
+	border-radius: 0;
+	border:none;
+}
+button.btn,input.form-control{
+	border:none; !important;
+	box-shadow: none; !important;
+	-webkit-box-shadow:none; !important;
 }
