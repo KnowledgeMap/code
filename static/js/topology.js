@@ -1,6 +1,6 @@
 
 var draw = function () {
-    $.getJSON("/kmap/net/", function(json){
+    $.getJSON("/kmap/net1/", function(json){
         // d3 setup
         network = jSBGN_to_d3(json);
         var svg_width = window.innerWidth;
