@@ -13,9 +13,9 @@ def home(request):
 
 def get_algorithm(request):
     response_data = [
-            {'name': 'net', 'url': '/kmap/net', 'brief': 'default algorithm'},
-            {'name': 'net2', 'url': '/kmap/net2', 'brief': 'detail relationship with operators'},
-            {'name': 'net3', 'url': '/kmap/net3', 'brief': 'net without operators'},
+            {'name': 'net', 'url': '/kmap/net/', 'brief': 'default algorithm'},
+            {'name': 'net2', 'url': '/kmap/net2/', 'brief': 'detail relationship with operators'},
+            {'name': 'net3', 'url': '/kmap/net3/', 'brief': 'net without operators'},
             ]
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
