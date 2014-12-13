@@ -9,5 +9,4 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^kmap/', include('kmap.urls')),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^edit/', 'kmap.views.edit', name = 'home'),
 )
