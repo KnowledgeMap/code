@@ -6,6 +6,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="/static/css/edit-index.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/static/css/mathquill.css">
 {% endblock %}
 
 {% block content %}
@@ -13,7 +14,138 @@
 <div class="row">
 <!--输入模块开始-->
 	<div class="col-md-2 edit">
-		<input id="content" class="input editDemo" placeholder="请输入节点内容...." contenteditable="true"></input>
+		<p>编辑正文:</p>
+		<textarea id="latex-source" class="input editDemo" placeholder="请输入节点内容...."></textarea>
+				<table class="table table-bordered" id="table_container">
+					<tr class="first">
+						<td alt="{ }^{ }"></td>
+						<td alt="{ }_{ }"></td>
+						<td alt="\frac{ }{ }"></td>
+						<td alt="\int"></td>
+						<td alt="\int_{ }^{ }"></td>
+						<td alt="\prod"></td>
+						<td alt="\bigcap"></td>
+						<td alt="\left( \right)"></td>
+						<td alt="\left[ \right]"></td>
+						<td alt="\oint_{ }^{ }"></td>
+						<td alt="\equiv"></td>
+						<td alt="\sum_{ }^{ }"><de/td>
+					</tr>
+					<tr>
+						<td alt="\alpha"></td>
+						<td alt="\beta"></td>
+						<td alt="\gamma"></td>
+						<td alt="\delta"></td>
+						<td alt="\epsilon"></td>
+						<td alt="\varepsilon"></td>
+						<td alt="\zeta"></td>
+						<td alt="\eta"></td>
+						<td alt="\theta"></td>
+						<td alt="\vartheta"></td>
+						<td alt="\iota"></td>
+						<td alt="\log_{10}"></td>
+					</tr>
+					<tr>
+						<td alt="\kappa"></td>
+						<td alt="\lambda"></td>
+						<td alt="\mu"></td>
+						<td alt="\nu"></td>
+						<td alt="\xi"></td>
+						<td alt="\pi"></td>
+						<td alt="\varvapi"></td>
+						<td alt="\rho"></td>
+						<td alt="\varrho"></td>
+						<td alt="\sigma"></td>
+						<td alt="\varsigma"></td>
+						<td alt="\lim_{x \rightarrow 0}"></td>
+					</tr>
+					<tr>
+						<td alt="\tau"></td>
+						<td alt="\upsilon"></td>
+						<td alt="\phi"></td>
+						<td alt="\varphi"></td>
+						<td alt="\chi"></td>
+						<td alt="\psi"></td>
+						<td alt="\omega"></td>
+						<td alt="\varpi"></td>
+						<td alt="\Gamma"></td>
+						<td alt="\Delta"></td>
+						<td alt="\Theta"></td>
+						<td alt="\frac{\partial }{\partial x}"></td>
+					</tr>
+					<tr>
+						<td alt="\Lambda"></td>
+						<td alt="\Xi"></td>
+						<td alt="\Pi"></td>
+						<td alt="\Sigma"></td>
+						<td alt="\Upsilon"></td>
+						<td alt="\Phi"></td>
+						<td alt="\Omega"></td>
+						<td alt="\leq"></td>
+						<td alt="\geq"></td>
+						<td alt="\neq"></td>
+						<td alt="\prec"></td>
+						<td alt="\frac{\mathrm{d} }{\mathrm{d} x}"></td>
+					</tr>
+					<tr>
+						<td alt="\succ"></td>
+						<td alt="\preceq"></td>
+						<td alt="\succeq"></td>
+						<td alt="\doteq"></td>
+						<td alt="\ll"></td>
+						<td alt="\gg"></td>
+						<td alt="\sim"></td>
+						<td alt="\approx"></td>
+						<td alt="\supset"></td>
+						<td alt="\subset"></td>
+						<td alt="\subseteq"></td>
+						<td alt="\supseteq"></td>
+					</tr>
+					<tr>
+						<td alt="\simeq"></td>
+						<td alt="\sqsupset"></td>
+						<td alt="\cong"></td>
+						<td alt="\sqsubseteq"></td>
+						<td alt="\sqsupseteq"></td>
+						<td alt="\asymp"></td>
+						<td alt="\in"></td>
+						<td alt="\ni"></td>
+						<td alt="\propto"></td>
+						<td alt="\vdash"></td>
+						<td alt="\Leftrightarrow"></td>
+						<td alt="\leftrightarrow"></td> 
+					</tr>
+					<tr>
+						<td alt="\dashv"></td>
+						<td alt="\mid"></td>
+						<td alt="\models"></td>
+						<td alt="\perp"></td>
+						<td alt="\parallel"></td>
+						<td alt="\bowtie"></td>
+					    <td alt="\Join"></td> 
+						<td alt="\leftarrow"></td>
+						<td alt="\rightarrow"></td>
+						<td alt="\Leftarrow"></td>
+						<td alt="\Rightarrow"></td>
+						<td alt="\leftrightarrow"></td>
+					</tr>
+					<tr>
+						<td alt="\therefore"></td>
+						<td alt="\because"></td>
+						<td alt="\C"></td>
+						<td alt="\wp"></td>
+						<td alt="\Psi"></td>
+						<td alt="x \mapsto x^2 "></td>
+						<td alt="_{}^{}\textrm{}"></td>
+						<td alt="\bar{ }"></td>
+						<td alt="\bigcap_{}^{}"></td>
+						<td alt="\vec{ }"></td>
+						<td alt="\overline{ }"></td>
+						<td alt="\bigcup_{}^{}"></td>
+					</tr>
+				</table>
+		<p>输出正文:</p>
+		<p><span id="editable-math" class="mathquill-editable"></span></p>
 		<button class="submit">创建节点</button>
 	</div>
 <!--输入模块结束-->
@@ -28,24 +160,9 @@
 
 {% block js %}
 <!--D3 lib and draw func-->
+<script type="text/javascript" src="/static/js/edit-math.js"></script>
+<script type="text/javascript" src="/static/js/mathquill.js"></script>
 <script type="text/javascript" src="/static/js/d3.v2.js"></script>
-<script type="text/javascript">
-		var	svg_width = $(".drawBord").width(),
-			svg_height = $(".drawBord").height();
-			
-		var color = d3.scale.category20();//设置20种颜色类别
-
-		var force = d3.layout.force()//设置基于物理模拟的位置链接
-							.size([svg_width, svg_height])
-							.charge(-300)//获取或设置节点间的电荷数（电荷数决定节点时排斥还是吸引）
-							.gravity(0.08)//设置节点间的引力强度
-							.linkDistance(10)
-							.linkStrength(0.6);//连接强度
-
-		var svg = d3.select("body")
-					.select("svg");
-</script>
 <!--append nodes-->
 <script type="text/javascript" src="/static/js/edit-index-append.js"></script>
-
 {% endblock %}

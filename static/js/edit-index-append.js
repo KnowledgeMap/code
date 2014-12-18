@@ -17,7 +17,7 @@ var buttonEvent = (function (button) {
 //点击增加节点按钮向svg中添加节点
 	svgEvent.append = function (dom) {
 		$('g,line').remove();
-		svgEvent.nodes.push(new Object({"name" : dom.val(), "group" : svgEvent.group}));
+		svgEvent.nodes.push(new Object({"name" : dom, "group" : svgEvent.group}));
 		svgEvent.group++;
 		svgEvent.temp = [];
 		svgEvent.loading();
@@ -29,6 +29,22 @@ var buttonEvent = (function (button) {
 
 	$("svg").on('dblclick','g',function (){
 		svgEvent.dbclickG($(this));
+	});
+
+	$("svg").on("mouseover",'g',function (){
+		var x = Number($(this).find("rect").attr("x")),
+			y = Number($(this).find("rect").attr("y")),
+			content = $(this).find("rect").attr("title"),
+			winW = window.innerWidth,
+			winH = window.innerHeight,
+			div = document.createElement("div");
+		div.className = "floatDiv";			
+		div.innerHTML = content;
+		div.style.left = winW * 0.17 + x - 50 +"px";
+		div.style.bottom = winH - 30 - y + "px";
+		$("body").append(div);
+	}).on("mouseleave","g",function (){
+		$(".floatDiv").remove();
 	});
 
 //字符串去处空格
@@ -107,7 +123,7 @@ svgEvent.trimHead = function (string){
 			svgEvent.warming("警告","该关系已存在");
 			return false;
 		}
-		svgEvent.allData.push(new Object({id : svgEvent.id++, operate : svgEvent.temp.length == 2 ? "../static/svg/1011.svg" : "../static/svg/11101111.svg", nodes : svgEvent.tempToalldata(), operateId : 2, length : svgEvent.temp.length}));
+		svgEvent.allData.push(new Object({id : svgEvent.id++, operate : svgEvent.temp.length == 2 ? "/static/svg/1011.svg" : "/static/svg/11101111.svg", nodes : svgEvent.tempToalldata(), operateId : 2, length : svgEvent.temp.length}));
 		svgEvent.findrelation(svgEvent.allData);
 		svgEvent.makeLinks(svgEvent.allData);
 		svgEvent.loading();
@@ -127,9 +143,9 @@ svgEvent.trimHead = function (string){
 			for(var j = i + 1; j < data.length; j++){
 				var temp = svgEvent.eqTwo(data[i],data[j]);
 				if(temp.length){
-					svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "../static/svg/1011.svg", nodes : {"source_0" : temp[0], "source_1" : temp[1]}, operateId : 2, length : 2}));				
+					svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "/static/svg/1011.svg", nodes : {"source_0" : temp[0], "source_1" : temp[1]}, operateId : 2, length : 2}));				
 				}else if(!temp){
-					data[i].operate = "../static/svg/1001.svg";
+					data[i].operate = "/static/svg/1001.svg";
 					data[i].operateId = 3;
 					data.splice(j--, 1);
 				}
@@ -146,7 +162,7 @@ svgEvent.trimHead = function (string){
 				if(node1["source_0"] == node2["source_2"] || ((node1["source_0"] == 0)&&(node2["source_2"] == 0))){
 					if(node1["source_1"] == node2["source_0"] || (node1["source_1"] == 0 && node2["source_0"] == 0)){
 						if(node1["source_2"] == node2["source_1"] || (node1["source_2"] == 0 && node2["source_1"] == 0)){
-							objA.operate = "../static/svg/11101011.svg";
+							objA.operate = "/static/svg/11101011.svg";
 							objA.operateId = 5;
 							objA.nodes = new Object({source_0 : node1["source_1"], source_1 : node1["source_0"], source_2 : node1["source_2"], length : 3});
 							svgEvent.allData.splice(j-- , 1);
@@ -154,7 +170,7 @@ svgEvent.trimHead = function (string){
 					}
 					if(node1["source_1"] == node2["source_1"] || (node1["source_1"] == 0 && node2["source_1"] == 0)){
 						if(node1["source_2"] == node2["source_0"] || (node1["source_2"] == 0 && node2["source_0"] == 0)){
-							objA.operate = "../static/svg/11101011.svg";
+							objA.operate = "/static/svg/11101011.svg";
 							objA.operateId = 5;
 							objA.nodes = new Object({source_0 : node1["source_1"], source_1 : node1["source_0"], source_2 : node1["source_2"], length : 3});
 							svgEvent.allData.splice(j-- , 1);							
@@ -164,7 +180,7 @@ svgEvent.trimHead = function (string){
 				if(node1["source_1"] == node2["source_2"] || (node1["source_1"] == 0 && node2["source_2"] == 0)){
 					if(node1["source_0"] == node2["source_1"] || (node1["source_0"] == 0 && node2["source_1"] == 0)){
 						if(node1["source_2"] == node2["source_0"] || node1["source_2"] == 0 || node2["source_0"] == 0){
-							objA.operate = "../static/svg/11101011.svg";
+							objA.operate = "/static/svg/11101011.svg";
 							objA.operateId = 5;
 							objA.nodes = new Object({source_0 : node1["source_0"], source_1 : node1["source_1"], source_2 : node1["source_2"], length : 3});
 							svgEvent.allData.splice(j-- , 1);														
@@ -172,7 +188,7 @@ svgEvent.trimHead = function (string){
 					}
 					if(node1["source_0"] == node2["source_0"] || (node2["source_0"] == 0 && node1["source_0"] == 0)){
 						if(node1["source_2"] == node2["source_1"] || (node1["source_2"] == 0 || node2["source_1"] == 0)){
-							objA.operate = "../static/svg/11101011.svg";
+							objA.operate = "/static/svg/11101011.svg";
 							objA.operateId = 5;
 							objA.nodes = new Object({source_0 : node1["source_0"], source_1 : node1["source_1"], source_2 : node1["source_2"], length : 3});
 							svgEvent.allData.splice(j-- , 1);							
@@ -196,22 +212,22 @@ svgEvent.trimHead = function (string){
 		if( (node1["source_0"] == node2["source_0"] || (node1["source_0"] == 0 && node2["source_0"] == 0)) && (node1["source_1"] == node2["source_1"] || (node1["source_1"] == 0 && node2["source_1"] == 0)) ){
 			if(data2.operateId == 3){
 				data1.nodes = new Object({source_0 : node1["source_0"], source_1 : node1["source_2"], length : 2});
-				svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "../static/svg/1011.svg", nodes : {source_0 : node1["source_1"], source_1 : node1["source_2"], length : 2}, length : 2, operateId : 2}));
+				svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "/static/svg/1011.svg", nodes : {source_0 : node1["source_1"], source_1 : node1["source_2"], length : 2}, length : 2, operateId : 2}));
 			}else{
 				data1.nodes = new Object({source_0 : node2["source_0"], source_1 : node1["source_2"], length : 2});
 			}
-			data1.operate = "../static/svg/1011.svg";
+			data1.operate = "/static/svg/1011.svg";
 			data1.length = 2;
 		}
 		if( (node1["source_0"] == node2["source_1"] || (node1["source_0"] == 0 && node2["source_1"] == 0)) && (node1["source_1"] == node2["source_0"] || (node1["source_1"] == 0 && node2["source_0"] == 0)) ){
 			if(data1.operateId == 5){
 				data2.operateId = 3;
-				data2.operate = "./svg/1001.svg";
+				data2.operate = "/svg/1001.svg";
 			}else{
 				data1.nodes = new Object({source_0 : node1["source_1"], source_1 : node1["source_2"], length : 2});
 				data2.nodes = new Object({source_0 : node1["source_1"], source_1 : node1["source_0"], length : 2});
-				data1.operate = "../static/svg/1011.svg";
-				data2.operate = "../static/svg/1011.svg";
+				data1.operate = "/static/svg/1011.svg";
+				data2.operate = "/static/svg/1011.svg";
 				data1.length = 2;
 				data2.length = 2;
 			}
@@ -225,9 +241,9 @@ svgEvent.trimHead = function (string){
 					svgEvent.splice(i, 1);
 				}
 			}else{
-				data2.operate = "../static/svg/1001.svg";
+				data2.operate = "/static/svg/1001.svg";
 				data2.operateId = 3;
-				data1.operate = "../static/svg/1011.svg";
+				data1.operate = "/static/svg/1011.svg";
 				data1.length = 2;
 				if(node1["source_0"] == node2["source_1"]){
 					data1.nodes = new Object({source_0 : node1["source_1"], source_1 : node1["source_2"]});
@@ -261,7 +277,7 @@ svgEvent.trimHead = function (string){
 					}else{
 						if(obja.operateId == 3){
 							bool = false;
-							svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "../static/svg/1011.svg", nodes : {"source_0" : objB["source_0"], "source_1" : objA["source_1"]}, length : 2, operateId : 2}));
+							svgEvent.allData.push(new Object({id : svgEvent.id++, operate : "/static/svg/1011.svg", nodes : {"source_0" : objB["source_0"], "source_1" : objA["source_1"]}, length : 2, operateId : 2}));
 						}else{
 							bool = new Array( objA["source_1"],objB["source_0"] );
 						}
@@ -365,7 +381,8 @@ svgEvent.trimHead = function (string){
 						.attr('height',function (data){var height = (data.group == 0 || data.group)  ? 30 : 15; return height;})
 						.attr('rx',function (data){var rx = (data.group == 0 || data.group)  ? 30 : 15; return rx;})
 						.attr('group',function (data){return data.group})
-						.attr('fill',function (data){ return color(data.group)});
+						.attr('fill',function (data){ return color(data.group)})
+						.attr("title",function (d){var content = (d.group == 0 || d.group)  ? d.name : ""; return content;});
 
 		var image = nodes.append("image")
 						.attr('xlink:href' , function(data){ var logo = data.group ? "" : data.src; return logo})
@@ -376,11 +393,14 @@ svgEvent.trimHead = function (string){
 						.attr('height',function (data){var height = data.group ? "" : 15; return height});
 		
 		var text = nodes.append("text")						
-						.attr('transform' , 'translate(10, 50)')
-						.text(function (d){var content = (d.group == 0 || d.group)  ? d.name : ""; return content;});
+						.attr('transform' , 'translate(17, 50)')
+						.text(function (d){var content = d.src ? "" : "KEY"; return content;});
 
 
 		force.on("tick", function() {
+
+			$(".floatDiv").remove();
+
 			edges	.attr("x1", function(data) { return data.source.x+w/2; })
 					.attr("y1", function(data) { return data.source.y+h/2; })
 					.attr("x2", function(data) { return data.target.x+w/2; })
@@ -398,16 +418,51 @@ svgEvent.trimHead = function (string){
 
 	}
 
-	button.dom = $(".input");
 	button.action = function (){
-		svgEvent.append(button.dom);
-		button.dom.val('');
+
+		var value = $("#editable-math").html();
+		svgEvent.append(value);
+		$(".input").val('');
+		$("#editable-math").children().remove();
+
 	};
 
 	return button;
 })(window.buttonEvent || {})
 
 $(document).ready(function (){
-	$(".submit").click(buttonEvent.action);
+		svg_width = $(".drawBord").width(),
+		svg_height = $(".drawBord").height();
+			
+		color = d3.scale.category20();//设置20种颜色类别
 
+		force = d3.layout.force()//设置基于物理模拟的位置链接
+							.size([svg_width, svg_height])
+							.charge(-300)//获取或设置节点间的电荷数（电荷数决定节点时排斥还是吸引）
+							.gravity(0.08)//设置节点间的引力强度
+							.linkDistance(10)
+							.linkStrength(0.6);//连接强度
+
+		svg = d3.select("body")
+					.select("svg");
+		$(".submit").click(buttonEvent.action);
+		$("td").click(function (){
+			var val = $(this).attr("alt");
+			$("#latex-source").val($("#latex-source").val() + val);
+		});
+		$("td").css("backgroundImage","url(/static/img/math.png)");
+		var left = 0, top = 0,flag = true;
+		for(var i = 0; i < $("td").length; i++){
+			if(i % 12 == 0 && i != 0){
+				if(flag){
+					top -= 45;
+					flag = false;
+				}else{
+					top -= 25;
+				}
+				left = 0;
+			}
+			$("td:eq("+i+")").css("background","url(/static/img/math.png) "+left+"px "+top+"px");
+			left -= 30;
+		}
 });

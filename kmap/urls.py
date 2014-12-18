@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
 
     url(r'^edit/$', 'kmap.views.edit', name = 'edit'),
+    url(r'^help/$', 'kmap.views.help', name = 'help'),
 
     url(r'^net/$', 'kmap.views.get_net', name='net'),  # current default
     url(r'^net1/$', 'kmap.views.get_net1', name='net1'),

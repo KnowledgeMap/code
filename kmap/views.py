@@ -12,6 +12,9 @@ def home(request):
 def edit(request):
 	content = dict()
 	return render_to_response('edit.html', RequestContext(request, content))
+def help(request):
+	content = dict()
+	return render_to_response('help.html', RequestContext(request, content))
 
 def get_algorithm(request):
     response_data = [

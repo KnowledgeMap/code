@@ -12,13 +12,13 @@ body,html{
 	margin:0;
 }
 .input, .submit{
-	width: 100%;
+	width: 112%;
 	margin:5px 0;
 	resize:none;
 	outline: none;
 }
 .input{
-	height: 5%;
+	height: 10%;
 	border:1px solid #bce8f1;
 	padding:0 5px;
 }
@@ -45,7 +45,7 @@ body,html{
 .drawBord{
 	width: 100%;
 	height: 100%;
-	background: #eee;
+	border-left: 1px dashed #aaa;
 }
 .svgG{
 	cursor: pointer;
@@ -76,4 +76,47 @@ body,html{
 	border:none;
 	z-index: 1000001;
 	display: none;
+}
+.textarea > textarea{
+	width:0;
+	height: 0;
+	resize : none;
+	border:0;
+}
+.floatDiv{
+	position: absolute;
+	background: #eee;
+	z-index: 999;
+	width: 150px;
+	min-height: 50px;
+	line-height: 30px;
+	padding:3px;
+}
+.floatDiv::after{
+	width: 0;
+	height: 0;
+	content : "";
+	position: absolute;
+	left: 65px;
+	bottom:-10px;
+	border-style: solid;
+	border-width: 10px 10px 0 10px;
+	border-color: #eeeeee transparent transparent transparent;
+}
+.floatDiv > sup{
+	top: -1.2em;
+}
+.floatDiv > sub {
+    bottom: -0.9em;
+    left: -0.7em;
+}
+.table{
+	width: 100%;
+}
+ .table tbody>tr>td{
+	width:35px;
+	height: 20px;
+}
+.first > td{
+	height: 45px !important;
 }
