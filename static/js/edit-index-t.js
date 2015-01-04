@@ -112,16 +112,15 @@ var buttonEvent = (function (button) {
 		}
 		$.ajaxSetup({
 		  beforeSend: function(xhr, settings) {
-		  	console.log(settings);
 		    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-		      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		      	xhr.setRequestHeader("X-CSRFToken", csrftoken);
 		    }
 		  }
 		});
 
 		$.ajax({
 			url : "/kmap/result/",
-			data : { old : data, newLinks : newData},
+			data : { "old" : JSON.stringify(data), "newLinks" : newData},
 			type : "POST",
 			success : function (data){
 				console.log(data);

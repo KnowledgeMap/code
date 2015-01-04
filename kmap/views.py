@@ -121,5 +121,12 @@ def get_net3(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def get_result(request):
+    try:
+        if request.method == "POST":
+            print request.POST['old']
+            print request.POST['newLinks']
+    except Exception as e:
+        print e
+
     return HttpResponse(json.dumps("abc"), content_type="application/json")
 
