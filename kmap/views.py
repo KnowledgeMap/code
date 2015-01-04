@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 from kmap.models import kGraph
+from core import naive
 
 import json
 
@@ -121,12 +122,9 @@ def get_net3(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def get_result(request):
-    try:
-        if request.method == "POST":
-            print request.POST['old']
-            print request.POST['newLinks']
-    except Exception as e:
-        print e
-
-    return HttpResponse(json.dumps("abc"), content_type="application/json")
+    if request.method == "POST":
+        old_graph = request.POST['old']
+        newLinks = request.POST['newLinks']
+        abc = naive.fuse(old_graph,newLinks)
+    return HttpResponse(abc, content_type="application/json")
 

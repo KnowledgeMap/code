@@ -15,7 +15,7 @@ var buttonEvent = (function (button) {
 
 //点击增加节点按钮向svg中添加节点
 	svgEvent.append = function (dom) {
-		//$('g,line').remove();
+		$("g,.path,.floatDiv").remove();
 		$("#latex-source").focus();
 		svgEvent.nodes.push(new Object({"name" : dom, "group" : svgEvent.group}));
 		svgEvent.group++;
@@ -117,13 +117,15 @@ var buttonEvent = (function (button) {
 		    }
 		  }
 		});
-
 		$.ajax({
 			url : "/kmap/result/",
 			data : { "old" : JSON.stringify(data), "newLinks" : newData},
 			type : "POST",
 			success : function (data){
+				svgEvent.allLinksData = data;
 				console.log(data);
+				svgEvent.loading(data);
+				svgEvent.temp = [];
 			},
 			error : function (err){
 				console.log(err);
