@@ -3690,6 +3690,10 @@
     return arguments.length < 1 ? this.node().innerHTML : this.each(typeof value === "function" ? function() {
       var v = value.apply(this, arguments);
       this.innerHTML = v == null ? "" : v;
+
+		var test = function (){nodes.append('text')
+			 .attr('transform' , "translate(10, 25)")
+			 .text(function (data){return data.name})};
     } : value == null ? function() {
       this.innerHTML = "";
     } : function() {
@@ -5233,6 +5237,7 @@
         o = links[i];
         if (typeof o.source == "number") o.source = nodes[o.source];
         if (typeof o.target == "number") o.target = nodes[o.target];
+        if (typeof o.refer == "number") o.refer = nodes[o.refer]; else ;
         distances[i] = linkDistance.call(this, o, i);
         strengths[i] = linkStrength.call(this, o, i);
         ++o.source.weight;

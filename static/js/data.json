@@ -1,0 +1,99 @@
+{
+    "nodes": [
+        {
+        	"name" : "A",
+        	"group" : 1
+        },
+        {
+        	"name" : "B",
+        	"group" : 1
+        },
+        {
+        	"name" : "C",
+        	"group" : 2
+        },
+        {
+        	"name" : "D",
+        	"group" : 2
+        },
+        {
+        	"name" : "E",
+        	"group" : 2
+        },
+        {
+        	"name" : "F",
+        	"group" : 2
+        },
+        {
+        	"name" : "G",
+        	"group" : 2
+        },
+        {
+        	"name" : "H",
+        	"group" : 2
+        },
+        {
+        	"name" : "I",
+        	"group" : 2
+        },
+        {
+        	"name" : "J",
+        	"group" : 2
+        },
+        {
+        	"name" : "K",
+        	"group" : 2
+        },
+        {
+        	"name" : "L",
+        	"group" : 2
+        },
+        {
+        	"name" : "M",
+        	"group" : 2
+        },
+        {
+        	"name" : "N",
+        	"group" : 2
+        },
+        {
+        	"name" : "O",
+        	"group" : 2
+        },
+        {
+        	"name" : "P",
+        	"group" : 2
+        },
+        {
+        	"name" : "Q",
+        	"group" : 2
+        },
+        {
+        	"name" : "R",
+        	"group" : 2
+        }
+    ], 
+    "links": [
+        {
+        	"path" : "1011_A_B"
+        },
+        {
+        	"path" : "1001_C_D"
+        },
+        {
+        	"path" : "11101111_D_E_F"
+        },
+        {
+        	"path" : "11101011_G_H_I"
+        },
+        {
+        	"path" : "11001011_J_K_L"
+        },
+        {
+        	"path" : "11100001_M_N_O"
+        },
+        {
+        	"path" : "11101001_P_Q_R"
+        }
+    ]
+}

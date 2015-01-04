@@ -15,6 +15,9 @@ def edit(request):
 def help(request):
 	content = dict()
 	return render_to_response('help.html', RequestContext(request, content))
+def admin(request):
+	content = dict()
+	return render_to_response('admin.html',RequestContext(request, content))
 
 def get_algorithm(request):
     response_data = [
@@ -116,4 +119,7 @@ def get_net3(request):
 
     response_data = {'nodes': nodes, 'links': edges}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+def get_result(request):
+    return HttpResponse(json.dumps("abc"), content_type="application/json")
 

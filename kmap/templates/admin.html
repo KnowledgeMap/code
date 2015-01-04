@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title> Admin </title>
+{% endblock %}
+{% block css%}
+<link rel="stylesheet" type="text/css" href="/static/css/admin-index.css">
+{% endblock%}
+
+{% block content %}
+<iframe id="iframe" src="/admin"></iframe>
+{% endblock %}
+{% block js%}
+<script type="text/javascript" src="/static/js/admin-index.js"></script>
+{% endblock%}
