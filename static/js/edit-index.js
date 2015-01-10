@@ -39,6 +39,8 @@ var buttonEvent = (function (button) {
 			svgEvent.temp = [];
 			$(".path").css("stroke","green");
 			changeMarker($(".path"));
+            $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
+            $(".commitData").fadeIn(200);
 		}
         if(e.target.tagName == "rect" || e.target.tagName == "text"){
 			var tempVar;
@@ -105,35 +107,35 @@ var buttonEvent = (function (button) {
 	}
 
 //Django+Python中ajax的安全性
-        function getCookie(name) {
-          var cookieValue = null;
-          if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-              var cookie = jQuery.trim(cookies[i]);
-              // Does this cookie string begin with the name we want?  
-              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?  
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
-              }
             }
-          }
-          return cookieValue;
         }
+    }
+    return cookieValue;
+}
 
-        var csrftoken = getCookie('csrftoken');
+var csrftoken = getCookie('csrftoken');
 
-        function csrfSafeMethod(method) {
-          // these HTTP methods do not require CSRF protection
-          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
-        $.ajaxSetup({
-          beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-          }
-        });
+    }
+});
 
 //双击节点之后表示选择结束，该节点为最终目标节点
 	svgEvent.dbclickG = function (dom){
@@ -214,6 +216,37 @@ var buttonEvent = (function (button) {
 		}); 
 	}
 
+    $("#commitData").on('click',commitDataToSQL);
+
+    function commitDataToSQL(){
+        $.ajax({
+            type : "POST",
+            data : { "nodes" : svgEvent.nodes, "links" : svgEvent.allLinksData},
+            dataType : "json",
+            url : '/kmap/save/',
+            success : function (data){
+                var flag;
+                $("#commitData").html('').append($("<span>"+ data.msg +"</span>"));
+                if(data.status == 0)
+                    flag = $("<span class='glyphicon glyphicon-ok'></span>");
+                else
+                    flag = $("<span class='glyphicon glyphicon-remove'></span>");
+                $("#commitData").append(flag);
+                setTimeout(function(){                   
+                    $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
+                    $(".commitData").fadeIn(200);
+                },2000);
+            },
+            error : function (data){
+                $("#commitData").html('').append($("<span>保存失败<span><span class='glyphicon glyphicon-remove'></span>"));
+                setTimeout(function(){                   
+                    $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
+                    $(".commitData").fadeIn(200);
+                },2000);
+            }
+        });
+    }
+
     $("#contextmenu").on('click','li',function (e){
 
         if($(this).attr("data-index") == 0){
@@ -281,10 +314,11 @@ var buttonEvent = (function (button) {
                 }    
             
             }
-            if(svgEvent.nodes.length > 1)
-                svgEvent.group = svgEvent.nodes[svgEvent.nodes.length - 1]["group"] + 1;
-            else
-                svgEvent.group = 0;
+
+            for(var i = 0; i < svgEvent.nodes.length; i++){
+                svgEvent.nodes[i]["group"] = i;
+            }
+            svgEvent.group = i;
             
             //停止节点之间的影响
 
@@ -501,7 +535,10 @@ var buttonEvent = (function (button) {
 		
 				sigema = 2 * Math.asin(Math.sqrt( Math.pow((A_b_x_t - varile_a_x), 2) + Math.pow((A_b_y_t - varile_a_y), 2) ) / (2 * r)),
 				l = 4 * r *  ( 2* Math.sin(sigema / 2) - Math.sin(sigema)) / (3 * (1 - Math.cos(sigema)));
-
+console.log(varile_y);
+console.log(y1);
+console.log(y2);
+console.log(y3);
 			if(offset == "end"){
 				k_ab_x = A_b_x_t - ( (x2 - x0) / Math.abs(x2 - x0) ) * (l / Math.sqrt( 1 + Math.pow((y0 - y2) / (x0 - x2),2))),
 				k_ab_y = A_b_y_t - ( (y2 - y0) / Math.abs(y2 - y0) ) * (l / Math.sqrt( 1 + Math.pow((x0 - x2) / (y0 - y2),2))),
@@ -655,6 +692,7 @@ var buttonEvent = (function (button) {
 			$(path).attr("marker-start","url(#start-red)");
 		}		
 	}
+
 })(window.buttonEvent || {})
 
 $(document).ready(function (){
@@ -722,5 +760,10 @@ $(document).ready(function (){
             var x = $(this).attr("alt");
             $("#MathInput").val($("#MathInput").val() + "$" + x + "$");
             $("#MathInput").trigger("keydown").focus();
+        });
+
+        $(".commitData").click(function (){
+            $(this).fadeOut(200);
+            $("#commitData").animate({"right" : "10px"},400);
         });
 });

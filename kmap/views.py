@@ -98,7 +98,6 @@ def get_net3(request):
     p = kGraph.objects.all()
     nodes = []
     edges = []
-
     def insert_node(name, group=1):
         content = {"name": name, "group": group}
         if content in nodes:
@@ -128,3 +127,6 @@ def get_result(request):
         abc = naive.fuse(old_graph,newLinks)
     return HttpResponse(abc, content_type="application/json")
 
+def save(request):
+    content = {'status': '0', 'msg': '保存成功'}
+    return HttpResponse(json.dumps(content), content_type="application/json")

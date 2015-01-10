@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^net2/$', 'kmap.views.get_net2', name='net2'),
     url(r'^net3/$', 'kmap.views.get_net3', name='net3'),
     url(r'^result/$', 'kmap.views.get_result', name='result'),
+    url(r'^save/$', 'kmap.views.save', name='save'),
 
     url(r'^ls-algorithm/$', 'kmap.views.get_algorithm', name='ls-algorithm'),  # current default
 )
