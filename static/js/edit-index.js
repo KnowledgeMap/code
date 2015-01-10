@@ -747,8 +747,8 @@ $(document).ready(function (){
         });
 
         $(".lateX-list-li").click(function (){
-            $(".lateX-list-li").removeClass("active");
-            $(this).addClass("active");
+            $(".lateX-list-li").removeClass("actives");
+            $(this).addClass("actives");
             var x = $(this).attr("data-name");
             $(".showTable").removeClass('show').css("display","none");
             $(".showTable").filter(function (){

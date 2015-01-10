@@ -194,7 +194,7 @@ body,html{
 .show{
     display: block;
 }
-.active{
+.actives{
     font-weight: bold;
     border-bottom: none;
     background: #f9f9f9;
