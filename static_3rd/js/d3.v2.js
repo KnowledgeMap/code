@@ -5206,7 +5206,7 @@
       }
       return force;
     };
-    force.start = function() {
+    force.start = function(point) {
       function position(dimension, size) {
         var neighbors = neighbor(i), j = -1, m = neighbors.length, x;
         while (++j < m) if (!isNaN(x = neighbors[j][dimension])) return x;
@@ -5236,8 +5236,11 @@
       for (i = 0; i < m; ++i) {
         o = links[i];
         if (typeof o.source == "number") o.source = nodes[o.source];
+
         if (typeof o.target == "number") o.target = nodes[o.target];
-        if (typeof o.refer == "number") o.refer = nodes[o.refer]; else ;
+
+        if (typeof o.refer == "number") o.refer = nodes[o.refer];
+
         distances[i] = linkDistance.call(this, o, i);
         strengths[i] = linkStrength.call(this, o, i);
         ++o.source.weight;
@@ -5245,10 +5248,10 @@
       }
       for (i = 0; i < n; ++i) {
         o = nodes[i];
-        if (isNaN(o.x)) o.x = position("x", w);
-        if (isNaN(o.y)) o.y = position("y", h);
-        if (isNaN(o.px)) o.px = o.x;
-        if (isNaN(o.py)) o.py = o.y;
+        if (isNaN(o.x)) point ?  o.x = point['x'] : o.x = position("x", w);
+        if (isNaN(o.y)) point ? o.y = point['y'] : o.y = position("y", h);
+        if (isNaN(o.px)) isNaN(o.x) ? o.px = position("x", w) : o.px = o.x;
+        if (isNaN(o.py)) isNaN(o.y) ? o.py = position("y", h) : o.py = o.y;
       }
       charges = [];
       if (typeof charge === "function") {

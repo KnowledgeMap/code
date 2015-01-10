@@ -44,7 +44,7 @@
   box-shadow: #68b4df 0 0 3px 2px;
 }
 #editable-math{
-	width: 112%;
+	width: 100%;
     min-height: 25px;
     outline: none;
     white-space: pre-wrap

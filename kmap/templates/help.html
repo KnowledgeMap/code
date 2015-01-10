@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title> HELP </title>
+    <title> ABOUT </title>
 {% endblock %}
 {% block css %}
     <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+    <link rel="stylesheet" href="/static/css/help-index.css">
 {% endblock%}
 
 {% block content %}
 <div id="content">
-	<div class="section section1">
-        <h1>什么是<strong>知识地图</strong></h1>
+	<div id="ticker" class="section section1">
+		<div>
+            <h1>什么是知识地图</h1>
+        </div>
 	</div>
 	<div class="section section2">
         <p><strong>知识地图</strong>是将知识逻辑结构可视化并实现自动推理的知识表示模型，人人都可以自由编辑和使用知识地图。
@@ -84,6 +87,7 @@
 
 {% block js%}
 <script src="/static/js/jquery-ui-1.10.3.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ticker.js"></script>
 <script src="/static/js/jquery.fullPage.min.js"></script>
 <script type="text/javascript" src="/static/js/help-index.js"></script>
 {% endblock%}
