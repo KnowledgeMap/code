@@ -29,7 +29,7 @@ function loading(data){
 			}
 		}
 
-		var force = d3.layout.force()
+		force = d3.layout.force()
 					.nodes(d3.values(nodes))
 				    .links(newLink)
 				    .size([svg_width, svg_height])
