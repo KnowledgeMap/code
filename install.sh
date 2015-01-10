@@ -1,4 +1,5 @@
 #!/bin/bash
 
-sudo pip install -r requirement.txt
-python manage.py syncdb
+rm -f db.sqlite3
+python manage.py syncdb --noinput
+python manage.py createsuperuser --username=root --email=jiekunyang@gmail.com
