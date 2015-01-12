@@ -221,7 +221,7 @@ $.ajaxSetup({
     function commitDataToSQL(){
         $.ajax({
             type : "POST",
-            data : { "nodes" : svgEvent.nodes, "links" : svgEvent.allLinksData},
+            data : { "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData)},
             dataType : "json",
             url : '/kmap/save/',
             success : function (data){
