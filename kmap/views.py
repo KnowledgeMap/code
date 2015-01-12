@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
-from kmap.models import kGraph
+from kmap.models import kGraph, Proposition, Relation
 from core import naive
 
 import json
@@ -128,5 +128,31 @@ def get_result(request):
     return HttpResponse(abc, content_type="application/json")
 
 def save(request):
+    if request.method == "POST":
+        nodes = json.loads(request.POST['nodes'])
+        links = json.loads(request.POST['links'])
+
+        node_map = dict()  # id to obj
+
+        for node in nodes:
+            node_map[node['index']] = Proposition(
+                    name=node['name'],
+                    desc=node.get('desc', ''))
+            node_map[node['index']].save()
+        for link in links:
+            eles = link['path'].split('_')
+            if len(eles) == 3:  # 二元关系
+                rel_name, s1, target = eles
+                s2 = None
+            elif len(eles) == 4:  # 三元关系
+                rel_name, s1, s2, target = eles
+
+            rel = Relation.objects.get(name=rel_name)
+            #g_edge = kGraph(edge=rel, prop1
+
+        try:
+            pass
+        except Exception as e:
+            print e
     content = {'status': '0', 'msg': '保存成功'}
     return HttpResponse(json.dumps(content), content_type="application/json")
