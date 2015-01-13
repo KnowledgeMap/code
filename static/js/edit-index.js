@@ -197,25 +197,40 @@ $.ajaxSetup({
 
 		function showTheEdit(num){
 			node = svgEvent.nodes;
-			$("#cover").on('click','button',function (){
-				var   MathPreview = $("#MathPreview").find("script").text(),
-				      MathBuffer = $("#MathBuffer").find("script").text(),
-				      value;
-				MathPreview.length > MathBuffer.length ? value = $("#MathPreview").html() : value = $("#MathBuffer").html();
-				if(MathPreview.length == MathBuffer.length){
-					value = $("#MathBuffer").html();
-				}
-				node[num].name = value;			
-				$("#cover").css("display","none");
-				svgEvent.loading({data : svgEvent.allLinksData});
-			});
 
 			$("#cover").css("display","block");
+
+            $("#cover").attr("data-index",num);
+
 			if(node[num].name != "双击节点进行编辑")
-				$("#MathInput").html($($('g')[num]).attr('name'))
+				$("#MathInput").html(node[num].name)
 
 			$("#MathInput").trigger("keyup");
+
+            bindClick();
 		}
+
+        function bindClick(){
+            $("#cover").on('click','button',function (){
+                    
+                var MathPreview = $("#MathPreview").find("script").text(),
+                    MathBuffer = $("#MathBuffer").find("script").text(),
+                    value = "",
+                    num = $("#cover").attr("data-index");
+
+                MathPreview.length > MathBuffer.length ? value = $("#MathPreview").html() : value = $("#MathBuffer").html();
+                if(MathPreview.length == MathBuffer.length){
+                    value = $("#MathBuffer").html();
+                }
+
+                node[num]["name"] = value;
+
+                $("#cover").css("display","none");
+
+                svgEvent.loading({data : svgEvent.allLinksData});
+                    
+            });
+        }
 
 		$.ajax({
 			url : "/kmap/result/",
