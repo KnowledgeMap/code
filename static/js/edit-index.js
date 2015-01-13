@@ -1,7 +1,7 @@
 /*
 *
 */
-var higShowVar = [];
+var higShowVar = [],nodesArr = [],linksArr = [];
 var buttonEvent = (function (button) {
 
 //建立对象存放变量
@@ -15,18 +15,35 @@ var buttonEvent = (function (button) {
 							  <strong>{title}:</strong>{content}\
 						</div>',
 		allLinksData : [],
-        id : 0
+        id : 0,
+        count : 0,
+        timeIndex : 0,
+        flag : false
 	};
 
 //点击增加节点按钮向svg中添加节点
 	svgEvent.append = function (dom) {
-		var e = e || event,point = { x : e.pageX, y : e.pageY - 50};
+		var e = e || event,points = { x : e.pageX, y : e.pageY - 50};
 		$("g,.path,.floatDiv").remove();
-		$("#latex-source").focus();
 		svgEvent.nodes.push(new Object({"name" : dom, "group" : svgEvent.group}));
 		svgEvent.group++;
 		svgEvent.temp = [];
-		svgEvent.loading(svgEvent.allLinksData,point);
+		svgEvent.loading({data : svgEvent.allLinksData,point : points});
+        if(svgEvent.flag){
+            $(".time").filter(function (){
+                var xx = $(this).find(".timeSpan").attr("data-index");
+                return xx > svgEvent.timeIndex;
+            }).animate({"height" : "0px"},200,function (){
+                $(this).remove();
+            });
+            svgEvent.flag = false;
+        }
+        svgEvent.addTimeLine();
+        var x = svgEvent.nodes;
+        var m = JSON.stringify(x);
+        var l = eval(m);
+        nodesArr.push(l);
+        linksArr.push(svgEvent.allLinksData);
 	}
 
 	$("svg").on('click',function (e){
@@ -190,7 +207,7 @@ $.ajaxSetup({
 				}
 				node[num].name = value;			
 				$("#cover").css("display","none");
-				svgEvent.loading(svgEvent.allLinksData);
+				svgEvent.loading({data : svgEvent.allLinksData});
 			});
 
 			$("#cover").css("display","block");
@@ -204,10 +221,13 @@ $.ajaxSetup({
 			url : "/kmap/result/",
 			data : { "old" : JSON.stringify(data), "newLinks" : newData},
 			type : "POST",
-			success : function (data){
-				svgEvent.allLinksData = data;
-				svgEvent.loading(data);
+			success : function (datas){
+				svgEvent.allLinksData = datas;
+				svgEvent.loading({data : datas});
 				svgEvent.temp = [];
+                svgEvent.addTimeLine();
+                nodesArr.push(svgEvent.nodes);
+                linksArr.push(svgEvent.allLinksData);
 			},
 			error : function (err){
 				console.log(err);
@@ -324,18 +344,88 @@ $.ajaxSetup({
 
             force.stop();
 
-            svgEvent.loading(svgEvent.allLinksData);
+            svgEvent.loading({data : svgEvent.allLinksData});
 
             svgEvent.temp = [];
         }
         $("#contextmenu").css("display","none");
     });
 
-	svgEvent.loading = function (data,point){
+    svgEvent.addTimeLine = function (nodes,links){
+        if($(".time").length > 4){
+            $($(".time")[0]).animate({"height" : "0px"},200);
+            setTimeout(function (){
+                $($(".time")[0]).remove();
+            },210);
+        }
+        $(".timeSpan").addClass("small")
+        var x = $("<div class='time'><div class='timeSpan' data-index = '" + svgEvent.count + "'></div></div>");
+        svgEvent.count++;
+        $("#timeLine").append(x);
+        x.animate({"height":"100px"},500);
+    }
+
+    $("#timeLine").on('mouseenter','.timeSpan',function (e){
+
+        var e = e || event,
+            x = e.pageX,
+            y = e.pageY;
+        addTimeDetail(x,y,$(this));
+
+    }).on("mouseleave",'.timeSpan',function (){
+
+        $(".showTimeLineDetail").remove();
+
+    }).on('click','.timeSpan',function (){
+
+        force.stop();
+
+        var x = $(this).attr("data-index");
+
+        $(".timeSpan").addClass('small');
+
+        $(this).removeClass('small');
+
+        if(x < 0){
+            svgEvent.loading({data : [], allnode : []});
+            svgEvent.nodes = [];
+            svgEvent.allLinksData = [];
+            svgEvent.group = 0;
+            $(".time").filter(function (){
+                var xx = $(this).find("div").attr('class');
+                return xx.indexOf("restart") > 0 ? false : true;
+            }).animate({"height" : "0px"},300,function (){
+                $(this).remove();
+            });
+        }else{     
+            var o = nodesArr[x],arr = [];
+            for(var i = 0; i < o.length; i++){
+                var names = o[i]["name"],groups = o[i]["group"],xx = o[i]["x"],yy = o[i]["y"];
+                arr.push(new Object({name : names, group : groups, x : xx, y : yy}));
+            }            
+            svgEvent.nodes = arr;
+            svgEvent.allLinksData = linksArr[x];
+            svgEvent.group = svgEvent.nodes.length;
+            svgEvent.timeIndex = x;
+            svgEvent.flag = true;
+            svgEvent.loading({data : linksArr[x], allnode : svgEvent.nodes});  
+        }
+
+    });
+
+    function addTimeDetail(xx,y,dom){
+        var x = $("<div class='showTimeLineDetail'></div>");
+            x.css("left",xx + 10 + "px");
+            x.css("top",y - 17 + "px");
+            x.html("返回上一步");
+        $("body").append(x);
+    }
+
+	svgEvent.loading = function (obj){
 
 		$("g,.path,.floatDiv").remove();
 
-		var links= data,newLink = [],result,tempOffset=[];
+		var links= obj.data,newLink = [],result,tempOffset=[],nodes = obj.allnode || svgEvent.nodes;
 
 		for(var i = 0; i < links.length; i++){
 			var tempdata = links[i].path.split("_");
@@ -356,13 +446,13 @@ $.ajaxSetup({
 		higShowVar = result;
 		
 		force = d3.layout.force()
-					.nodes(d3.values(svgEvent.nodes))
+					.nodes(nodes)
 				    .links(result)
 				    .size([svg_width, svg_height])
 				    .linkDistance(150)
 				    .charge(-1000)
 				    .on("tick", tick)
-				    .start(point);
+				    .start(obj.point);
 
 		var path = svg.selectAll(".path")
 		    .data(result)
@@ -535,10 +625,6 @@ $.ajaxSetup({
 		
 				sigema = 2 * Math.asin(Math.sqrt( Math.pow((A_b_x_t - varile_a_x), 2) + Math.pow((A_b_y_t - varile_a_y), 2) ) / (2 * r)),
 				l = 4 * r *  ( 2* Math.sin(sigema / 2) - Math.sin(sigema)) / (3 * (1 - Math.cos(sigema)));
-console.log(varile_y);
-console.log(y1);
-console.log(y2);
-console.log(y3);
 			if(offset == "end"){
 				k_ab_x = A_b_x_t - ( (x2 - x0) / Math.abs(x2 - x0) ) * (l / Math.sqrt( 1 + Math.pow((y0 - y2) / (x0 - x2),2))),
 				k_ab_y = A_b_y_t - ( (y2 - y0) / Math.abs(y2 - y0) ) * (l / Math.sqrt( 1 + Math.pow((x0 - x2) / (y0 - y2),2))),
@@ -766,4 +852,18 @@ $(document).ready(function (){
             $(this).fadeOut(200);
             $("#commitData").animate({"right" : "10px"},400);
         });
+
+
+        $(".run").animate({"width":"100%"},500);
+        var set = setInterval(function(){
+            var x = $(".run").css("width");
+            if(x == "300px"){
+                setTimeout(function (){
+                    $("#loading").fadeOut();
+                    $("#timeLine").animate({"left" : "20px"},500);
+                },500);
+                clearInterval(set);
+            }
+        },500);
+
 });

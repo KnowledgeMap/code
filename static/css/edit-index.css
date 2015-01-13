@@ -293,6 +293,122 @@ body,html{
     outline: none;
     text-align: center;
 }
-.borderNone{
-    border:none !important;
+#loading{
+    position: absolute;
+    top: 50px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+.loading-div{
+    width: 300px;
+    height: 60px;
+    position: absolute;
+    margin-left: -150px;
+    margin-top: -30px;
+    left: 50%;
+    top: 45%;
+}
+.loading-banner{
+    width: 100%;
+    height: 5px;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    box-shadow: inset 0 -2px 2px rgba(0, 0, 0, 0.4);
+    background:#000;
+    margin-top: 10px;
+}
+.run{
+    width: 0%;
+    height: 100%;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;    
+    background-image: -webkit-linear-gradient(left, #5bd8ff, #ff0000);
+}
+.loading-span{
+    font-family: "微软雅黑";
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color:#5bd8ff;
+    visibility: hidden;
+}
+#timeLine{
+    position: absolute;
+    width: 6px;
+    height: 500px;
+    margin-top: -250px;
+    left: -100px;
+    z-index: 999;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;      
+    background: #000;
+    top: 50%;
+}
+.time{
+    position: relative;
+    width: 100%;
+    height: 0px;
+    background: #5bd8ff;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px; 
+}
+.timeSpan{
+    position: absolute;
+    background: #ff0000;
+    width: 15px;
+    height: 15px;
+    border-radius:15px;
+    -o-border-radius:15px;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    left: -5px;
+    bottom: -3px;
+    z-index: 3;
+    cursor: pointer;
+}
+.small{
+    width: 10px;
+    height: 10px;
+    border-radius:10px;
+    -o-border-radius:10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    left: -2px;
+}
+.showTimeLineDetail{
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background: #fff;
+    z-index: 3;
+    border:1px solid #aaa;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    text-align: center;
+}
+.showTimeLineDetail::after{
+    width: 0;
+    height: 0;
+    content : "";
+    position: absolute;
+    left:-10px;
+    top: 5px;
+    border-top: 10px solid transparent;
+    border-right: 10px solid #808080;
+    border-bottom: 10px solid transparent;
+    z-index: 5; 
+}
+.restart{
+    top: 0;
 }
