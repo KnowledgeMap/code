@@ -16,7 +16,7 @@ class MyKnownAdmin(admin.ModelAdmin):
 
 
 class kGraphAdmin(admin.ModelAdmin):
-    list_display = ('edge', 'prop1', 'prop2', 'prop3', 'editor')
+    list_display = ('relation', 's1', 's2', 'target', 'editor')
 
 
 admin.site.register(Proposition, PropositionAdmin)

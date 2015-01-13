@@ -13,11 +13,11 @@ class Proposition(models.Model):
 
 
 class Relation(models.Model):  # edge
-    name = models.CharField(u'名称', max_length=100)
+    name = models.CharField(u'名称', max_length=100, primary_key=True)
     desc = models.TextField(u'简介', max_length=500, null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s-%s' %(self.id, self.name)
+        return u'%s' % self.name
 
 
 class MyKnown(models.Model):
@@ -33,16 +33,15 @@ class MyKnown(models.Model):
 
 
 class kGraph(models.Model):
-    edge = models.ForeignKey(Relation)
-    prop1 = models.ForeignKey(Proposition, related_name='prop1')
-    prop2 = models.ForeignKey(Proposition, related_name='prop2')
-    prop3 = models.ForeignKey(Proposition, related_name='prop3', null=True, blank=True)
+    relation = models.ForeignKey(Relation)
+    target = models.ForeignKey(Proposition, related_name='target')
+    s1 = models.ForeignKey(Proposition, related_name='source_1')
+    s2 = models.ForeignKey(Proposition, related_name='source_2', null=True, blank=True)
     editor = models.ForeignKey(User)
     timestamp = models.DateTimeField(u'时间', default=datetime.datetime.now)
 
     def __unicode__(self):
-        if self.prop3:
-            return u'%s(%s, %s, %s)' % (self.edge, self.prop1, self.prop2, self.prop3)
+        if self.s2:
+            return u'%s(%s, %s, %s)' % (self.relation, self.s1, self.s2, self.target)
         else:
-            return u'%s(%s, %s)' % (self.edge, self.prop1, self.prop2)
-
+            return u'%s(%s, %s)' % (self.relation, self.s1, self.target)
