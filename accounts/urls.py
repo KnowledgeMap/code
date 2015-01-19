@@ -6,6 +6,8 @@ urlpatterns = patterns('',
     url(r'^login$', login,
         {"template_name": 'login.html'}),
     url(r'^logout$', page_logout),
+    url(r'^reg$', login,
+        {"template_name": 'reg.html'}),
 )
 
 urlpatterns += patterns('accounts.views',

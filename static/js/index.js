@@ -1,3 +1,73 @@
+var svg_width = $("#kmap-overview").width(),
+    svg_height = $("#kmap-overview").height(),
+    scaleX = svg_width,
+    scaleY = svg_height,
+    posX = 0,
+    posY = 0,
+    scale = 1,
+    flag = false,
+    string = '<li data-url="{url}"><span class="title">{name}</span><span>{brief}</span></li>';
+
+$("svg").attr('width',svg_width+"px").attr('height',svg_height+"px");
+
+document.getElementById("svg").setAttribute('viewBox','0,0,' + scaleX+"," + scaleY);
+
+var strFormatObj = function (){
+    if((arguments.length <= 0) || (typeof arguments[0] != "string"))
+        return null;
+    var value = arguments[0],result="";
+    for(var i in arguments[1]){
+        for(var key in arguments[1][i]){
+            var reg = new RegExp('\\{'+ key +'\\}','m');
+            value = value.replace(reg, arguments[1][i][key])
+        }
+        result += value;
+        value = arguments[0];
+    }
+    return result;
+};
+
+var color = d3.scale.category20();//设置20种颜色类别
+
+var svg = d3.select("svg");
+
+$(".add").bind('click',function (){
+    posX += 40,
+    posY += 40;
+    xxx = scaleX - posX * 2,
+    yyy = scaleY - posY * 2;
+    if(xxx < 0 || yyy < 0){
+        alert("已到达最大缩放比例!");
+        return false;
+    }
+    $(".scale").html('缩放比例 X ' + (scaleX / xxx).toFixed(1));
+    setTimeout(function(){$(".scale").html('')},1500);
+    document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
+});
+
+$(".min").bind('click',function (){
+    posX -= 40,
+    posY -= 40;
+    xxx = scaleX - posX * 2,
+    yyy = scaleY - posY * 2;
+    $(".scale").html('缩放比例 / ' + (scaleX / xxx).toFixed(1));
+    setTimeout(function(){$(".scale").html('')},1500);
+    document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
+});
+
+$(".openlist").click(function (){
+    if(!flag){
+        $("#kmap-overview").animate({"left":"20%"},200);
+        $("#list").animate({"width":"20%"},200);
+        $("#list > ul > li").css("borderBottom","1px solid #000");
+    }else{
+        $("#kmap-overview").animate({"left":"0%"},200);
+        $("#list").animate({"width":"0%"},200);
+        $("#list > ul > li").css("borderBottom","none");    
+    }
+    flag = !flag;
+});
+
 function loading(data){
 	d3.json(data, function(svgEvent,error) {
 		var newLink = [];
@@ -90,9 +160,8 @@ function loading(data){
 						    .attr("fill","green");
 
 		$("svg").on("mouseover",'g',function (){
-			var data = $(this).find("rect").attr("transform"),
-				x = Number(data.substring(10,data.length - 1).split(",")[0]),
-				y = Number(data.substring(10,data.length - 1).split(",")[1]),
+			var x = this.getBoundingClientRect().left + document.documentElement.scrollLeft,
+				y = this.getBoundingClientRect().top + document.documentElement.scrollTop - 50,
 				div = document.createElement("div"),
 				winW = window.innerWidth,
 				winH = window.innerHeight,

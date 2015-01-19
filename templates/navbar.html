@@ -7,33 +7,339 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/"><img src="/static/img/logo.png"/>知识地图</a>
+        <a class="navbar-brand" href="/"><img src="/static/img/title.png" width="48" height="21"/></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+        <div class="loadingModule"></div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/">世界地图</a></li>
-            <li><a href="/kmap/edit">编辑地图</a></li>
-            <li><a href="/kmap/admin">管理台</a></li>
-            <li><a href="/kmap/help">关于我们</a></li>
+            <li class="navbar-li" data-id="1"><a href="/#navId=1">世界地图</a></li>
+            {% if user.is_authenticated %}
+            <li class="navbar-li" data-id="2"><a href="/kmap/edit/#navId=2" class="editLi">编辑地图</a></li>
+            <li class="navbar-li" data-id="3"><a href="/kmap/admin/#navId=3" class="adminLi">管理台</a></li>
+            {%endif%}
+            <li class="navbar-li" data-id="4"><a href="/kmap/help/#navId=4">关于我们</a></li>
         </ul>
 
         {% if user.is_authenticated %}
         <ul class="navbar-text pull-right">
-            <li class="dropdown">
+            <li class="list newList" data-role="通知" data-url="2"><a href="#"><span class="glyphicon glyphicon-volume-up"></span><span class="red-circle">1</span></a></li>
+            <li class="list newList" data-role="站内信" data-url="3"><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="red-circle">2</span></a></li>
+            <li class="list" data-url="4"><a href="/kmap/infor#id=4"><span class="glyphicon glyphicon-inbox"></span><span class="red-circle">3</span></a></li>
+            <li class="dropdown list username">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <!--<li><a href="/accounts">My Account</a></li>-->
-                    <li><a href="/accounts/logout">Sign out</a></li>
+                    <li class="circle"><a href="/kmap/infor#id=5"><span class="glyphicon glyphicon-user padding"></span>圈子</a></li>
+                    <li class="setting"><a href="/kmap/infor#id=6"><span class="glyphicon glyphicon-cog padding"></span>设置</a></li>
+                    <li class="singOut"><a href="/accounts/logout"><span class="glyphicon glyphicon-off padding"></span>登出</a></li>
                 </ul>
             </li>
         </ul>
         {% else %}
-        <ul class="nav navbar-nav pull-right">
-            <li> <a  href="/accounts/login">Sign in</a> </li>
+        <ul class="nav navbar-nav pull-right rightList">
+            <li class="login"> <a  href="/accounts/login">登陆</a> </li>
+            <li class="reg"> <a  href="/accounts/reg">注册</a></li>
             <!--<li> <a  href="/accounts/register">Sign up</a> </li>-->
-        </ul>
+        </ul>       
+        <script type="text/javascript">
+            $(".editLi, .adminLi").click(function (){
+
+                window.location.href = "/accounts/login";
+                
+                return false;
+            });
+        </script>
         {% endif %}
+
+
+
+        <div id="search">
+            <span class="left searchSpan glyphicon glyphicon-chevron-left"></span>
+            <div class = "search" contenteditable=true>请输入查询内容</div>
+            <span class="searchSpan glyphicon glyphicon-chevron-right right"></span>
+            <div class="iconGroup">
+                <span class="glyphicon glyphicon-resize-small scaleIcon"></span>
+                <span class="sum">∑</span>
+                <span class="glyphicon glyphicon-search searchIcon"></span>
+            </div>
+            <div id="lateXContent">
+                <textarea id="MathInputSearch" rows = "10" placeholder="请将LaTeX包含在$$之中..." autofocus></textarea>
+                <div class="lateX-listContent">
+                    <ul class="lateX-list-ulContent">
+                        <li class="lateX-list-liContent actives" data-name = "Math">Math</li>
+                        <li class="lateX-list-liContent" data-name = "Greek">Greek</li>
+                        <li class="lateX-list-liContent" data-name = "Relations">Relations</li>
+                        <li class="lateX-list-liContent" data-name = "Logic">Logic</li>
+                        <li class="lateX-list-liContent" data-name = "Symbols">Symbols</li>
+                        <li class="lateX-list-liContent" data-name = "Arrows">Arrows</li>
+                    <ul>
+                </div>
+                <div class="showTableContent Math show">
+                    <img src="/static/img/latex/widetilde.png" alt = "\widetilde{ab}">
+                    <img src="/static/img/latex/overleftarrow.png" alt = "\overleftarrow{ba}">
+                    <img src="/static/img/latex/overline.png" alt = "\overline{ab}">
+                    <img src="/static/img/latex/overbrace.png" alt = "\overbrace{ab}">
+                    <img src="/static/img/latex/sqrt.png" alt = "\sqrt{ab}">
+                    <img src="/static/img/latex/fdash.png" alt = "f'">
+                    <img src="/static/img/latex/xpk.png" alt = "x^{k}">
+                    <img src="/static/img/latex/limit.png" alt = "\lim_{a \rightarrow b}">
+                    <img src="/static/img/latex/matrix.png" alt = "\begin{bmatrix}a & b \\c & d \end{bmatrix}">
+                    <img src="/static/img/latex/para.png" alt = "\big(a\big)">
+                    <img src="/static/img/latex/int.png" alt = "\int_a^b x">
+                    <img src="/static/img/latex/sum.png" alt = "\sum_a^b x">
+                    <img src="/static/img/latex/prod.png" alt = "\prod_a^b x">
+                    <img src="/static/img/latex/bigcap.png" alt = "\bigcap_a^b x">
+                    <img src="/static/img/latex/bigvee.png" alt = "\bigvee_a^b x">
+                    <img src="/static/img/latex/bigotimes.png" alt = "\bigotimes">                    
+                    <img src="/static/img/latex/widehat.png" alt = "\widehat{ab}">
+                    <img src="/static/img/latex/overrightarrow.png" alt = "\overrightarrow{ab}">
+                    <img src="/static/img/latex/underline.png" alt = "\underline{ab}">
+                    <img src="/static/img/latex/underbrace.png" alt = "\underbrace{ab}">
+                    <img src="/static/img/latex/sqrtn.png" alt = "\sqrt[n]{ab}">
+                    <img src="/static/img/latex/frac.png" alt = "\frac{a}{b}">
+                    <img src="/static/img/latex/xuk.png" alt = "x_{k}">
+                    <img src="/static/img/latex/partial.png" alt = "\frac{\partial^nf}{\partial x^n}">
+                    <img src="/static/img/latex/select.png" alt = "x =\begin{cases}a & x = 0\\b & x > 0\end{cases}">
+                    <img src="/static/img/latex/curly.png" alt = "\big\{a\big\}">
+                    <img src="/static/img/latex/oint.png" alt = "\oint_a^b x">
+                    <img src="/static/img/latex/bigsqcup.png" alt = "\bigsqcup_a^b x">
+                    <img src="/static/img/latex/coprod.png" alt = "\coprod_a^b x">
+                    <img src="/static/img/latex/bigcup.png" alt = "\bigcup_a^b x">
+                    <img src="/static/img/latex/bigwedge.png" alt = "\bigwedge_a^b x">
+                    <img src="/static/img/latex/bigoplus.png" alt = "\bigoplus">
+                </div>
+                <div class="showTableContent Greek">
+                    <img src="/static/img/latex/alpha.png" alt = "\alpha">
+                    <img src="/static/img/latex/beta.png" alt = "\beta">
+                    <img src="/static/img/latex/gamma.png" alt = "\gamma">
+                    <img src="/static/img/latex/delta.png" alt = "\delta">
+                    <img src="/static/img/latex/epsilon.png" alt = "\epsilon">
+                    <img src="/static/img/latex/\varepsilon.png" alt = "\varepsilon">
+                    <img src="/static/img/latex/zeta.png" alt = "\zeta">
+                    <img src="/static/img/latex/eta.png" alt = "\eta">
+                    <img src="/static/img/latex/theta.png" alt = "\theta">
+                    <img src="/static/img/latex/vartheta.png" alt = "\vartheta">
+                    <img src="/static/img/latex/kappa.png" alt = "\kappa">
+                    <img src="/static/img/latex/lambda.png" alt = "\lambda">
+                    <img src="/static/img/latex/mu.png" alt = "\mu">
+                    <img src="/static/img/latex/nu.png" alt = "\nu">
+                    <img src="/static/img/latex/xi.png" alt = "\xi">
+                    <img src="/static/img/latex/o.png" alt = "o">
+                    <img src="/static/img/latex/pi.png" alt = "\pi">
+                    <img src="/static/img/latex/varpi.png" alt = "\varpi">
+                    <img src="/static/img/latex/rho.png" alt = "\rho">
+                    <img src="/static/img/latex/varrho.png" alt = "\varrho">
+                    <img src="/static/img/latex/sigma.png" alt = "\sigma">
+                    <img src="/static/img/latex/varsigma.png" alt = "\varsigma">
+                    <img src="/static/img/latex/tau.png" alt = "\tau">
+                    <img src="/static/img/latex/upsilon.png" alt = "\upsilon">
+                    <img src="/static/img/latex/phi.png" alt = "\phi">
+                    <img src="/static/img/latex/varphi.png" alt = "\varphi">
+                    <img src="/static/img/latex/chi.png" alt = "\chi">
+                    <img src="/static/img/latex/psi.png" alt = "\psi">
+                    <img src="/static/img/latex/omega.png" alt = "\omega">
+                    <img src="/static/img/latex/Gamma (1).png" alt = "\Gamma">
+                    <img src="/static/img/latex/Delta (1).png" alt = "\Delta">
+                    <img src="/static/img/latex/Theta (1).png" alt = "\Theta">
+                    <img src="/static/img/latex/Lambda (1).png" alt = "\Lambda">
+                    <img src="/static/img/latex/Xi (1).png" alt = "\Xi">
+                    <img src="/static/img/latex/Pi (1).png" alt = "\Pi">
+                    <img src="/static/img/latex/Sigma (1).png" alt = "\Sigma">
+                    <img src="/static/img/latex/Upsilon (1).png" alt = "\Upsilon">
+                    <img src="/static/img/latex/Phi (1).png" alt = "\Phi">
+                    <img src="/static/img/latex/Psi (1).png" alt = "\Psi">
+                    <img src="/static/img/latex/Omega (1).png" alt = "\Omega">
+                    <img src="/static/img/latex/$.png" alt = "\$">
+                </div>
+                <div class="showTableContent Relations">
+                    <img src="/static/img/latex/leq.png" alt = "\leq">
+                    <img src="/static/img/latex/prec.png" alt = "\prec">
+                    <img src="/static/img/latex/preceq.png" alt = "\preceq">
+                    <img src="/static/img/latex/ll.png" alt = "\ll">
+                    <img src="/static/img/latex/subset.png" alt = "\subset">
+                    <img src="/static/img/latex/subseteq.png" alt = "\subseteq">
+                    <img src="/static/img/latex/sqsubset.png" alt = "\sqsubset">
+                    <img src="/static/img/latex/sqsubseteq.png" alt = "\sqsubseteq">
+                    <img src="/static/img/latex/in.png" alt = "\in">
+                    <img src="/static/img/latex/vdash.png" alt = "\vdash">
+                    <img src="/static/img/latex/gt.png" alt = ">">
+                    <img src="/static/img/latex/Join.png" alt = "\Join">
+                    <img src="/static/img/latex/smile.png" alt = "\smile">
+                    <img src="/static/img/latex/sim.png" alt = "\sim">
+                    <img src="/static/img/latex/asymp.png" alt = "\asymp">
+                    <img src="/static/img/latex/equiv.png" alt = "\equiv">
+                    <img src="/static/img/latex/mid.png" alt = "\mid">
+                    <img src="/static/img/latex/neq.png" alt = "\neq">
+                    <img src="/static/img/latex/perp.png" alt = "\perp">
+                    <img src="/static/img/latex/colon.png" alt = ":">
+                    <img src="/static/img/latex/rhd.png" alt = "\rhd">
+                    <img src="/static/img/latex/unrhd.png" alt = "\unrhd">
+                    <img src="/static/img/latex/geq.png" alt = "\geq">
+                    <img src="/static/img/latex/succ.png" alt = "\succ">
+                    <img src="/static/img/latex/succeq.png" alt = "\succeq">
+                    <img src="/static/img/latex/gg.png" alt = "\gg">
+                    <img src="/static/img/latex/supset.png" alt = "\supset">
+                    <img src="/static/img/latex/supseteq.png" alt = "\supseteq">
+                    <img src="/static/img/latex/sqsupset.png" alt = "\sqsupset">
+                    <img src="/static/img/latex/sqsupseteq.png" alt = "\sqsupseteq">
+                    <img src="/static/img/latex/ni.png" alt = "\ni">
+                    <img src="/static/img/latex/dashv.png" alt = "\dashv">
+                    <img src="/static/img/latex/lt.png" alt = "<">
+                    <img src="/static/img/latex/bowtie.png" alt = "\bowtie">
+                    <img src="/static/img/latex/frown.png" alt = "\frown">
+                    <img src="/static/img/latex/simeq.png" alt = "\simeq">
+                    <img src="/static/img/latex/approx.png" alt = "\approx">
+                    <img src="/static/img/latex/cong.png" alt = "\cong">
+                    <img src="/static/img/latex/parallel.png" alt = "\parallel">
+                    <img src="/static/img/latex/doteq.png" alt = "\doteq">
+                    <img src="/static/img/latex/models.png" alt = "\models">
+                    <img src="/static/img/latex/propto.png" alt = "\propto">
+                </div>
+                <div class="showTableContent Logic">
+                    <img src="/static/img/latex/hat.png" alt = "\hat{a}">
+                    <img src="/static/img/latex/acute.png" alt = "\acute{a}">
+                    <img src="/static/img/latex/bar.png" alt = "\bar{a}">
+                    <img src="/static/img/latex/dot.png" alt = "\dot{a}">
+                    <img src="/static/img/latex/breve.png" alt = "\breve{a}">
+                    <img src="/static/img/latex/check.png" alt = "\check{a}">
+                    <img src="/static/img/latex/grave.png" alt = "\grave{a}">
+                    <img src="/static/img/latex/vec.png" alt = "\vec{a}">
+                    <img src="/static/img/latex/ddot.png" alt = "\ddot{a}">
+                    <img src="/static/img/latex/tilde.png" alt = "\tilde{a}">
+                    <img src="/static/img/latex/plus.png" alt = "+">
+                    <img src="/static/img/latex/minus.png" alt = "-">
+                    <img src="/static/img/latex/times.png" alt = "\times">
+                    <img src="/static/img/latex/div.png" alt = "\div">
+                    <img src="/static/img/latex/cap.png" alt = "\cap">
+                    <img src="/static/img/latex/cup.png" alt = "\cup">
+                    <img src="/static/img/latex/vee.png" alt = "\vee">
+                    <img src="/static/img/latex/setminus.png" alt = "\setminus">
+                    <img src="/static/img/latex/uplus.png" alt = "\uplus">
+                    <img src="/static/img/latex/ast.png" alt = "\ast">
+                    <img src="/static/img/latex/circ.png" alt = "\circ">
+                    <img src="/static/img/latex/sqcup.png" alt = "\sqcup">
+                    <img src="/static/img/latex/sqcap.png" alt = "\sqcap">
+                    <img src="/static/img/latex/wedge.png" alt = "\wedge">
+                    <img src="/static/img/latex/wr.png" alt = "\wr">
+                    <img src="/static/img/latex/amalg.png" alt = "\amalg">
+                    <img src="/static/img/latex/star.png" alt = "\star">
+                    <img src="/static/img/latex/bullet.png" alt = "\bullet">
+                </div>
+                <div class="showTableContent Symbols">
+                    <img src="/static/img/latex/ldots.png" alt = "\ldots">
+                    <img src="/static/img/latex/vdots.png" alt = "\vdots">
+                    <img src="/static/img/latex/cdots.png" alt = "\cdots">
+                    <img src="/static/img/latex/ddots.png" alt = "\ddots">
+                    <img src="/static/img/latex/mp.png" alt = "\mp">
+                    <img src="/static/img/latex/pm.png" alt = "\pm">
+                    <img src="/static/img/latex/slash.png" alt = "/">
+                    <img src="/static/img/latex/backslash.png" alt = "\backslash">
+                    <img src="/static/img/latex/or.png" alt = "|">
+                    <img src="/static/img/latex/parallel.png" alt = "\|">
+                    <img src="/static/img/latex/imath.png" alt = "\imath">
+                    <img src="/static/img/latex/jmath.png" alt = "\jmath">
+                    <img src="/static/img/latex/nabla.png" alt = "\nabla">
+                    <img src="/static/img/latex/triangle.png" alt = "\triangle">
+                    <img src="/static/img/latex/top.png" alt = "\top">
+                    <img src="/static/img/latex/bot.png" alt = "\bot">
+                    <img src="/static/img/latex/forall.png" alt = "\forall">
+                    <img src="/static/img/latex/exists.png" alt = "\exists">
+                    <img src="/static/img/latex/neg.png" alt = "\neg">
+                    <img src="/static/img/latex/flat.png" alt = "\flat">
+                    <img src="/static/img/latex/partial (1).png" alt = "\partial">
+                    <img src="/static/img/latex/infty.png" alt = "\infty">
+                    <img src="/static/img/latex/Re.png" alt = "\Re">
+                    <img src="/static/img/latex/Im.png" alt = "\Im">
+                    <img src="/static/img/latex/aleph.png" alt = "\aleph">
+                    <img src="/static/img/latex/hbar.png" alt = "\hbar">
+                    <img src="/static/img/latex/ell.png" alt = "\ell">
+                    <img src="/static/img/latex/mho.png" alt = "\mho">
+                    <img src="/static/img/latex/wp.png" alt = "\wp">
+                    <img src="/static/img/latex/emptyset.png" alt = "\emptyset">
+                    <img src="/static/img/latex/prime.png" alt = "\prime">
+                    <img src="/static/img/latex/dot.png" alt = ".">
+                    <img src="/static/img/latex/surd.png" alt = "\surd">
+                    <img src="/static/img/latex/angle.png" alt = "\angle">
+                    <img src="/static/img/latex/natural.png" alt = "\natural">
+                    <img src="/static/img/latex/sharp.png" alt = "\sharp">
+                    <img src="/static/img/latex/Box.png" alt = "\Box">
+                    <img src="/static/img/latex/Diamond.png" alt = "\Diamond">
+                    <img src="/static/img/latex/clubsuit.png" alt = "\clubsuit">
+                    <img src="/static/img/latex/spadesuit.png" alt = "\spadesuit">
+                    <img src="/static/img/latex/heartsuit.png" alt = "\heartsuit">
+                    <img src="/static/img/latex/diamondsuit.png" alt = "\diamondsuit">
+                    <img src="/static/img/latex/bigtriangledown.png" alt = "\bigtriangledown">
+                    <img src="/static/img/latex/triangleleft.png" alt = "\triangleleft">
+                    <img src="/static/img/latex/lhd.png" alt = "\lhd">
+                    <img src="/static/img/latex/unlhd.png" alt = "\unlhd">
+                    <img src="/static/img/latex/bigtriangleup.png" alt = "\bigtriangleup">
+                    <img src="/static/img/latex/triangleright.png" alt = "\triangleright">
+                    <img src="/static/img/latex/rhd.png" alt = "\rhd">
+                    <img src="/static/img/latex/unrhd.png" alt = "\unrhd">
+                    <img src="/static/img/latex/oplus.png" alt = "\oplus">
+                    <img src="/static/img/latex/otimes.png" alt = "\otimes">
+                    <img src="/static/img/latex/odot.png" alt = "\odot">
+                    <img src="/static/img/latex/ominus.png" alt = "\ominus">
+                    <img src="/static/img/latex/oslash.png" alt = "\oslash">
+                    <img src="/static/img/latex/bigcirc.png" alt = "\bigcirc">
+                </div>
+                <div class="showTableContent Arrows">
+                    <img src="/static/img/latex/leftarrow.png" alt = "\leftarrow">
+                    <img src="/static/img/latex/rightarrow.png" alt = "\rightarrow">
+                    <img src="/static/img/latex/cLeftarrow.png" alt = "\Leftarrow">
+                    <img src="/static/img/latex/cRightarrow.png" alt = "\Rightarrow">
+                    <img src="/static/img/latex/leftrightarrow.png" alt = "\leftrightarrow">
+                    <img src="/static/img/latex/cLeftrightarrow.png" alt = "\Leftrightarrow">
+                    <img src="/static/img/latex/mapsto.png" alt = "\mapsto">
+                    <img src="/static/img/latex/longmapsto.png" alt = "\longmapsto">
+                    <img src="/static/img/latex/leftharpoonup.png" alt = "\leftharpoonup">
+                    <img src="/static/img/latex/rightharpoonup.png" alt = "\rightharpoonup">
+                    <img src="/static/img/latex/leftharpoondown.png" alt = "\leftharpoondown">
+                    <img src="/static/img/latex/rightharpoondown.png" alt = "\rightharpoondown">
+                    <img src="/static/img/latex/longleftarrow.png" alt = "\longleftarrow">
+                    <img src="/static/img/latex/longrightarrow.png" alt = "\longrightarrow">
+                    <img src="/static/img/latex/cLongleftarrow.png" alt = "\Longleftarrow">
+                    <img src="/static/img/latex/cLongrightarrow.png" alt = "\Longrightarrow">
+                    <img src="/static/img/latex/longleftrightarrow.png" alt = "\longleftrightarrow">
+                    <img src="/static/img/latex/cLongleftrightarrow.png" alt = "\Longleftrightarrow">
+                    <img src="/static/img/latex/uparrow.png" alt = "\uparrow">
+                    <img src="/static/img/latex/downarrow.png" alt = "\downarrow">
+                    <img src="/static/img/latex/cUparrow.png" alt = "\Uparrow">
+                    <img src="/static/img/latex/cDownarrow.png" alt = "\Downarrow">
+                    <img src="/static/img/latex/updownarrow.png" alt = "\updownarrow">
+                    <img src="/static/img/latex/cUpdownarrow.png" alt = "\Updownarrow">
+                    <img src="/static/img/latex/hookleftarrow.png" alt = "\hookleftarrow">
+                    <img src="/static/img/latex/hookrightarrow.png" alt = "\hookrightarrow">
+                    <img src="/static/img/latex/rightleftharpoons.png" alt = "\rightleftharpoons">
+                    <img src="/static/img/latex/leadsto.png" alt = "\leadsto">
+                    <img src="/static/img/latex/nearrow.png" alt = "\nearrow">
+                    <img src="/static/img/latex/nwarrow.png" alt = "\nwarrow">
+                    <img src="/static/img/latex/searrow.png" alt = "\searrow">
+                    <img src="/static/img/latex/swarrow.png" alt = "\swarrow">
+                </div>
+            </div>
+            <div id="rightSearch">
+                <div id="Math">
+                    <div id="MathPreviewContent"></div>
+                    <div id="MathBufferContent"><div>
+                </div>
+            <div>
+        </div>
     </div><!-- /.navbar-collapse -->
 </nav>
+<div class="getResult">
+    <span class="titles"></span>
+    <a href="#" class="remind"></a>
+    <ul>
+        <li><a href="#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
+        <li><a href"#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
+        <li><a href="#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
+        <li><a href"#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
+    </ul>
+    <div class="know">
+        <button class="know-button">知道了</button>
+    </div>
+</div>

@@ -1,34 +1,204 @@
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
+*{
+    padding:0;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
+html,body{
+    width: 100%;
+    height: 100%;
 }
-.form-signin .checkbox {
-  font-weight: normal;
+.loadingModule{
+    position: absolute;
+    height: 2px;
+    background: #a71f36;
+    left: 0;
+    top: 0;
+    z-index: 999;
 }
-.form-signin .form-control {
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+#lateXContent img{
+    border:1px solid #aaa;
+     border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    margin:3px;
+    margin-left: 3.3px;
+    cursor: pointer;     
 }
-.form-signin .form-control:focus {
-  z-index: 2;
+#lateXContent{
+    width: 40%;
+    max-width: 40%;
+    position:relative;
+    z-index: 999;
+    margin-top: 50px;
+    display: none;
 }
-.form-signin input[type="text"] {
-  margin-bottom: -1px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+#rightSearch{
+    position: absolute;
+    height: 88%;
+    width: 30%;
+    left: 650px;
+    top: 52px;
+    display: none;
 }
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+
+.lateX-listContent{
+    width: 100%;
+    height: 30px;
+}
+.lateX-list-ulContent{
+    width: 100%;
+    height: 30px;
+    list-style: none;
+}
+.lateX-list-liContent{
+    width: 16.667%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border:1px solid #000;
+    background: #fff;
+    float: left;
+    border-radius:5px 5px 0px 0px;
+    -o-border-radius:5px 5px 0px 0px;
+    -moz-border-radius:5px 5px 0px 0px;
+    -webkit-border-radius:5px 5px 0px 0px;
+    cursor: pointer;
+}
+.showTableContent{
+    width: 100%;
+    height: 180px;
+    border:1px solid #aaa;
+    border-top: none;
+    background: #fff;
+    border-radius:0px 0px 5px 5px;
+    -o-border-radius:0px 0px 5px 5px;
+    -moz-border-radius:0px 0px 5px 5px;
+    -webkit-border-radius:0px 0px 5px 5px;   
+    display: none;
+}
+.show{
+    display: block;
+}
+.actives{
+    font-weight: bold;
+    border-bottom: none;
+    background: #f9f9f9;
+}
+.shadow{
+    box-shadow: 1px 1px 10px solid #aaa !important;
+}
+.login > a,.reg > a{
+    padding-left:5px !important;
+    padding-right:5px !important;
+}
+.pull-right{
+    list-style: none;
+}
+.navbar-text{
+    margin: 0 !important;
+}
+.list{
+    float: left;
+    padding:15px 18px;
+    height: 100%;
+}
+.list a{
+    color: #333 !important;
+}
+.listClick{
+    background: #e7e7e7;
+}
+.dropdown-menu{
+    position: absolute;
+    z-index: 999;
+    width: 100px;
+}
+.red-circle{
+    width: 13px;
+    height: 13px;
+    border-radius: 5px;
+    -o-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: #f00;
+    position: absolute;
+    z-index: 332;
+    color: #fff;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 3px;
+}
+.padding{
+    padding-right: 5px;
+}
+.username{
+    padding: 15px 5px;
+}
+.getResult{
+    width: 300px;
+    height: 300px;
+    background: #fff;
+    border:1px solid #e0e0e0;
+    position: absolute;
+    z-index: 1000;
+    top: 50px;
+    color:#b4b4b4;
+    display: none;
+}
+.titles{
+    color: green;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 12px;
+}
+.remind{
+    color: #2b8fc2;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 12px;
+}
+.know{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    background: #f6f6f6;
+}
+.know-button{
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    margin-left: -50px;
+    margin-top: -15px;
+    left: 50%;
+    top: 50%;
+    border: 1px solid #eee;
+    font-weight: thin;
+    background: none;
+    color: #b4b4b4;
+    outline: none;
+}
+.know-button:hover{
+    color: #000;
+}
+.getResult ul{
+    list-style: none;
+    position: absolute;
+    top: 40px;
+    padding:0 5px;
+}
+.getResult ul li{
+    height: 50px;
+    padding: 5px 0;
+    margin: 3px 0;
+    border-bottom: 1px dashed #aaa;
+}
+.getResult ul li a{
+    color: #999;
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: Arial,Helvetica,sans-serif;
 }

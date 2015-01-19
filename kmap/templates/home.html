@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title> Home </title>
+    <title>(๑•́ ₃ •̀๑)~尤於－主頁( *・ω・)✄╰ひ╯</title>
 {% endblock %}
 
 {% block content %}
@@ -18,6 +18,10 @@
 	<svg id="svg" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"></svg>
 </div>
 <!--svg模块结束-->
+
+<!--缩放显示模块-->
+<div class="scale"></div>
+<!--缩放显示模块结束-->
 
 <!--缩放模块-->
 <div id="scale">
@@ -36,78 +40,6 @@
 
 
 {% block js %}
-    <script src="/static/js/d3.v2.js"></script>
-    <script type="text/javascript">
-		var	svg_width = $("#kmap-overview").width(),
-			svg_height = $("#kmap-overview").height(),
-			scaleX = svg_width,
-			scaleY = svg_height,
-			posX = 100,
-			posY = 100,
-			scale = 1,
-			flag = false,
-			string = '<li data-url="{url}"><span class="title">{name}</span><span>{brief}</span></li>';
-
-		$("svg").attr('width',svg_width+"px").attr('height',svg_height+"px");
-		document.getElementById("svg").setAttribute('viewBox','0,0,' + scaleX+"," + scaleY);
-
-		var strFormatObj = function (){
-			if((arguments.length <= 0) || (typeof arguments[0] != "string"))
-				return null;
-			var value = arguments[0],result="";
-			for(var i in arguments[1]){
-				for(var key in arguments[1][i]){
-					var reg = new RegExp('\\{'+ key +'\\}','m');
-					value = value.replace(reg, arguments[1][i][key])
-				}
-				result += value;
-				value = arguments[0];
-			}
-			return result;
-		};
-
-		var color = d3.scale.category20();//设置20种颜色类别
-
-		var svg = d3.select("svg");
-
-		$(".add").bind('click',function (){
-			return false;
-			scale *= 1.1;
-			scaleX /= 1.1,
-			scaleY /= 1.1;
-			document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+scaleX+','+scaleY+'');
-			$(".scale").html('放大X'+scale.toFixed(1));
-			setTimeout(function (){$(".scale").html('')},500);
-		});
-
-		$(".min").bind('click',function (){
-			return false;
-			scale /= 1.1;
-			scaleX *= 1.1,
-			scaleY *= 1.1;
-			document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+scaleX+','+scaleY+'');
-			$(".scale").html('放大X'+scale.toFixed(1));
-			setTimeout(function (){$(".scale").html('')},500);
-		});
-
-		$(".logoSearch").click(function(){
-			$("#search").css("display") == "none" ?($(".logoSearch").find('a').animate({'paddingLeft':'400px'},500),setTimeout(function (){$("#search").fadeIn(300)},500) ): ($("#search").fadeOut("50"),$(".logoSearch").find('a').animate({"paddingLeft":"15px"},500));
-		});
-
-		$(".openlist").click(function (){
-			if(!flag){
-				$("#kmap-overview").animate({"left":"20%"},200);
-				$("#list").animate({"width":"20%"},200);
-				$("#list > ul > li").css("borderBottom","1px solid #000");
-			}else{
-				$("#kmap-overview").animate({"left":"0%"},200);
-				$("#list").animate({"width":"0%"},200);
-				$("#list > ul > li").css("borderBottom","none");	
-			}
-			flag = !flag;
-		});
-
-    </script>
-    <script type="text/javascript" src="/static/js/index.js"></script>
-
+<script src="/static/js/d3.v2.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
 {% endblock %}

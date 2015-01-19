@@ -7,6 +7,11 @@ html,body{
 	height: 100%;
 	overflow: hidden;
 }
+.navbar-brand{
+    vertical-align: middle;
+    font-family: "Marker Felt";
+    font-size: 90%;
+}
 .rect{
 	fill: pink;
 	cursor: pointer;
@@ -62,20 +67,82 @@ html,body{
 	font-size: 7.5pt;
 	cursor: pointer;
 }
-#search,#search > form,#search > form > div{
+.iconGroup{
+    position: absolute;
+    height: 20px;
+    width: 70px;
+    top: 15px;
+    right: 20px;
+}
+#search{
 	position: absolute;
 	height: 50px;
 	vertical-align: middle;
 	width: 350px;
-	margin-top:2px;
-	left: 230px;
 }
 #search{
-	display: none;
+	display: inline-block;
 }
-#search > form,#search > form > div{
-	left: 0;
-	margin:0;
+.searchSpan{
+    position: absolute;
+    padding:15px 5px;
+    cursor: pointer;
+}
+.right{
+    position: absolute;
+    right: 0px;
+}
+.searchSpan:hover{
+    color: #aaa;
+}
+.search{
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    left: 0px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+    outline: none;
+    border:none;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    background: #fff;
+    color: #aaa;
+    padding-left: 10px;
+    padding-right: 50px;
+    cursor: text;
+    margin-left: 20px;
+    line-height: 30px;
+    overflow: auto;
+}
+.searchIcon{
+    position: relative;
+}
+.searchIcon:hover{
+    color: #aaa;
+    cursor: pointer;
+}
+.scaleIcon{
+    cursor: pointer;
+    visibility: hidden;
+}
+.scaleIcon:hover{
+    color:#aaa;
+}
+.sum{
+    position: relative;
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    padding:0 5px;
+    font-family: "Adobe Garamond Pro";
+}
+.sum:hover{
+    color: #aaa;
 }
 #scale{
 	width: 100%;
@@ -90,8 +157,8 @@ html,body{
 }
 .scale{
 	position: absolute;
-	z-index: 1000;
-	right: 0;
+	z-index: 90;
+	right: 30px;
 	top: 70px;
 	width: 100px;
 	height: 30px;
@@ -99,6 +166,20 @@ html,body{
 	font-family: "微软雅黑";
 	line-height: 30px;
 	text-align: center;
+}
+#MathInputSearch{
+    width: 513px;
+    border:none;
+    margin-bottom: 15px;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    padding:10px;
+    resize:none;
+    outline: none;
+    overflow: auto;
+    position: relative;
 }
 .navbar{
 	border-radius: 0;

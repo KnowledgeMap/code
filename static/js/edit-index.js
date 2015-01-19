@@ -120,39 +120,9 @@ var buttonEvent = (function (button) {
 			$(".floatDiv").remove();
 		}
 
+        //高亮显示选定的边
 		higShow(svgEvent.temp);
 	}
-
-//Django+Python中ajax的安全性
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?  
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
 
 //双击节点之后表示选择结束，该节点为最终目标节点
 	svgEvent.dbclickG = function (dom){
@@ -208,22 +178,33 @@ $.ajaxSetup({
 			$("#MathInput").trigger("keyup");
 
             bindClick();
+
+            $("body").on('keydown',function (e){
+                var e = e || event;
+                e.keyCode == 27 ? $("#cover").css("display","none") : "";
+            });
 		}
 
         function bindClick(){
             $("#cover").on('click','button',function (){
-                    
+                
+                $("#MathInput").trigger("keydown");
+
                 var MathPreview = $("#MathPreview").find("script").text(),
                     MathBuffer = $("#MathBuffer").find("script").text(),
                     value = "",
-                    num = $("#cover").attr("data-index");
+                    num = $("#cover").attr("data-index"),
+                    inputData = $("#MathInput").val();
 
                 MathPreview.length > MathBuffer.length ? value = $("#MathPreview").html() : value = $("#MathBuffer").html();
+
                 if(MathPreview.length == MathBuffer.length){
                     value = $("#MathBuffer").html();
                 }
 
                 node[num]["name"] = value;
+
+                node[num]["LaTeX"] = inputData;
 
                 $("#cover").css("display","none");
 
@@ -231,6 +212,57 @@ $.ajaxSetup({
                     
             });
         }
+
+        //Django+Python中ajax的安全性
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?  
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        function sameOrigin(url) {
+            // test that a given url is a same-origin URL
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                !(/^(\/\/|http:|https:).*/.test(url));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
 
 		$.ajax({
 			url : "/kmap/result/",
@@ -377,7 +409,7 @@ $.ajaxSetup({
         var x = $("<div class='time'><div class='timeSpan' data-index = '" + svgEvent.count + "'></div></div>");
         svgEvent.count++;
         $("#timeLine").append(x);
-        x.animate({"height":"100px"},500);
+        x.animate({"height":"60px"},500);
     }
 
     $("#timeLine").on('mouseenter','.timeSpan',function (e){
@@ -435,6 +467,33 @@ $.ajaxSetup({
             x.html("返回上一步");
         $("body").append(x);
     }
+
+    $("body").on('keydown',function (e){
+        var e = e || event;
+        if((e.ctrlKey && e.keyCode == 90) || (e.metaKey && e.keyCode == 90)){
+
+            if($(".time").length == 1) return false;
+
+            nodesArr.pop();
+
+            var o = nodesArr[nodesArr.length - 1],arr = [];
+            for(var i = 0; i < o.length; i++){
+                var names = o[i]["name"],groups = o[i]["group"],xx = o[i]["x"],yy = o[i]["y"];
+                arr.push(new Object({name : names, group : groups, x : xx, y : yy}));
+            }    
+
+            linksArr.pop();
+            svgEvent.nodes = arr;
+            svgEvent.allLinksData = linksArr[linksArr.length - 1];
+            svgEvent.group = svgEvent.nodes.length;
+            svgEvent.loading({data : linksArr[linksArr.length - 1], allnode : svgEvent.nodes});  
+
+            $(".time").last().animate({"height" : "0px"},500,function (){
+                $(".time").last().remove();
+                $(".time").last().find(".timeSpan").removeClass("small");
+            });
+        }
+    });
 
 	svgEvent.loading = function (obj){
 
@@ -574,6 +633,7 @@ $.ajaxSetup({
 			path.attr("refer", function (d){return d.refer ? d.refer.index : "";});
             path.attr("id" , function (d){return d.id});
             path.attr("eig", function (d){return d.eig});
+            path.attr("offset",function (d){return d.offset});
 		  	rect.attr("transform", transform);
 		  	text.attr("transform", transformText);
 		}
@@ -735,29 +795,52 @@ $.ajaxSetup({
 			return;
 		if(higShowVar.length <= 0)
 			return;
-		var re = arr.sort(), path = $(".path");
-		for(var i = 0; i < path.length; i++){
-			for(var j = 0; j < re.length; j++){
-				if($(path[i]).attr("source") == re[j]){
-					for(var k = 0; k < re.length; k++){
-						if($(path[i]).attr("target") == re[k]){
-							if($(path[i]).attr("refer")){
-								for(var m = 0; m < re.length; m++){
-									if($(path[i]).attr("refer") == re[m]){
-										$(path[i]).css("stroke","#f00");
-										changeMarkerCompare(path[i]);
-									}
-								}
-							}else{
-								$(path[i]).css("stroke","#f00");
-								changeMarkerCompare(path[i]);
-							}
-						}
-					}
-				}
-			}
-		}
+		var re = arr.sort();
 
+        $(".path").filter(function (){
+            var flag = false;
+            for(var i = 0; i < re.length; i++){
+                if(re[i] == $(this).attr("source"))
+                    flag = true;
+            }
+            return flag;
+        }).filter(function (){
+            var flag = false;
+            for(var i = 0; i < re.length; i++){
+                if(re[i] == $(this).attr("target")){
+                    flag = true;
+                }
+            }
+            return flag;
+        }).filter(function (){
+            if(!$(this).attr("refer")){
+                changeMarkerCompare(this);
+                return true;
+            }else{
+                if(($(this).attr("offset") != "both") && $(this).attr("marker-start") && $(this).attr("marker-end")){
+                    
+                    for(var i = 0; i < re.length; i++){
+                        if(re[i] == $(this).attr("refer")){
+                            changeMarkerCompare(this);
+                            return true;
+                        }
+                    }
+
+                    changeMarkerCompareSingle(this);
+                    return true;
+                }
+                else{
+                    var flag = false;
+                    for(var i = 0; i < re.length; i++){
+                        if(re[i] == $(this).attr("refer")){
+                            flag = true;
+                            changeMarkerCompare(this);
+                        }
+                    }
+                    return flag;
+                } 
+            }
+        }).css("stroke","#f00");
 	}
 
 	function detail(context){
@@ -794,11 +877,22 @@ $.ajaxSetup({
 		}		
 	}
 
+    function changeMarkerCompareSingle(path){
+        var x = $(path).attr("offset");
+        switch(x){
+            case "end"      : $(path).attr("marker-start","url(#start-red)");break;
+            case "start"    : $(path).attr("marker-end","url(#end-red)");break;
+        }
+    }
+
 })(window.buttonEvent || {})
 
 $(document).ready(function (){
+
 		var count = 0;
-		comm.changeActive(1);
+
+        $(".searchSpan").css("visibility","hidden");
+
 		svg_width = $(".drawBord").width(),
 		svg_height = $(".drawBord").height();
 			
@@ -832,7 +926,7 @@ $(document).ready(function (){
         });
 
 		$("#MathInput").on('keydown',function (){
-			 Preview.Update(); 
+			 Previewa.Update(); 
 			 count++;
 			 if(count % 70 == 0){
 			 	$(this).val($(this).val() + '\r\n');
@@ -868,17 +962,8 @@ $(document).ready(function (){
             $("#commitData").animate({"right" : "10px"},400);
         });
 
-
-        $(".run").animate({"width":"100%"},500);
-        var set = setInterval(function(){
-            var x = $(".run").css("width");
-            if(x == "300px"){
-                setTimeout(function (){
-                    $("#loading").fadeOut();
-                    $("#timeLine").animate({"left" : "20px"},500);
-                },500);
-                clearInterval(set);
-            }
+        var set = setTimeout(function(){
+            $("#timeLine").animate({"left" : "20px"},500);
         },500);
 
 });

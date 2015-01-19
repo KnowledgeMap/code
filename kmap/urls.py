@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     url(r'^edit/$', 'kmap.views.edit', name = 'edit'),
     url(r'^help/$', 'kmap.views.help', name = 'help'),
     url(r'^admin/$', 'kmap.views.admin', name = 'admin'),
+    url(r'^infor/$', 'kmap.views.infor', name = 'information'),
 
     url(r'^net/$', 'kmap.views.get_net', name='net'),  # current default
     url(r'^net1/$', 'kmap.views.get_net1', name='net1'),

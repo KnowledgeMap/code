@@ -1,4 +1,4 @@
-var Preview = {
+var Previewa = {
   delay: 15,        // delay after keystroke before updating
 
   preview: null,     // filled in by Init below
@@ -40,7 +40,7 @@ var Preview = {
   }
 
 };
-Preview.callback = MathJax.Callback(["CreatePreview",Preview]);
-Preview.callback.autoReset = true;  // make sure it can run more than once
+Previewa.callback = MathJax.Callback(["CreatePreview",Previewa]);
+Previewa.callback.autoReset = true;  // make sure it can run more than once
 
-Preview.Init();
+Previewa.Init();

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+<title>知识地图-登录</title>
+{% endblock %}
+
+{% block css %}
+<link href="/static/css/account.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="/static/css/login-index.css">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>注册</h2>
+</div>
+
+
+{% if form.errors %}
+<span class="help-block">
+    <label class="error">用户名/Email或密码错误，请重新输入！</label>
+</span>
+{% endif %}
+
+<form method="post" class="form-signin">{% csrf_token %}
+    {% render_field form.username class="form-control" placeholder="用户名/Email" %}
+    {% render_field form.password class="form-control" placeholder="密码" %}
+    <label class="checkbox">
+        <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <input type="hidden" name="next" value={{ next|default:"/"}} />
+    <button type="submit" class="btn  btn-primary btn-large btn-block"> 登录 </button>
+    <a class="login-link" href="#">忘记密码？</a>
+</form>
+{% endblock %}

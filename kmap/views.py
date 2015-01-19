@@ -5,11 +5,14 @@ from django.http import HttpResponse
 from kmap.models import kGraph, Proposition, Relation
 from core import naive
 
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.core.context_processors import csrf
+
 import json
 
 def home(request):
-    content = dict()
-    return render_to_response('home.html', RequestContext(request, content))
+  content = dict()
+  return render_to_response('home.html', RequestContext(request, content))
 def edit(request):
 	content = dict()
 	return render_to_response('edit.html', RequestContext(request, content))
@@ -19,6 +22,9 @@ def help(request):
 def admin(request):
 	content = dict()
 	return render_to_response('admin.html',RequestContext(request, content))
+def infor(request):
+    content = dict()
+    return render_to_response('infor.html',RequestContext(request, content))
 
 def get_algorithm(request):
     response_data = [

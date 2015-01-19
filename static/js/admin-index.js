@@ -1,3 +1,3 @@
 (function (){
-	comm.changeActive(2);
+    $(".searchSpan").css("visibility","hidden");
 })();

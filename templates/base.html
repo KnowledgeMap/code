@@ -4,11 +4,15 @@
 {% block title %}{% endblock %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf8">
+<link rel="shortcut icon"href="/static/img/facion.ico"> 
 <!-- Bootstrap -->
 <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="/static/css/index.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="/static/css/account.css">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/hire.js"></script>
+<script type="text/javascript">$(".loadingModule").animate({"width":"20%"},800)</script>
 {% block css %}{% endblock %}
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -16,13 +20,70 @@
 <script src="/static/js/html5shiv.js"></script>
 <script src="/static/js/respond.min.js"></script>
 <![endif]-->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    showProcessingMessages: true,
+    tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+  });
+</script>
+<script src="/static/js/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
+<script type="text/javascript">$(".loadingModule").animate({"width":"30%"},800)</script>
     {% include 'navbar.html' %}
     {% block content %}{% endblock %}
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/static/js/common.js"></script>
+<script type="text/javascript">$(".loadingModule").animate({"width":"70%"},1000)</script>
 {% block js %}{% endblock %}
+<script type="text/javascript">
+    var Preview = {
+      delay: 15,        // delay after keystroke before updating
+
+      preview: null,     // filled in by Init below
+      buffer: null,      // filled in by Init below
+
+      timeout: null,     // store setTimout id
+      mjRunning: false,  // true when MathJax is processing
+      oldText: null,     // used to check if an update is needed
+
+      Init: function () {
+        this.preview = document.getElementById("MathPreviewContent");
+        this.buffer = document.getElementById("MathBufferContent");
+      },
+      SwapBuffers: function () {
+        var buffer = this.preview, preview = this.buffer;
+        this.buffer = buffer; this.preview = preview;
+        buffer.style.visibility = "hidden"; buffer.style.position = "absolute";
+        preview.style.position = ""; preview.style.visibility = "";
+      },
+      Update: function () {
+        if (this.timeout) {clearTimeout(this.timeout)}
+        this.timeout = setTimeout(this.callback,this.delay);
+      }, 
+      CreatePreview: function () {
+        Preview.timeout = null;
+        if (this.mjRunning) return;
+        var text = document.getElementById("MathInputSearch").value;
+        if (text === this.oldtext) return;
+        this.buffer.innerHTML = this.oldtext = text;
+        this.mjRunning = true;
+        MathJax.Hub.Queue(
+          ["Typeset",MathJax.Hub,this.buffer],
+          ["PreviewDone",this]
+        );
+      },
+      PreviewDone: function () {
+        this.mjRunning = false;
+        this.SwapBuffers();
+      }
+
+    };
+    Preview.callback = MathJax.Callback(["CreatePreview",Preview]);
+    Preview.callback.autoReset = true;  // make sure it can run more than once
+
+    Preview.Init();
+</script>
+<script type="text/javascript" src="/static/js/base.js"></script>
 </body>
 </html>

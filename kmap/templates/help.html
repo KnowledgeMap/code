@@ -1,78 +1,81 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title> ABOUT </title>
+    <title>(๑•́ ₃ •̀๑)~尤於－關於我們( *・ω・)✄╰ひ╯</title>
 {% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
     <link rel="stylesheet" href="/static/css/help-index.css">
 {% endblock%}
 
 {% block content %}
 <div id="content">
-	<div id="ticker" class="section section1">
-		<div>
-            <h1>我们做什么</h1>
-        </div>
-	</div>
-	<div class="section section2">
-        <p>我们致力于，实现一个可以将知识的逻辑结构可视化并实现自动推理的知识表示模型</p>
-        <p>翻译成普通话就是：基于命题关系和布尔逻辑构造一个能自动推理的只是地图</p>
-	</div>
-	<div class="section section3">
-	    <h1>知识地图是什么</h1>
-	</div>
-	<div class="section section4">
-		<blockquote>
-			  命题是节点，关系是边。这样就有了一个地图
-	    </blockquote>
-        <p>其中，关系主要指命题间的充分必要关系。定义也是一种命题，所以，每一个命题都是一个知识点，每个知识点都可以转化成为一个命题。</p>
-	</div>
-	<div class="section section5">
-		<h1>知识地图有什么用</h1>
-	</div>
-	<div class="section section6">
-        <p>1). 学习导航。如果想搞懂某个知识点的来龙去脉，需要一次学习哪些知识点。</p>
-        <p>2). 辅助规划。当前掌握的知识有什么分布特点，如何扬长，如何补短。学会了某个知识点能怎么样。</p>		
-	</div>
-	<div class="section section7">
-		<h1>项目进展到了什么阶段</h1>
-	</div>
-	<div class="section section8">
-		<p>项目的核心是：命题逻辑与自动推理</p>
-            <blockquote>我们已经有了解决方案，并且拿到了专利</blockquote>
-        <p>运营的关键是：高质量的数据积累</p>
-            <blockquote>前期主要依靠深度用户人工贡献保证质量和准确度，我们已完成专用编辑器的开发</blockquote>
-        <p>后期会引入一定的自动生成地图的机制提高效率</p>
-	</div>
-	<div class="section section9">
-		<h1>参与体验--构建自己的知识地图</h1>
-	</div>
-	<div class="section section10">
-		<p>通过导航栏可以进入编辑地图页面，一个空白的页面等待您的手势操作</p>
-        <p>空白处双击，创建新节点</p>
-        <p>单击A，双击B，意味着A能够推导出B</p>
-        <p>单击A、B，双击C，意味着A，B能联合推导出C</p>
-        <img src="/static/img/pupupu.png">
-	</div>
-    <div class="section section11">
-        <h1>自动推理</h1>
-    </div>  
-    <div class="section section12">
-        <p>使用案例，已有关系A,B->C和A,D->C</p>
-        <p>加入新关系A->C后，B，D变成游离节点</p>
-    </div>  
-    <div class="section section13">
-        <h1>团队秀</h1>
-    </div>
-    <div class="section section14">
-        
-    </div>
+    <h1>1.我们做什么</h1>
+
+    <pre><code>  
+  我们致力于，实现一个可以将知识的逻辑结构可视化并实现自动推理的知识表示模型
+  翻译成普通话就是：基于命题关系和布尔逻辑，构造一个能自动推理的知识地图。
+    </code></pre>
+
+    <h1>2.知识地图是什么</h1>
+
+    <pre><code>    
+  命题是节点，关系是边。这样就有了一个地图。
+  其中，关系主要指命题间的充分必要关系。定义也是一种命题，所以，每一个命题都是一个知识点，每个知识点都可以转换成为一个命题。
+    </code></pre>
+
+    <h1>3.知识地图有什么用</h1>
+
+    <pre><code>    
+  1. 学习导航。如果向搞懂某个知识点的来龙去脉，需要一次学习哪些知识点。
+  2. 辅助规划。当前掌握的知识点有什么分布特点，如何扬长，如何补短。学会了某个知识点能够怎么样
+    </code></pre>
+
+    <h1>4.项目进展到了什么阶段</h1>
+
+    <pre><code>    
+  项目的核心是：命题逻辑与自动推理
+  我们已经有了解决方案，并且拿到了专利。
+  运营的关键是：高质量的数据积累。
+  前期主要依靠深度用户人工贡献保证质量和准确度。我们已经完成专用编辑器的开发。后续会引入一定的自动生成地图的机制，提高效率。
+    </code></pre>
+
+    <h1>5.参与体验--构建自己的知识地图</h1>
+
+    <pre><code>    
+  通过导航栏可进入编辑地图页面（已登陆状态），一个空白的页面等待着您的操作。
+  空白处双击，创建新节点。
+    </code></pre>
+
+    <p><img src="/static/img/dbclick.gif" alt="&quot;双击出现节点&quot;" title="双击出现节点" /></p>
+
+    <pre><code>    单击A，双击B，意味着A，B能联立推导出B。
+    </code></pre>
+
+    <p><img src="/static/img/links.gif" alt="&quot;双击出现节点&quot;" title="双击出现节点" /></p>
+
+    <h1>6.自动推理</h1>
+
+    <pre><code>    
+  使用案例，已有关系A，B－&gt;C和关系A，D－&gt;C
+  加入新关系A-&gt;C后，B,D变成游离节点
+    </code></pre>
+
+    <p><img src="/static/img/relation.gif" alt="&quot;双击出现节点&quot;" title="双击出现节点" /></p>
+
+    <h1>7.团队秀</h1>
+
+    <p><img src="/static/img/team.JPG" alt="&quot;双击出现节点&quot;" title="双击出现节点" /></p>
+
+    <h1>8.联系我们</h1>
+
+    <pre><code>    邮箱：lixvow@gmail.com
+         speedcell4@gmail.com
+    地址：陕西省西安市雁塔区科技路48号创业广场座一楼
+    </code></pre>
+
 </div>
 {% endblock %}
 
 {% block js%}
-<script src="/static/js/jquery-ui-1.10.3.min.js"></script>
-<script src="/static/js/jquery.fullPage.min.js"></script>
 <script type="text/javascript" src="/static/js/help-index.js"></script>
 {% endblock%}
