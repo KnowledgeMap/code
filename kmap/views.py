@@ -22,6 +22,12 @@ def help(request):
 def admin(request):
 	content = dict()
 	return render_to_response('admin.html',RequestContext(request, content))
+def win(request):
+    content = dict()
+    return render_to_response('win.html',RequestContext(request, content))
+def tip(request):
+    content = dict()
+    return render_to_response('tip.html',RequestContext(request, content))
 def infor(request):
     content = dict()
     return render_to_response('infor.html',RequestContext(request, content))

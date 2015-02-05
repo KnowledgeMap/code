@@ -12,6 +12,10 @@ html,body{
     left: 0;
     top: 0;
     z-index: 999;
+    box-shadow: 5px 1px 5px #a71f36;
+    -o-box-shadow: 5px 1px 5px #a71f36;
+    -moz-box-shadow: 5px 1px 5px #a71f36;
+    -webkit-box-shadow: 5px 1px 5px #a71f36;
 }
 #lateXContent img{
     border:1px solid #aaa;
@@ -111,6 +115,7 @@ html,body{
     position: absolute;
     z-index: 999;
     width: 100px;
+    left: -110px;
 }
 .red-circle{
     width: 13px;
@@ -119,12 +124,12 @@ html,body{
     -o-border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    background: #f00;
+    background: #ff7979;
     position: absolute;
     z-index: 332;
     color: #fff;
     font-size: 10px;
-    line-height: 13px;
+    line-height: 14px;
     text-align: center;
     vertical-align: middle;
     margin-left: 3px;
@@ -189,9 +194,10 @@ html,body{
     position: absolute;
     top: 40px;
     padding:0 5px;
+    width: 100%;
 }
 .getResult ul li{
-    height: 50px;
+    width: 100%;
     padding: 5px 0;
     margin: 3px 0;
     border-bottom: 1px dashed #aaa;

@@ -1,0 +1,326 @@
+*{
+    padding:0;
+    margin:0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.navbar-brand{
+    vertical-align: middle;
+    font-family: "Marker Felt";
+    font-size: 90%;
+}
+.rect{
+    fill: pink;
+    cursor: pointer;
+}
+
+#kmap-overview{
+    position:absolute;
+    left:0%;
+    top:50px;
+    width:100%;
+    height:100%;
+    z-index:2;
+    box-shadow: -5px 1px 10px #000;
+    -webkit-box-shadow:-5px 1px 10px #000;
+}
+.openlist{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 5px;
+    top: 5px;
+    border:none;
+    cursor: pointer;
+}
+#list{
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    left: 0;
+    top: 50px;
+    background: #4c4c4c;
+}
+#list > ul{
+    list-style:none;
+    width: 100%;
+    height: 100%;
+}
+#list > ul >li{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    color: #fff;
+    font-family: 30px;
+    padding-left:20px;
+    cursor: pointer;
+    box-sizing:border-box;
+}
+.label{
+    fill: black;
+    font-family: Arial;
+    font-size: 7.5pt;
+    cursor: pointer;
+}
+.iconGroup{
+    position: absolute;
+    height: 20px;
+    width: 70px;
+    top: 15px;
+    right: 20px;
+}
+#search{
+    position: absolute;
+    height: 50px;
+    vertical-align: middle;
+    width: 350px;
+}
+#search{
+    display: inline-block;
+}
+.searchSpan{
+    position: absolute;
+    padding:15px 5px;
+    cursor: pointer;
+}
+.right{
+    position: absolute;
+    right: 0px;
+}
+.searchSpan:hover{
+    color: #aaa;
+}
+.search{
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    left: 0px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+    outline: none;
+    border:none;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    background: #fff;
+    color: #aaa;
+    width: 89%;
+    padding-left: 10px;
+    padding-right: 50px;
+    cursor: text;
+    margin-left: 20px;
+    line-height: 30px;
+    overflow: auto;
+}
+.searchIcon{
+    position: relative;
+}
+.searchIcon:hover{
+    color: #aaa;
+    cursor: pointer;
+}
+.scaleIcon{
+    cursor: pointer;
+    visibility: hidden;
+}
+.scaleIcon:hover{
+    color:#aaa;
+}
+.sum{
+    position: relative;
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    padding:0 5px;
+    font-family: "Adobe Garamond Pro";
+}
+.sum:hover{
+    color: #aaa;
+}
+#scale{
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 20px;
+    z-index: 2;
+}
+.scaleContent{
+    width: 100px;
+    margin:0 auto;
+}
+.scale{
+    position: absolute;
+    z-index: 90;
+    right: 30px;
+    top: 70px;
+    width: 100px;
+    height: 30px;
+    color: #000;
+    font-family: "微软雅黑";
+    line-height: 30px;
+    text-align: center;
+}
+#MathInputSearch{
+    width: 513px;
+    border:none;
+    margin-bottom: 15px;
+    border-radius:5px;
+    -o-border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    padding:10px;
+    resize:none;
+    outline: none;
+    overflow: auto;
+    position: relative;
+}
+.navbar{
+    border-radius: 0;
+    border:none;
+}
+button.btn,input.form-control{
+    border:none; !important;
+    box-shadow: none; !important;
+    -webkit-box-shadow:none; !important;
+}
+.path{
+  stroke: green;
+  stroke-width:4.5px;
+  fill : none;
+}
+.floatDiv{
+    position: absolute;
+    background: #eee;
+    z-index: 999;
+    width: 150px;
+    min-height: 50px;
+    line-height: 30px;
+    padding:3px;
+    text-align: center;
+}
+.floatDiv::after{
+    width: 0;
+    height: 0;
+    content : "";
+    position: absolute;
+    left: 65px;
+    bottom:-10px;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #eeeeee transparent transparent transparent;
+}
+#svg{
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+#opea{
+    position: absolute;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    border-left: 1px dashed #aaa;
+    padding-left: 10px;
+    padding-top: 20px;
+}
+#opea p, #opea h4{
+    width: 100%;
+    text-align: center;
+}
+#opea p button{
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius:none;
+    border:1px solid #ededed;
+    background: none;
+    outline: none;
+}
+#opea p button:hover{
+    background: #ededed;
+}
+.editLib button{
+    width: 45% !important;
+    margin:0 3px;
+}
+.thin{
+    font-weight: 100;
+    font-size: 12px;
+    margin-left: 10px;
+    padding:2px 3px;
+    border:1px solid #ededed;
+    cursor:pointer;
+    border-radius:2px;
+    -o-border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+}
+.thin:hover{
+    background: #ededed;
+}
+.head{
+    position: relative;
+    border:2px solid #aaa;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    margin:5px;
+    margin-left: -84px;
+    left: 50%;
+}
+.commim{
+    position: relative;
+    resize:none;
+    width: 90%;
+    margin-left: -45%;
+    left: 50%;
+    height: 100px;
+    margin-bottom: 10px;
+    border:1px solid #ededed;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    padding:10px;
+    outline: none;
+}
+.removeSpan{
+    display: block !important;
+    z-index: 3;
+    top: 15px !important;
+    left: 86%;
+    cursor: pointer;
+}
+.searchFri{
+    width: 92%;
+    margin: 0 10px;
+    border: 1px solid #ededed;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 1px;
+    padding-right: 25px;
+    outline: none;
+}
+.searchFriend{
+    top: -22px !important;
+    left: 87%;
+    z-index: 3;
+    cursor: pointer;
+}
+.removeSearch{
+    top: -42px !important;
+    padding-left: 3px;
+    font-weight: thin !important;
+    cursor: pointer;
+    z-index: 5;
+}

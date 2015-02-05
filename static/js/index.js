@@ -6,7 +6,11 @@ var svg_width = $("#kmap-overview").width(),
     posY = 0,
     scale = 1,
     flag = false,
-    string = '<li data-url="{url}"><span class="title">{name}</span><span>{brief}</span></li>';
+    string = '<li data-url="{url}"><span class="title">{name}</span><span>{brief}</span></li>',
+    svgEvent = {
+        "temp" : []
+    },
+    higShowVar = [];
 
 $("svg").attr('width',svg_width+"px").attr('height',svg_height+"px");
 
@@ -68,13 +72,131 @@ $(".openlist").click(function (){
     flag = !flag;
 });
 
+$("svg").on('click',function (e){
+    var dom = $(e.target).parent(),
+        rect = dom.find('rect'),
+        inner = rect.attr("group");
+
+    if(e.target.tagName == "svg"){
+        var x = $('g').find('rect');
+        for(var i = 0; i < x.length; i++){
+            $(x[i]).attr('class','rect');
+        }
+        svgEvent.temp = [];
+        $(".path").css("stroke","green");
+        changeMarker($(".path"));
+        return;
+    }
+    if(rect.attr('class').indexOf("clickedG") < 0) {    
+        rect.attr('class',rect.attr('class')+" clickedG");
+        svgEvent.temp.push(Number(inner));
+    }else{
+        rect.attr('class','rect');
+        $(".path").css("stroke","green");
+        changeMarker($(".path"));
+        for(var i = 0; i < svgEvent.temp.length; i++){
+            if(svgEvent.temp[i] == Number(inner)){
+                svgEvent.temp.splice(i, 1);
+            }
+        }
+    }
+
+    //高亮显示选定的边
+    higShow(svgEvent.temp);
+});
+
+function higShow(arr){
+    if(arr.length <= 1)
+        return;
+    if(higShowVar.length <= 0)
+        return;
+    var re = arr.sort();
+
+    $(".path").filter(function (){
+        var flag = false;
+        for(var i = 0; i < re.length; i++){
+            if(re[i] == $(this).attr("source"))
+                flag = true;
+        }
+        return flag;
+    }).filter(function (){
+        var flag = false;
+        for(var i = 0; i < re.length; i++){
+            if(re[i] == $(this).attr("target")){
+                flag = true;
+            }
+        }
+        return flag;
+    }).filter(function (){
+        if(!$(this).attr("refer")){
+            changeMarkerCompare(this);
+            return true;
+        }else{
+            if(($(this).attr("offset") != "both") && $(this).attr("marker-start") && $(this).attr("marker-end")){
+                
+                for(var i = 0; i < re.length; i++){
+                    if(re[i] == $(this).attr("refer")){
+                        changeMarkerCompare(this);
+                        return true;
+                    }
+                }
+
+                changeMarkerCompareSingle(this);
+                return true;
+            }
+            else{
+                var flag = false;
+                for(var i = 0; i < re.length; i++){
+                    if(re[i] == $(this).attr("refer")){
+                        flag = true;
+                        changeMarkerCompare(this);
+                    }
+                }
+                return flag;
+            } 
+        }
+    }).css("stroke","#f00");
+}
+
+function changeMarker(dom){
+        var x = dom;
+        for(var i = 0; i < x.length; i++){
+            if($(x[i]).attr("marker-start")){
+                $(x[i]).attr("marker-start","url(#start)");
+            }
+            if($(x[i]).attr("marker-end")){
+                $(x[i]).attr("marker-end","url(#end)");
+            }
+        }
+}
+function changeMarkerCompare(path){
+    if($(path).attr("marker-end")){
+        $(path).attr("marker-end","url(#end-red)");
+    }
+    if($(path).attr("marker-start")){
+        $(path).attr("marker-start","url(#start-red)");
+    }       
+}
+
+function changeMarkerCompareSingle(path){
+    var x = $(path).attr("offset");
+    switch(x){
+        case "end"      : $(path).attr("marker-start","url(#start-red)");break;
+        case "start"    : $(path).attr("marker-end","url(#end-red)");break;
+    }
+}
+
 function loading(data){
+    var group = 0;
 	d3.json(data, function(svgEvent,error) {
 		var newLink = [];
 		var links = svgEvent.links,
 			nodes = svgEvent.nodes;
 		for(var i = 0; i < links.length; i++){
 			var tempdata = links[i].path.split("_");
+                tempdata[1] = Number(tempdata[1]),
+                tempdata[2] = Number(tempdata[2]);
+            if(tempdata[3]) tempdata[3] = Number(tempdata[3]);
 			switch(Number(tempdata[0])){
 				case 1011 : newLink.push(new Object({source : tempdata[1], target : tempdata[2], refer : "", two : 0})) ; break;
 				case 1001 : newLink.push(new Object({source : tempdata[1], target : tempdata[2], refer : "", two : 1})) ; break;
@@ -85,19 +207,12 @@ function loading(data){
 				case 11101001 : newLink.push(new Object({source : tempdata[1], target : tempdata[3], refer : tempdata[2], two : 1, offset : "both"}));   newLink.push(new Object({source : tempdata[1], target : tempdata[2], refer : tempdata[3], two : 1, offset : "both"})) ;   newLink.push(new Object({source : tempdata[2], target : tempdata[3], refer : tempdata[1], two : 1, offset : "both"})); break;
 			}
 		}
-		for(var i = 0; i < newLink.length; i++){
-			for(var j = 0; j < nodes.length; j++){
-				if(nodes[j].name == newLink[i].source){
-					newLink[i].source = j
-				}
-				if(nodes[j].name == newLink[i].target){
-					newLink[i].target = j;
-				}
-				if(nodes[j].name == newLink[i].refer){
-					newLink[i].refer = j;
-				}
-			}
-		}
+
+        higShowVar = newLink;
+
+        for(var i = 0; i < nodes.length; i++){
+            nodes[i].group = group++;
+        }
 
 		force = d3.layout.force()
 					.nodes(d3.values(nodes))
@@ -127,37 +242,61 @@ function loading(data){
 						.attr('width',30)
 						.attr('height',30)
 						.attr('rx',30)
+                        .attr("group",function (d){return d.group});
 
 		var text = nodes.append("text")
 						.attr('class', 'text')
 						.attr('width' , 30)
 						.attr('height' , 30)
-						.text(function (d){return d.name});
-
-		svg.append("defs")
-							.append("marker")
-						    .attr("id", "end")
-						    .attr("viewBox", "0 -5 10 10")
-						    .attr("refX", 11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L7,0L0,3")
-						    .attr("fill","green");
-		svg.append("defs")
-							.append("marker")
-						    .attr("id", "start")
-						    .attr("viewBox", "-7 -5 10 10")
-						    .attr("refX", -11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L-7,0L0,3")
-						    .attr("fill","green");
+						.text(function (d){return "A"});
+        svg.append("defs")
+                            .append("marker")
+                            .attr("id", "end")
+                            .attr("viewBox", "0 -5 10 10")
+                            .attr("refX", 11)
+                            .attr("refY", 0)
+                            .attr("markerWidth", 6)
+                            .attr("markerHeight", 6)
+                            .attr("orient", "auto")
+                            .append("path")
+                            .attr("d", "M0,-3L7,0L0,3")
+                            .attr("fill","green");
+        svg.append("defs")
+                            .append("marker")
+                            .attr("id", "end-red")
+                            .attr("viewBox", "0 -5 10 10")
+                            .attr("refX", 11)
+                            .attr("refY", 0)
+                            .attr("markerWidth", 6)
+                            .attr("markerHeight", 6)
+                            .attr("orient", "auto")
+                            .append("path")
+                            .attr("d", "M0,-3L7,0L0,3")
+                            .attr("fill","#f00");
+        svg.append("defs")
+                            .append("marker")
+                            .attr("id", "start")
+                            .attr("viewBox", "-7 -5 10 10")
+                            .attr("refX", -11)
+                            .attr("refY", 0)
+                            .attr("markerWidth", 6)
+                            .attr("markerHeight", 6)
+                            .attr("orient", "auto")
+                            .append("path")
+                            .attr("d", "M0,-3L-7,0L0,3")
+                            .attr("fill","green");
+        svg.append("defs")
+                            .append("marker")
+                            .attr("id", "start-red")
+                            .attr("viewBox", "-7 -5 10 10")
+                            .attr("refX", -11)
+                            .attr("refY", 0)
+                            .attr("markerWidth", 6)
+                            .attr("markerHeight", 6)
+                            .attr("orient", "auto")
+                            .append("path")
+                            .attr("d", "M0,-3L-7,0L0,3")
+                            .attr("fill","#f00");
 
 		$("svg").on("mouseover",'g',function (){
 			var x = this.getBoundingClientRect().left + document.documentElement.scrollLeft,
@@ -165,19 +304,28 @@ function loading(data){
 				div = document.createElement("div"),
 				winW = window.innerWidth,
 				winH = window.innerHeight,
-				content = $(this).find("text")[0].innerHTML;
-			div.className = "floatDiv";			
-			div.innerHTML = content;
-			div.style.left = x - 63 +"px";
-			div.style.bottom = winH - 40 - y + "px";
-			$("body").append(div);
+                content = $(this).attr("name"),
+                content = content.substring(1,content.length -1);
+              MathJax.Hub.Queue(function(){
+                var math = MathJax.Hub.getAllJax("MathDiv")[0];
+                MathJax.Hub.Queue(["Text", math, content]);
+              });
+            $(".floatDiv")[0].style.display = "block";
+			$(".floatDiv")[0].style.left = x - 233 +"px";
+			$(".floatDiv")[0].style.bottom = winH - 40 - y + "px";
 		}).on("mouseout","g",function (){
-			$(".floatDiv").remove();
+			$(".floatDiv")[0].style.display = "none";
 		});
 
 	function tick() {
-		path.attr("d", linkArc);
-	  	rect.attr("transform", transform);
+		path.attr("d", linkArc);          
+        path.attr("source",function (d){return d.source.index});
+        path.attr("target",function (d){return d.target.index});
+        path.attr("refer", function (d){return d.refer ? d.refer.index : "";});
+        path.attr("id" , function (d){return d.id});
+        path.attr("eig", function (d){return d.eig});
+        path.attr("offset",function (d){return d.offset});
+  	    rect.attr("transform", transform);
 	  	text.attr("transform", transformText);
 	}
 
@@ -214,7 +362,11 @@ function loading(data){
 			a_t_y = y0 + ( (y1 - y0) / Math.abs(y1 - y0) ) * (r / Math.sqrt( 1 + Math.pow((x0 - x1) / (y0 - y1),2))),
 			b_t_x = x0 + ( (x2 - x0) / Math.abs(x2 - x0) ) * (r / Math.sqrt( 1 + Math.pow((y0 - y2) / (x0 - x2),2))),
 			b_t_y = y0 + ( (y2 - y0) / Math.abs(y2 - y0) ) * (r / Math.sqrt( 1 + Math.pow((x0 - x2) / (y0 - y2),2))),
-			Sz = Szfun(x1,y1,x0,y0,x2,y2);
+			Sz = Szfun(x1,y1,x0,y0,x2,y2),
+            varile_x = x2,
+            varile_y = y2,
+            varile_a_x = a_t_x,
+            varile_a_y = a_t_y;
 		if(offset == "end"){
 			varile_x = x2,
 			varile_y = y2,

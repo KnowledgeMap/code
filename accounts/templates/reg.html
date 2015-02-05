@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block title %}
-<title>知识地图-登录</title>
+<title>知识地图-注册</title>
 {% endblock %}
 
 {% block css %}
@@ -22,14 +22,13 @@
 </span>
 {% endif %}
 
-<form method="post" class="form-signin">{% csrf_token %}
-    {% render_field form.username class="form-control" placeholder="用户名/Email" %}
-    {% render_field form.password class="form-control" placeholder="密码" %}
-    <label class="checkbox">
-        <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <input type="hidden" name="next" value={{ next|default:"/"}} />
-    <button type="submit" class="btn  btn-primary btn-large btn-block"> 登录 </button>
-    <a class="login-link" href="#">忘记密码？</a>
-</form>
+<div class="form-signin">
+    <img src="/static/img/myface.jpg" class="imgface">
+    <input type="text" class="username" placeholder="请输入昵称">
+    <input type="text" class="email" placeholder="请输入邮箱">
+    <input type="password" class="pass" placeholder="请输入密码">
+    <input type="password" class="pass passAgain" placeholder="确认输入">
+    <button class="btn  btn-primary btn-large btn-block"> 注册 </button>
+</div>
+<script type="text/javascript" src="/static/js/reg-index.js"></script>
 {% endblock %}

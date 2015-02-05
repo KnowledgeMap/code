@@ -4,6 +4,12 @@
 
 var cookieEvent = {
     getCookie : function (){
+
+        var __x = $.cookie('yooyuName');
+        if(!__x){
+            window.location.href = "/";
+        }
+
         this.cookie = document.cookie;
         this.flag = false;
         this.tempArray = this.cookie.split(/;\ +/);
@@ -12,16 +18,6 @@ var cookieEvent = {
             if(x[0] == "yooyu"){
                 return false;
             }
-            
-            if(x[0] == "csrftoken"){
-                this.flag = true;
-            }
-        }
-
-        if(!this.flag){
-            console.log("title");
-            window.location.href = "/accounts/login";
-            return false;
         }
 
         this.setCookie();

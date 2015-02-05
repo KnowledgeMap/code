@@ -2,7 +2,6 @@
 *
 */
 var higShowVar = [],nodesArr = [],linksArr = [];
-var buttonEvent = (function (button) {
 
 //建立对象存放变量
 	var svgEvent = svgEvent || {
@@ -56,8 +55,8 @@ var buttonEvent = (function (button) {
 			svgEvent.temp = [];
 			$(".path").css("stroke","green");
 			changeMarker($(".path"));
-            $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
-            $(".commitData").fadeIn(200);
+           // $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
+           // $(".commitData").fadeIn(200);
 		}
         if(e.target.tagName == "rect" || e.target.tagName == "text"){
 			var tempVar;
@@ -71,6 +70,7 @@ var buttonEvent = (function (button) {
 
 	$("svg").on('dblclick',function (e){
 		var e = e || event;
+        force.stop();
 		if(e.target.tagName == "svg"){
 			svgEvent.append("双击节点进行编辑");
 		}		
@@ -136,7 +136,7 @@ var buttonEvent = (function (button) {
 		}
 
 		if(svgEvent.temp.length >= 3){
-			svgEvent.warming("警告⚠","目前不支持多节点关系");
+			svgEvent.warming("警告","目前不支持多节点关系");
 			return false;
 		}
 
@@ -263,7 +263,6 @@ var buttonEvent = (function (button) {
             }
         });
 
-
 		$.ajax({
 			url : "/kmap/result/",
 			data : { "old" : JSON.stringify(data), "newLinks" : newData},
@@ -282,37 +281,6 @@ var buttonEvent = (function (button) {
 			dataType : "json"
 		}); 
 	}
-
-    $("#commitData").on('click',commitDataToSQL);
-
-    function commitDataToSQL(){
-        $.ajax({
-            type : "POST",
-            data : { "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData)},
-            dataType : "json",
-            url : '/kmap/save/',
-            success : function (data){
-                var flag;
-                $("#commitData").html('').append($("<span>"+ data.msg +"</span>"));
-                if(data.status == 0)
-                    flag = $("<span class='glyphicon glyphicon-ok'></span>");
-                else
-                    flag = $("<span class='glyphicon glyphicon-remove'></span>");
-                $("#commitData").append(flag);
-                setTimeout(function(){                   
-                    $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
-                    $(".commitData").fadeIn(200);
-                },2000);
-            },
-            error : function (data){
-                $("#commitData").html('').append($("<span>保存失败<span><span class='glyphicon glyphicon-remove'></span>"));
-                setTimeout(function(){                   
-                    $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
-                    $(".commitData").fadeIn(200);
-                },2000);
-            }
-        });
-    }
 
     $("#contextmenu").on('click','li',function (e){
 
@@ -497,6 +465,8 @@ var buttonEvent = (function (button) {
 
 	svgEvent.loading = function (obj){
 
+        //console.log(obj);
+
 		$("g,.path,.floatDiv").remove();
 
 		var links= obj.data,newLink = [],result,tempOffset=[],nodes = obj.allnode || svgEvent.nodes;
@@ -671,7 +641,12 @@ var buttonEvent = (function (button) {
 				a_t_y = y0 + ( (y1 - y0) / Math.abs(y1 - y0) ) * (r / Math.sqrt( 1 + Math.pow((x0 - x1) / (y0 - y1),2))),
 				b_t_x = x0 + ( (x2 - x0) / Math.abs(x2 - x0) ) * (r / Math.sqrt( 1 + Math.pow((y0 - y2) / (x0 - x2),2))),
 				b_t_y = y0 + ( (y2 - y0) / Math.abs(y2 - y0) ) * (r / Math.sqrt( 1 + Math.pow((x0 - x2) / (y0 - y2),2))),
-				Sz = Szfun(x1,y1,x0,y0,x2,y2);
+				Sz = Szfun(x1,y1,x0,y0,x2,y2),
+                varile_x = x2,
+                varile_y = y2,
+                varile_a_x = a_t_x,
+                varile_a_y = a_t_y;
+                
 			if(offset == "end"){
 				varile_x = x2,
 				varile_y = y2,
@@ -855,7 +830,7 @@ var buttonEvent = (function (button) {
 		div.innerHTML = content;
 		div.style.left = x - 231 +"px";
 		div.style.bottom = winH - 40 - y + "px";
-		$("body").append(div);			
+		$("body").append(div);	
 	}
 	function changeMarker(dom){
 			var x = dom;
@@ -885,8 +860,6 @@ var buttonEvent = (function (button) {
         }
     }
 
-})(window.buttonEvent || {})
-
 $(document).ready(function (){
 
 		var count = 0;
@@ -902,35 +875,48 @@ $(document).ready(function (){
 				.select("svg");
 
 		$(".white").click(function (){
+
 			$("#cover").css('display','none');
 			$(".input").val('');
 			$("#editable-math").html('');
+
 		});
 
 		$("td").click(function (){
+
 			var val = $(this).attr("alt");
+
 			$("#MathInput").val($("#MathInput").val() + "$"+val+"$");
+
 			$("#MathInput").focus();
+
 			$("#MathInput").trigger("keyup");
+
 		});
 
         $("svg").on("click",'.path',function (){
+
             if($(this).attr("refer")){
+
                 var id = $(this).attr("id");
                 $(".path").filter(function (d){
+
                     return $(this).attr("id") == id;
+
                 }).css("stroke","#f00");
+
             }else{
+
                $(this).css("stroke") == "rgb(0, 128, 0)" ? $(this).css("stroke", "#f00") : $(this).css("stroke","green"); 
+
             }
+
         });
 
-		$("#MathInput").on('keydown',function (){
-			 Previewa.Update(); 
-			 count++;
-			 if(count % 70 == 0){
-			 	$(this).val($(this).val() + '\r\n');
-			 }
+		$("#MathInput").on('keyup',function (){
+
+			 Previewa.Update();
+             
 		});
         
         $("svg").on('contextmenu',function (e){
@@ -942,28 +928,176 @@ $(document).ready(function (){
         });
 
         $(".lateX-list-li").click(function (){
+
             $(".lateX-list-li").removeClass("actives");
+
             $(this).addClass("actives");
+
             var x = $(this).attr("data-name");
+
             $(".showTable").removeClass('show').css("display","none");
+
             $(".showTable").filter(function (){
+
                 return $(this).hasClass(x);
+
             }).css("display","block");
+
         });
 
         $("#lateX img").click(function (){
+
             var x = $(this).attr("alt");
             $("#MathInput").val($("#MathInput").val() + "$" + x + "$");
             $("#MathInput").trigger("keydown").focus();
+
         });
 
-        $(".commitData").click(function (){
-            $(this).fadeOut(200);
-            $("#commitData").animate({"right" : "10px"},400);
-        });
+        $("body").on('click','.submit_title_tip',commitDataToSQL);
+        $("body").on('click','.rever_title_tip',function (){
+            $(".title_tip").remove();
+        })
+
+        function commitDataToSQL(){
+            var __title = $(".title").val(),
+                __tip   = $(".tip").val(),
+                __gName   = [],
+                __g = $("g");
+
+            if(!__title || !__tip){
+                if(!$(".title_tip_content").hasClass('has')){
+                    $(".title_tip_content").append("请输入仓库内容").addClass('has');
+                }
+                return false;
+            }
+
+            for(var i = 0; i < __g.length; i++){
+                __gName.push(__g[i].getAttribute("name"));
+                __g[i].setAttribute("name","");
+            }
+
+            $("path").each(function (){
+                $(this).attr("fill", $(this).css('fill')).attr("stroke", $(this).css('stroke')).attr("stroke-width", $(this).css('stroke-width'));
+            });
+            $("rect").each(function (){
+                $(this).attr("fill",$(this).css("fill"));
+            })
+
+            var __svg_width = $("svg").css("width").replace("px",""),
+                __svg_height = $("svg").css("height").replace("px","");
+
+            var html = d3.select("svg")
+                .attr("version", 1.1)
+                .attr("xmlns", "http://www.w3.org/2000/svg")
+                .attr('width',__svg_width)
+                .attr('height',__svg_height)
+                .node().parentNode.innerHTML;
+
+            //console.log(html);
+
+            var __imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
+
+            for(var i = 0; i < __g.length; i++){
+                __g[i].setAttribute("name",__gName[i]);
+            }
+            
+            $.ajax({
+                type : "POST",
+                data : { "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
+                dataType : "json",
+                url : 'http://121.199.47.141/check/save_map/',
+                success : function (data){
+                    console.log(data);
+                    if(data.flag == "succeed"){
+                        setTimeout(function (){
+                            $(".title_tip").fadeOut('3000', function() {
+                                $(this).remove(); 
+                            });
+                        },500);
+                    }
+                },
+                error : function (data){
+                    console.log(data);
+                }
+            });
+        }
 
         var set = setTimeout(function(){
+
             $("#timeLine").animate({"left" : "20px"},500);
+
         },500);
+
+        var scaleX = svg_width,
+            scaleY = svg_height,
+            posX = 0,
+            posY = 0;
+
+        $(".add").bind('click',function (){
+            posX += 40,
+            posY += 40;
+            xxx = scaleX - posX * 2,
+            yyy = scaleY - posY * 2;
+            if(xxx < 0 || yyy < 0){
+                alert("已到达最大缩放比例!");
+                return false;
+            }
+            $(".scale").html('缩放比例 X ' + (scaleX / xxx).toFixed(1));
+            setTimeout(function(){$(".scale").html('')},1500);
+            document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
+        });
+
+        $(".min").bind('click',function (){
+            posX -= 40,
+            posY -= 40;
+            xxx = scaleX - posX * 2,
+            yyy = scaleY - posY * 2;
+            $(".scale").html('缩放比例 / ' + (scaleX / xxx).toFixed(1));
+            setTimeout(function(){$(".scale").html('')},1500);
+            document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
+        });
+
+        var __mapid = window.location.hash.split("=")[1];
+
+        __mapid ? rendermap(__mapid) : "";
+
+        function rendermap(__mapid){
+            $.ajax({
+                type : "POST",
+                data : {map_id : __mapid},
+                url  : "http://121.199.47.141/check/get_one_map/",
+                success : function (data){
+                    //console.log(data);
+                    if(data.flag == "succeed"){
+
+                        var __obj = {};
+                        __obj.data = JSON.parse(data.info[0].links);
+                        svgEvent.nodes = JSON.parse(data.info[0].nodes);
+
+                        for(var i = 0; i < svgEvent.nodes.length; i++){
+                            svgEvent.group++;
+                        }
+
+                        svgEvent.loading(__obj);
+
+                        svgEvent.allLinksData = __obj.data;
+
+                        $(".commitData").click(function (){
+                            
+                            var __title = data.info[0].map_name ? data.info[0].map_name : '',
+                                __tip   = data.info[0].map_describe ? data.info[0].map_describe : '' ,
+                                __title_tip = $("<div class='title_tip'><div class='title_tip_content'><h1>仓库信息</h1><input type='text' class='title' placeholder='仓库名称' value='"+__title+"'/><textarea type='text' class='tip' placeholder='仓库描述'>"+__tip+"</textarea><button class='submit_title_tip'>保存</button><button class='rever_title_tip'>返回</button></div></div>");
+                            
+                            $("body").append(__title_tip);
+
+                        });
+                    }
+                },
+                error : function (data){
+                    console.log(data);
+                },
+                dataType : "json"
+            });
+        }
 
 });

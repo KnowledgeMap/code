@@ -93,6 +93,7 @@ body,html{
     -o-border-radius:5px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
+    display: block !important;
 }
 .floatDiv::after{
 	width: 0;
@@ -395,4 +396,86 @@ body,html{
     position: absolute;
     top: 5px;
     left: -20.5px;
+}
+#scale{
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 20px;
+    z-index: 2;
+}
+.scale{
+    position: absolute;
+    z-index: 90;
+    right: 30px;
+    top: 100px;
+    width: 100px;
+    height: 30px;
+    color: #000;
+    font-family: "微软雅黑";
+    line-height: 30px;
+    text-align: center;
+}
+.title_tip{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+}
+.title_tip_content{
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    margin-left: -250px;
+    margin-top: -250px;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+    color: #f00;
+    text-align: center;
+}
+h1{
+    color: #fff;
+}
+.submit_title_tip, .title, .tip, .rever_title_tip{
+    display: block;
+    position: relative;
+    width: 400px;
+    height: 50px;
+    line-height: 30px;
+    border:1px solid #ededed;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    padding:0 10px;
+    margin: 5px auto;
+    resize:none;
+    outline: none;
+}
+.tip{
+    height: 300px;
+}
+.submit_title_tip, .rever_title_tip{
+    height: 30px;
+    border:none;
+    color: #fff;
+    background: #3276b1;
+    display: inline-block;
+    width: 195px;
+    margin: 5px;
+}
+.submit_title_tip:hover{
+    background: #2F6BA0;
+}
+.rever_title_tip{
+    background: #fff;
+    color: #000;
+}
+.rever_title_tip:hover{
+    background: #f00;
+    color: #fff;
 }

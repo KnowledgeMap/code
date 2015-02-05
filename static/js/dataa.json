@@ -1,0 +1,112 @@
+{
+    "nodes": [
+        {
+        	"name" : "特征值、特征向量的定义",
+        	"group" : 1
+        },
+        {
+        	"name" : "$\\textbf{A}\\overrightarrow{a_1}=-\\overrightarrow{a_1}$,$\\textbf{A}\\overrightarrow{a_2}=\\overrightarrow{a_2}$",
+        	"group" : 1
+        },
+        {
+        	"name" : "$\\overrightarrow{a_1},\\overrightarrow{a_2}为\\textbf{A}的分别属于特征值-1,1的特征向量$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$\\overrightarrow{a_2}\\neq\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_2\\overrightarrow{a_2}=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_2=0$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$\\overrightarrow{a_1},\\overrightarrow{a_2},\\overrightarrow{a_3}线性无关$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$-k_1\\overrightarrow{a_1}+k_2\\overrightarrow{a_2}+k_3\\textbf{A}\\overrightarrow{a_3}=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_1\\textbf{A}\\overrightarrow{a_1}+k_2\\textbf{A}\\overrightarrow{a_2}+k_3\\textbf{A}\\overrightarrow{a_3}=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$向量\\overrightarrow{a_3}满足\\textbf{A}\\overrightarrow{a_3}=\\overrightarrow{a_2}+\\overrightarrow{a_3}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_1\\overrightarrow{a_1}+k_2\\overrightarrow{a_2}+k_3\\overrightarrow{a_3}=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_1=0$,$k_2=0$,$k_3=0$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$-k_1\\overrightarrow{a_1}+k_2\\overrightarrow{a_2}+k_3(\\overrightarrow{a_2}+\\overrightarrow{a_3})=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$2k_1\\overrightarrow{a_1}-k_3\\overrightarrow{a_2}=\\overrightarrow{0}$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$k_1=0$,$k_3=0$",
+        	"group" : 2
+        },
+        {
+        	"name" : "$\\overrightarrow{a_1},\\overrightarrow{a_2}线性无关$",
+        	"group" : 2
+        }
+    ], 
+    "links": [
+        {
+        	"path" : "11101011_0_1_2"
+        },
+        {
+        	"path" : "1011_2_3"
+        },
+        {
+        	"path" : "11101011_3_4_5"
+        },
+        {
+        	"path" : "11101011_1_7_8"
+        },
+        {
+        	"path" : "1011_10_8"
+        },
+        {
+        	"path" : "11101111_2_9_10"
+        },
+        {
+        	"path" : "11101011_10_6_11"
+        },
+        {
+        	"path" : "11101011_14_10_4"
+        },
+        {
+        	"path" : "11100001_5_14_11"
+        },
+        {
+        	"path" : "11101001_7_9_12"
+        },
+        {
+        	"path" : "11101001_12_10_13"
+        },
+        {
+        	"path" : "1011_2_15"
+        },
+        {
+        	"path" : "1011_6_15"
+        },
+        {
+        	"path" : "11101011_15_13_14"
+        }
+    ]
+}

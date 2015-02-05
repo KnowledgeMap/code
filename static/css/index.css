@@ -111,6 +111,7 @@ html,body{
     -webkit-border-radius:3px;
     background: #fff;
     color: #aaa;
+    width: 89%;
     padding-left: 10px;
     padding-right: 50px;
     cursor: text;
@@ -199,20 +200,35 @@ button.btn,input.form-control{
 	position: absolute;
 	background: #eee;
 	z-index: 999;
-	width: 150px;
+	width: 500px;
 	min-height: 50px;
 	line-height: 30px;
 	padding:3px;
 	text-align: center;
+    display: none;
 }
 .floatDiv::after{
 	width: 0;
 	height: 0;
 	content : "";
 	position: absolute;
-	left: 65px;
+	left: 235px;
 	bottom:-10px;
 	border-style: solid;
 	border-width: 10px 10px 0 10px;
 	border-color: #eeeeee transparent transparent transparent;
+}
+.clickedG{
+    stroke-width:2;
+    stroke:#000;
+}
+.headLogo{
+    width: 20px;
+    height: 20px;
+    border-radius:20px;
+    -o-border-radius:20px;
+    -moz-border-radius:20px;
+    -webkit-border-radius:20px;
+    position: relative;
+    margin-right: 10px;
 }

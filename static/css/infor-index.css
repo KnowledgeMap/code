@@ -1,6 +1,7 @@
 body,html{
 	width: 100%;
 	height: 100%;
+    overflow: auto;
 }
 #content{
     position: absolute;
@@ -64,12 +65,11 @@ body,html{
     top: 100px;
     bottom:0;
 }
-.detail-ul{
+.detail-uls{
     list-style: none;
     padding-left: 20px;
 }
 .detail-li{
-    height: 50px;
     width: 100%;
     line-height: 1.3;
     padding: 10px 0px;
@@ -91,4 +91,144 @@ body,html{
     font-size: 12px;
     top: 10px;
     color: #999;
+}
+.detail-li-block{
+    position: relative;
+    margin:5px 15px;
+    display: inline-block;
+    cursor: pointer;
+    width: 170px;
+    height: 180px;
+}
+.detail-div{
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 15%;
+    top: 85%;
+    color: #fff;
+    padding-top: 5px;
+}
+.detail-div p{
+    padding-left: 3px;
+}
+.settings{
+    width: 180px;
+    height: 200px;
+    padding:50px 0;
+    position: absolute;
+    margin-left: -90px;
+    left: 50%;
+    margin-top: -100px;
+    top: 30%;
+    text-align: center;
+    color: #f00;
+}
+.pass, .passAg, .passAgs{
+    border:1px solid #ededed;
+    height: 25px;
+    width: 100%;
+    line-height: 25px;
+    padding:0 5px;
+    display: block;
+    margin:5px;
+    outline: none;
+    border-radius:1px;
+    -o-border-radius:1px;
+    -moz-border-radius:1px;
+    -webkit-border-radius:1px;
+}
+.submitButton{
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    outline: none;
+    margin:5px;
+    background: #3276b1;
+    color: #fff;
+    font-size: 10px;
+    border: none;
+    border-radius:1px;
+    -o-border-radius:1px;
+    -moz-border-radius:1px;
+    -webkit-border-radius:1px;
+}
+.submitButton:hover{
+    background: #3A73A5;
+}
+.detail-li-lib{
+    float: left;
+    margin:5px;
+    width: 180px;
+    height: 180px;
+    border:1px solid #ededed;
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+}
+.detail-li-lib:hover{
+    box-shadow: 1px 1px 10px #aaa;
+}
+.detail-li-lib p {
+    margin: 2px 0;
+    font-size: 10px;
+    text-align: center;
+}
+.del, .editThat{
+    width: 60px;
+    height: 25px;
+    margin:5px;
+    line-height: 20px;
+    border:1px solid #ededed;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.del:hover, .editThat:hover{
+    background: #ededed;
+}
+.del:hover{
+    background: #f00;
+    border:none;
+    color: #fff;
+}
+.addLi{
+    border:3px dashed #ededed;
+    cursor: pointer;
+    color: #ededed;
+    text-align: center;
+    line-height: 180px;
+    font-size: 90px;
+}
+.addLi:hover{
+    box-shadow: none;
+}
+.head{
+    width: 110px;
+    height: 110px;
+    overflow: hidden;
+    position: relative;
+    margin-left: -55px;
+    left: 50%;
+}
+.headImg, .coverHead{
+    width: 100px;
+    height: 100px;
+    border-radius:100px;
+    -o-border-radius:100px;
+    -moz-border-radius:100px;
+    -webkit-border-radius:100px;
+    cursor: pointer;
+    margin:5px;
+}
+.coverHead{
+    line-height: 100px;
+    text-align: center;
+    color: #000;
+    position: relative;
+    margin:0;
+    background: rgba(255,255,255,0.5);
+    z-index: 3;
+    top: -105px;
+    left: 5px;
 }

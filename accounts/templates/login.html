@@ -16,20 +16,20 @@
 </div>
 
 
-{% if form.errors %}
-<span class="help-block">
-    <label class="error">用户名/Email或密码错误，请重新输入！</label>
-</span>
-{% endif %}
 
-<form method="post" class="form-signin">{% csrf_token %}
-    {% render_field form.username class="form-control" placeholder="用户名/Email" %}
-    {% render_field form.password class="form-control" placeholder="密码" %}
+
+
+<div class="form-signin">
+    {% csrf_token %}
+<!--    {% render_field form.username class="form-control" placeholder="用户名/Email" %}
+    {% render_field form.password class="form-control" placeholder="密码" %}-->
+    <input type="text" class="username" placeholder="用户名">
+    <input type="password" class="pass" placeholder="密码">
     <label class="checkbox">
         <input type="checkbox" value="remember-me"> Remember me
     </label>
-    <input type="hidden" name="next" value={{ next|default:"/"}} />
-    <button type="submit" class="btn  btn-primary btn-large btn-block"> 登录 </button>
+    <button class="btn  btn-primary btn-large btn-block"> 登录 </button>
     <a class="login-link" href="#">忘记密码？</a>
-</form>
+</div>
+<script type="text/javascript" src="/static/js/login-index.js"></script>
 {% endblock %}

@@ -16,49 +16,20 @@
         <div class="loadingModule"></div>
         <ul class="nav navbar-nav">
             <li class="navbar-li" data-id="1"><a href="/#navId=1">世界地图</a></li>
-            {% if user.is_authenticated %}
-            <li class="navbar-li" data-id="2"><a href="/kmap/edit/#navId=2" class="editLi">编辑地图</a></li>
-            <li class="navbar-li" data-id="3"><a href="/kmap/admin/#navId=3" class="adminLi">管理台</a></li>
-            {%endif%}
-            <li class="navbar-li" data-id="4"><a href="/kmap/help/#navId=4">关于我们</a></li>
+            <li class="navbar-li insert" data-id="4"><a href="/kmap/help/#navId=4">关于我们</a></li>
         </ul>
 
-        {% if user.is_authenticated %}
-        <ul class="navbar-text pull-right">
-            <li class="list newList" data-role="通知" data-url="2"><a href="#"><span class="glyphicon glyphicon-volume-up"></span><span class="red-circle">1</span></a></li>
-            <li class="list newList" data-role="站内信" data-url="3"><a href="#"><span class="glyphicon glyphicon-envelope"></span><span class="red-circle">2</span></a></li>
-            <li class="list" data-url="4"><a href="/kmap/infor#id=4"><span class="glyphicon glyphicon-inbox"></span><span class="red-circle">3</span></a></li>
-            <li class="dropdown list username">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} Account<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <!--<li><a href="/accounts">My Account</a></li>-->
-                    <li class="circle"><a href="/kmap/infor#id=5"><span class="glyphicon glyphicon-user padding"></span>圈子</a></li>
-                    <li class="setting"><a href="/kmap/infor#id=6"><span class="glyphicon glyphicon-cog padding"></span>设置</a></li>
-                    <li class="singOut"><a href="/accounts/logout"><span class="glyphicon glyphicon-off padding"></span>登出</a></li>
-                </ul>
-            </li>
-        </ul>
-        {% else %}
         <ul class="nav navbar-nav pull-right rightList">
             <li class="login"> <a  href="/accounts/login">登陆</a> </li>
             <li class="reg"> <a  href="/accounts/reg">注册</a></li>
             <!--<li> <a  href="/accounts/register">Sign up</a> </li>-->
-        </ul>       
-        <script type="text/javascript">
-            $(".editLi, .adminLi").click(function (){
-
-                window.location.href = "/accounts/login";
-                
-                return false;
-            });
-        </script>
-        {% endif %}
+        </ul>    
 
 
 
         <div id="search">
             <span class="left searchSpan glyphicon glyphicon-chevron-left"></span>
-            <div class = "search" contenteditable=true>请输入查询内容</div>
+            <input class = "search" placeholder="请输入查询内容"/>
             <span class="searchSpan glyphicon glyphicon-chevron-right right"></span>
             <div class="iconGroup">
                 <span class="glyphicon glyphicon-resize-small scaleIcon"></span>
@@ -333,12 +304,7 @@
 <div class="getResult">
     <span class="titles"></span>
     <a href="#" class="remind"></a>
-    <ul>
-        <li><a href="#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
-        <li><a href"#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
-        <li><a href="#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
-        <li><a href"#">恭喜你成为了yooyu中的一分子，快来创作自己的仓库吧</a></li>
-    </ul>
+    <ul class="rec_con"></ul>
     <div class="know">
         <button class="know-button">知道了</button>
     </div>
