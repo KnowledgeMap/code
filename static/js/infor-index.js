@@ -26,14 +26,62 @@ $(document).ready(function (){
 
     function changeContent(__id){
         switch(__id){
-            case '0' : $(".settings").remove() ;break;
-            case '1' : $(".settings").remove();break;
+            case '0' : $(".settings").remove();showTakeMe();break;
+            case '1' : $(".settings").remove();showPerson();break;
             case '2' : $(".settings").remove();break;
             case '3' : $(".settings").remove();break;
             case '4' : $(".settings").remove();getLib();break;
             case '5' : $(".settings").remove();break;
             case '6' : $(".detail-uls").html('');setting(); break;
         }
+    }
+
+    function showTakeMe(){
+        $.ajax({
+            type : "POST",
+            data : {},
+            url : "http://121.199.47.141/check/get_i_pay_attention/",
+            success : function (data){
+                //console.log(data);
+                if(data.flag == "succeed"){
+                    var html = '',
+                        infor = data.info;
+                    for(var i = 0; i < infor.length; i++){
+                        html += '<li class="detail-li">'+infor[i].username+'</li>'
+                    }
+
+                    $(".detail-uls").html(html);
+                }
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        });
+    }
+
+    function showPerson(){
+        $.ajax({
+            type : "POST",
+            data : {},
+            url : "http://121.199.47.141/check/get_pay_attention_me/",
+            success : function (data){
+                //console.log(data);
+                if(data.flag == "succeed"){
+                    var html = '',
+                        infor = data.info;
+                    for(var i = 0; i < infor.length; i++){
+                        html += '<li class="detail-li">'+infor[i].username+'</li>'
+                    }
+
+                    $(".detail-uls").html(html);                    
+                }
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        })
     }
 
     function setting(){

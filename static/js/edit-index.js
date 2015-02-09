@@ -69,8 +69,9 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 	});
 
 	$("svg").on('dblclick',function (e){
-		var e = e || event;
-        force.stop();
+		var e = e || event,
+            force = force;
+        force ? force.stop() : "";
 		if(e.target.tagName == "svg"){
 			svgEvent.append("双击节点进行编辑");
 		}		
@@ -526,53 +527,53 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 						.text(function (d){return d.group});
 
 		svg.append("defs")
-							.append("marker")
-						    .attr("id", "end")
-						    .attr("viewBox", "0 -5 10 10")
-						    .attr("refX", 11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L7,0L0,3")
-						    .attr("fill","green");
+			.append("marker")
+		    .attr("id", "end")
+		    .attr("viewBox", "0 -5 10 10")
+		    .attr("refX", 11)
+		    .attr("refY", 0)
+		    .attr("markerWidth", 6)
+		    .attr("markerHeight", 6)
+		    .attr("orient", "auto")
+			.append("path")
+		    .attr("d", "M0,-3L7,0L0,3")
+		    .attr("fill","green");
 		svg.append("defs")
-							.append("marker")
-						    .attr("id", "end-red")
-						    .attr("viewBox", "0 -5 10 10")
-						    .attr("refX", 11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L7,0L0,3")
-						    .attr("fill","#f00");
+			.append("marker")
+		    .attr("id", "end-red")
+		    .attr("viewBox", "0 -5 10 10")
+		    .attr("refX", 11)
+		    .attr("refY", 0)
+		    .attr("markerWidth", 6)
+		    .attr("markerHeight", 6)
+		    .attr("orient", "auto")
+			.append("path")
+		    .attr("d", "M0,-3L7,0L0,3")
+		    .attr("fill","#f00");
 		svg.append("defs")
-							.append("marker")
-						    .attr("id", "start")
-						    .attr("viewBox", "-7 -5 10 10")
-						    .attr("refX", -11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L-7,0L0,3")
-						    .attr("fill","green");
+			.append("marker")
+		    .attr("id", "start")
+		    .attr("viewBox", "-7 -5 10 10")
+		    .attr("refX", -11)
+		    .attr("refY", 0)
+		    .attr("markerWidth", 6)
+		    .attr("markerHeight", 6)
+		    .attr("orient", "auto")
+			.append("path")
+		    .attr("d", "M0,-3L-7,0L0,3")
+		    .attr("fill","green");
 		svg.append("defs")
-							.append("marker")
-						    .attr("id", "start-red")
-						    .attr("viewBox", "-7 -5 10 10")
-						    .attr("refX", -11)
-						    .attr("refY", 0)
-						    .attr("markerWidth", 6)
-						    .attr("markerHeight", 6)
-						    .attr("orient", "auto")
-							.append("path")
-						    .attr("d", "M0,-3L-7,0L0,3")
-						    .attr("fill","#f00");
+			.append("marker")
+		    .attr("id", "start-red")
+		    .attr("viewBox", "-7 -5 10 10")
+		    .attr("refX", -11)
+		    .attr("refY", 0)
+		    .attr("markerWidth", 6)
+		    .attr("markerHeight", 6)
+		    .attr("orient", "auto")
+			.append("path")
+		    .attr("d", "M0,-3L-7,0L0,3")
+		    .attr("fill","#f00");
 
 		$("svg").on("mouseover",'g',function (){
 			if($(this).find('rect').attr('class').indexOf('clickedG') > 0){
@@ -962,7 +963,8 @@ $(document).ready(function (){
             var __title = $(".title").val(),
                 __tip   = $(".tip").val(),
                 __gName   = [],
-                __g = $("g");
+                __g = $("g"),
+                __hash = window.location.hash.split("=")[1];
 
             if(!__title || !__tip){
                 if(!$(".title_tip_content").hasClass('has')){
@@ -1000,26 +1002,48 @@ $(document).ready(function (){
             for(var i = 0; i < __g.length; i++){
                 __g[i].setAttribute("name",__gName[i]);
             }
-            
-            $.ajax({
-                type : "POST",
-                data : { "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
-                dataType : "json",
-                url : 'http://121.199.47.141/check/save_map/',
-                success : function (data){
-                    console.log(data);
-                    if(data.flag == "succeed"){
-                        setTimeout(function (){
-                            $(".title_tip").fadeOut('3000', function() {
-                                $(this).remove(); 
-                            });
-                        },500);
+    
+            if(!__hash){        
+                $.ajax({
+                    type : "POST",
+                    data : { "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
+                    dataType : "json",
+                    url : 'http://121.199.47.141/check/save_map/',
+                    success : function (data){
+                        console.log(data);
+                        if(data.flag == "succeed"){
+                            setTimeout(function (){
+                                $(".title_tip").fadeOut('3000', function() {
+                                    $(this).remove(); 
+                                });
+                            },500);
+                        }
+                    },
+                    error : function (data){
+                        console.log(data);
                     }
-                },
-                error : function (data){
-                    console.log(data);
-                }
-            });
+                });
+            }else{
+                $.ajax({
+                    type : "POST",
+                    data : { map_id : __hash, "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
+                    dataType : "json",
+                    url : 'http://121.199.47.141/check/update_map/',
+                    success : function (data){
+                        console.log(data);
+                        if(data.flag == "succeed"){
+                            setTimeout(function (){
+                                $(".title_tip").fadeOut('3000', function() {
+                                    $(this).remove(); 
+                                });
+                            },500);
+                        }
+                    },
+                    error : function (data){
+                        console.log(data);
+                    }
+                });
+            }
         }
 
         var set = setTimeout(function(){
@@ -1059,7 +1083,7 @@ $(document).ready(function (){
 
         var __mapid = window.location.hash.split("=")[1];
 
-        __mapid ? rendermap(__mapid) : "";
+        __mapid ? rendermap(__mapid) : comm();
 
         function rendermap(__mapid){
             $.ajax({
@@ -1082,15 +1106,9 @@ $(document).ready(function (){
 
                         svgEvent.allLinksData = __obj.data;
 
-                        $(".commitData").click(function (){
-                            
-                            var __title = data.info[0].map_name ? data.info[0].map_name : '',
-                                __tip   = data.info[0].map_describe ? data.info[0].map_describe : '' ,
-                                __title_tip = $("<div class='title_tip'><div class='title_tip_content'><h1>仓库信息</h1><input type='text' class='title' placeholder='仓库名称' value='"+__title+"'/><textarea type='text' class='tip' placeholder='仓库描述'>"+__tip+"</textarea><button class='submit_title_tip'>保存</button><button class='rever_title_tip'>返回</button></div></div>");
-                            
-                            $("body").append(__title_tip);
-
-                        });
+                        var __title = data.info[0].map_name ? data.info[0].map_name : '',
+                            __tip   = data.info[0].map_describe ? data.info[0].map_describe : '';
+                        comm(__title, __tip);
                     }
                 },
                 error : function (data){
@@ -1098,6 +1116,18 @@ $(document).ready(function (){
                 },
                 dataType : "json"
             });
+        }
+
+        function comm(title,tip){
+
+
+            $(".commitData").click(function (){
+                var __title = title || "",
+                    __tip = tip || "",
+                    __title_tip = $("<div class='title_tip'><div class='title_tip_content'><h1>仓库信息</h1><input type='text' class='title' placeholder='仓库名称' value='"+__title+"'/><textarea type='text' class='tip' placeholder='仓库描述'>"+__tip+"</textarea><button class='submit_title_tip'>保存</button><button class='rever_title_tip'>返回</button></div></div>");
+                $("body").append(__title_tip);
+            });
+
         }
 
 });

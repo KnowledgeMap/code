@@ -192,7 +192,6 @@ function loading(links,nodes){
         var newLink = [];
         var links = links,
             nodes = nodes;
-        console.log(links.length);
         for(var i = 0; i < links.length; i++){
             var tempdata = links[i].path.split("_");
                 tempdata[1] = Number(tempdata[1]),
@@ -495,6 +494,7 @@ $(document).ready(function (){
     });
 
     var __map_id = window.location.hash.split("=")[1];
+
     $.ajax({
         type : "POST",
         data : {map_id : __map_id},
@@ -505,7 +505,7 @@ $(document).ready(function (){
                 var __infor = data.info[0],
                     __userid = $.cookie("yooyuNameId");
                 if(!(__userid == __infor.person_id)){
-                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p>'+__infor.username+'</p><p><span class="thin talk">发送消息</span><span class="thin addFouce" data-id="10">+加关注</span></p><p class="last"><button>申请加入仓库</button></p>');
+                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p>'+__infor.username+'</p><p><span class="thin talk">发送消息</span><span class="thin addFouce" data-id="10">+加关注</span></p><p class="last"><button class="order">申请加入仓库</button></p>');
                     $("#opea").append(__content);
                 }else{
                     var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p>'+__infor.username+'</p><p class="editLib"><button class="editThis">编辑仓库</button><button class="getFri">邀请好友</button></p>');
@@ -567,6 +567,25 @@ $(document).ready(function (){
                             dataType : "json"
                         });
                     }
+                });
+
+                $("#opea").on('click','.order',function (){
+                    var __that = this;
+                    $.ajax({
+                        type : "POST",
+                        data : {map_id : __map_id},
+                        url : "http://121.199.47.141/check/join_map/",
+                        success : function (data){
+                            //console.log(data);
+                            if(data.flag = "succeed"){
+                                $(__that).html("申请成功 等待审核");
+                            }
+                        },
+                        error : function (data){
+                            console.log(data);
+                        },
+                        dataType : "json"
+                    })
                 });
             }
         },
