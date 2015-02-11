@@ -142,19 +142,21 @@ $(document).ready(function (){
     $.ajax({
         type : "GET",
         data : {},
-        url : "http://121.199.47.141/check/get_message/",
+        url : "/check/get_message/",
+        // url : "http://121.199.47.141/check/get_message/",
         success : function (data){
             //console.log(data);
             if(data.flag == "succeed"){
                 var __messages = '',html = '';
-                $(".newList2").find('a').append($('<span class="red-circle">'+data.info.length+'</span>'));
+                $(".newList2").find('a').append($('<span class="red-circle">'+ (data.info.length > 99 ? "..." : data.info.length )+'</span>'));
                 for(var i = 0, infor = data.info; i < (infor.length > 5 ? 5 : infor.length); i++){
-                    html += '<li><a href="/kmap/infor/#id=3">'+infor[i].content+'</a></li>';
+                    if(infor[i].rec_flag == '0')
+                        html += '<li><a href="/kmap/infor/#id=3">'+data.info[i].username+' 向您发来消息 '+infor[i].content+'</a><span class="readed readedNotice readMess" data-id="'+infor[i].message_id+'">未读</span></li>';
                 }
                 showDetail($(".newList2"),html);
 
                 for(var i = 0; i < data.info.length; i++){
-                    __messages += '<li class="detail-li">'+data.info[i].username+' 向您发来消息 '+data.info[i].content+'<span class="time">'+data.info[i].send_time+'</span></li>';
+                    __messages += '<li class="detail-li">'+data.info[i].username+' 向您发来消息 '+data.info[i].content+'<span class="readed readed_up readMess" data-id="'+infor[i].message_id+'">'+(infor[i].rec_flag == '0' ? "未读" : "已读")+'</span><span class="time">'+data.info[i].send_time+'</span></li>';
                 }
 
                 __allData.message = __messages;
@@ -176,20 +178,22 @@ $(document).ready(function (){
     $.ajax({
         type : "POST",
         data : {},
-        url : "http://121.199.47.141/check/get_notice/",//send_notice为发送通知
+        url : "/check/get_notice/",
+        // url : "http://121.199.47.141/check/get_notice/",//send_notice为发送通知
         success : function (data){
             //console.log(data);
             if(data.flag == "succeed"){
                 var html = '',__notices = '';
-                $(".newList1").find('a').append($('<span class="red-circle">'+data.info.length+'</span>'));
+                $(".newList1").find('a').append($('<span class="red-circle">'+(data.info.length > 99 ? "..." : data.info.length )+'</span>'));
                 for(var i = 0, infor = data.info; i < (infor.length > 5 ? 5 : infor.length); i++){
-                    html += '<li><a href="/kmap/infor/#id=3">'+infor[i].content+'</a></li>';
+                    if(infor[i].flag == '0')
+                        html += '<li><a href="/kmap/infor/#id=3">'+infor[i].content+'</a><span class="readed readNotic" data-id="'+infor[i].notice_id+'">未读</span><span class="time_up">'+infor[i].send_time+'</span></li>';
                 }
 
                 showDetail($(".newList1"),html);
 
                 for(var i = 0; i < data.info.length; i++){
-                    __notices += '<li class="detail-li">'+data.info[i].content+'<span class="time">'+data.info[i].send_time+'</span></li>';
+                    __notices += '<li class="detail-li">'+data.info[i].content+'<span class="readed readed_up readNotic" data-id="'+infor[i].notice_id+'">'+ (infor[i].flag == '0' ? "未读" : "已读")  +'</span><span class="time">'+data.info[i].send_time+'</span></li>';
                 }
                 __allData.notice = __notices;
 
@@ -217,5 +221,50 @@ $(document).ready(function (){
         var __name = $(this).attr('data-name');
         $(".detail-uls").html(__allData[__name]);
     })
+
+    $("body").on('click','.readNotic',function (){
+        var __noticeId = $(this).attr("data-id"),
+            that = this;
+        $.ajax({
+            type : "POST",
+            data : {notice_id : __noticeId},
+            url : "/check/rec_notice/",
+            // url : "http://121.199.47.141/check/rec_notice/",
+            success : function (data){
+                //console.log(data);
+                if(data.flag == "succeed"){
+                    $(that).html("已读");
+                }
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        });
+    }).on('click','.readMess',function (){
+        var __messId = $(this).attr("data-id"),
+            that = this;
+        $.ajax({
+            type : "POST",
+            data : {message_id : __messId},
+            url : "/check/rec_message/",
+            // url : "http://121.199.47.141/check/rec_message/",
+            success : function (data){
+                //console.log(data);
+                if(data.flag == "succeed")
+                    $(that).html("已读");
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        })
+    }).on('click','.newList',function (){
+        $(this).find("span.red-circle").remove();
+    }).on('click','.notice',function (){
+        $(".newList1").find("span.red-circle").remove();
+    }).on('click','.message',function (){
+        $(".newList2").find("span.red-circle").remove();
+    });
 
 });

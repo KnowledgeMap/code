@@ -59,19 +59,6 @@ $(".min").bind('click',function (){
     document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
 });
 
-$(".openlist").click(function (){
-    if(!flag){
-        $("#kmap-overview").animate({"left":"20%"},200);
-        $("#list").animate({"width":"20%"},200);
-        $("#list > ul > li").css("borderBottom","1px solid #000");
-    }else{
-        $("#kmap-overview").animate({"left":"0%"},200);
-        $("#list").animate({"width":"0%"},200);
-        $("#list > ul > li").css("borderBottom","none");    
-    }
-    flag = !flag;
-});
-
 $("svg").on('click',function (e){
     var dom = $(e.target).parent(),
         rect = dom.find('rect'),
@@ -478,8 +465,8 @@ function loading(links,nodes){
         return Number(result);
     }
 }
-//);
-//}
+
+
 $(document).ready(function (){
 
     $("#opea").on('click','.getFri',function (){
@@ -498,17 +485,18 @@ $(document).ready(function (){
     $.ajax({
         type : "POST",
         data : {map_id : __map_id},
-        url  : "http://121.199.47.141/check/get_one_map/",
+        url  : "/check/get_one_map/",
+        // url  : "http://121.199.47.141/check/get_one_map/",
         success : function (data){
-            //console.log(data);
             if(data.flag == "succeed"){
                 var __infor = data.info[0],
                     __userid = $.cookie("yooyuNameId");
                 if(!(__userid == __infor.person_id)){
-                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p>'+__infor.username+'</p><p><span class="thin talk">发送消息</span><span class="thin addFouce" data-id="10">+加关注</span></p><p class="last"><button class="order">申请加入仓库</button></p>');
+                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p><a href="/kmap/infor/?persion='+__infor.person_id+'&name='+__infor.username+'#id=0'+'">'+__infor.username+'</a></p><p><span class="thin talk">发送消息</span><span class="thin addFouce" data-id="10">+加关注</span></p><p class="last"><button class="order">申请加入仓库</button></p>');
                     $("#opea").append(__content);
                 }else{
-                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p>'+__infor.username+'</p><p class="editLib"><button class="editThis">编辑仓库</button><button class="getFri">邀请好友</button></p>');
+                    map_name = __infor.map_name;
+                    var __content = $('<h4>'+__infor.map_name+'</h4><img class="head" src="/static/img/myface.jpg" width="168" height="168"><p><a href="/kmap/infor/?persion='+__infor.person_id+'&name='+__infor.username+'#id=0'+'">'+__infor.username+'</a></p><p class="editLib"><button class="editThis">编辑仓库</button><button class="getFri">邀请好友</button></p>');
                     $("#opea").append(__content);     
                 }
 
@@ -523,7 +511,8 @@ $(document).ready(function (){
                     $.ajax({
                         type : "POST",
                         data : {attention_user : __infor.person_id},
-                        url  : "http://121.199.47.141/check/pay_attention/",
+                        url  : "/check/pay_attention/",
+                        // url  : "http://121.199.47.141/check/pay_attention/",
                         success : function (data){
                             if(data.flag == "succeed"){
                                 $(that).html("以关注");
@@ -551,7 +540,8 @@ $(document).ready(function (){
                         $.ajax({
                             type : "POST",
                             data : {rec_user : __infor.person_id, content : __x},
-                            url : 'http://121.199.47.141/check/send_message/',
+                            url : '/check/send_message/',
+                            // url : 'http://121.199.47.141/check/send_message/',
                             success : function (data){
                                 //console.log(data);
                                     if(data.flag == "succeed"){
@@ -574,7 +564,8 @@ $(document).ready(function (){
                     $.ajax({
                         type : "POST",
                         data : {map_id : __map_id},
-                        url : "http://121.199.47.141/check/join_map/",
+                        url : "/check/join_map/",
+                        // url : "http://121.199.47.141/check/join_map/",
                         success : function (data){
                             //console.log(data);
                             if(data.flag = "succeed"){
@@ -594,5 +585,63 @@ $(document).ready(function (){
         },
         dataType : "json"
     })
-    
+
+    var getFriend = function (){
+        var __username = $(".searchFri").val();
+        $.ajax({
+            type : "POST",
+            data : {username : __username},
+            url  : "/check/search_user/",
+            // url  : "http://121.199.47.141/check/search_user/",
+            success : function (data){
+                if(data.flag == "succeed"){
+                    var infor = data.info,
+                        html = '<div class="searchResult"><ul class="searchResultUl">';
+                    $(".searchResult").remove();
+                    for(var i = 0; i < infor.length; i++){
+                        html += '<li class="searchResultLi" data-id = "'+infor[i].person_id+'"><a href="/kmap/infor/?persion='+infor[i].person_id+'&amp;name='+infor[i].username+'#id=0">'+infor[i].username+'</a><span data-id = "'+infor[i].person_id+'" class="invite">邀请</span></li>'
+                    }
+                    html += '</ul></div>';
+                    $("#opea").append($(html));
+                }
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        })
+    }
+
+    var func = function (){
+        $("body").on('keydown',function (e){
+            var e = e || event;
+            if(e.keyCode == 13)
+                getFriend();
+        })
+    }
+
+    $("#opea").on('click','.searchFriend',getFriend);
+    $("#opea").on('focus','input',func);
+
+    $("#opea").on('click','span.invite',function (){
+        var __id = $(this).attr("data-id"),
+            con = "用户" + $.cookie("yooyuName") + "邀请您加入仓库 "+ map_name +" ",
+            that = this;
+        $.ajax({
+            type : "POST",
+            data : {rec_user : __id, content : con},
+            url : '/check/send_message/',
+            // url : 'http://121.199.47.141/check/send_message/',
+            success : function (data){
+                //console.log(data);
+                    if(data.flag == "succeed"){
+                        $(that).html("以邀");
+                    }
+            },
+            error : function (data){
+                console.log(data);
+            },
+            dataType : "json"
+        });
+    })
 });

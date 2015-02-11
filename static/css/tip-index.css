@@ -5,7 +5,6 @@
 html,body{
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 .navbar-brand{
     vertical-align: middle;
@@ -20,46 +19,12 @@ html,body{
 #kmap-overview{
     position:absolute;
     left:0%;
-    top:50px;
+    top:0;
     width:100%;
     height:100%;
     z-index:2;
     box-shadow: -5px 1px 10px #000;
     -webkit-box-shadow:-5px 1px 10px #000;
-}
-.openlist{
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    left: 5px;
-    top: 5px;
-    border:none;
-    cursor: pointer;
-}
-#list{
-    position: absolute;
-    width: 0%;
-    height: 100%;
-    left: 0;
-    top: 50px;
-    background: #4c4c4c;
-}
-#list > ul{
-    list-style:none;
-    width: 100%;
-    height: 100%;
-}
-#list > ul >li{
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    font-family: "微软雅黑";
-    font-weight: bold;
-    color: #fff;
-    font-family: 30px;
-    padding-left:20px;
-    cursor: pointer;
-    box-sizing:border-box;
 }
 .label{
     fill: black;
@@ -229,7 +194,7 @@ button.btn,input.form-control{
     height: 100%;
     border-left: 1px dashed #aaa;
     padding-left: 10px;
-    padding-top: 20px;
+    padding-top: 70px;
 }
 #opea p, #opea h4{
     width: 100%;
@@ -323,4 +288,36 @@ button.btn,input.form-control{
     font-weight: thin !important;
     cursor: pointer;
     z-index: 5;
+}
+.searchResult{
+    width: 92%;
+    height: 230px;
+    margin: 0px 10px;
+    border: 1px solid #ededed;
+    overflow: auto;
+}
+.searchResultUl{
+    list-style: none;
+    padding: 10px;
+}
+.searchResultLi{
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    border-bottom: 1px dashed #ededed;
+}
+.invite{
+    position: absolute;
+    right: 30px;
+    font-size: 10px;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+    text-align: center;
+    border: 1px solid #ededed;
+    line-height: 20px;
+    cursor: pointer;
+}
+.invite:hover{
+    background: #ededed;
 }

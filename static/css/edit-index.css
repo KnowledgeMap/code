@@ -400,8 +400,8 @@ body,html{
 #scale{
     width: 100%;
     height: auto;
-    position: fixed;
-    bottom: 20px;
+    position: absolute;
+    top: 95%;
     z-index: 2;
 }
 .scale{
@@ -436,9 +436,6 @@ body,html{
     z-index: 1000;
     color: #f00;
     text-align: center;
-}
-h1{
-    color: #fff;
 }
 .submit_title_tip, .title, .tip, .rever_title_tip{
     display: block;
@@ -477,5 +474,8 @@ h1{
 }
 .rever_title_tip:hover{
     background: #f00;
+    color: #fff;
+}
+.header{
     color: #fff;
 }

@@ -80,14 +80,15 @@ $(document).ready(function (){
         $.ajax({
             "type" : "POST",
             "data" : {username : __name, pass : __pass, email : __email},
-            "url"  : "http://121.199.47.141/check/reg/",
+            "url"  : "/check/reg/",
+            // "url"  : "http://121.199.47.141/check/reg/",
             success : function (data){
                 console.log(data);
                 if(data.flag === "secceed"){
                     $.cookie('yooyuName', __name, {expires: 7,path : '/'});
                     window.location.href = "/";
                 }else{
-                    var __x = $('<span class="help-block"><label class="error">该用户名以注册</label></span>');
+                    var __x = $('<span class="help-block"><label class="error">该用户名已注册</label></span>');
                     __x.insertBefore('.form-signin');                    
                 }
             },

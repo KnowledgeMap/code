@@ -1,15 +1,15 @@
 body,html{
 	width: 100%;
-	height: 100%;
     overflow: auto;
 }
 #content{
     position: absolute;
     width: 1124px;
-    height: 100%;
+    height: auto;
     margin-left: -562px;
     left: 50%;
     top: 50px;
+    bottom: 0;
 }
 #list-remind{
     position: absolute;
@@ -49,6 +49,9 @@ body,html{
     right: 0;
     font-family: "Microsoft YaHei","WenQuanYi Micro Hei",SimHei,tahoma,sans-serif;
 }
+.clear{
+    clear: both;
+}
 #infor h2{
     font-size: 20px;
     width: 100%;
@@ -68,6 +71,11 @@ body,html{
 .detail-uls{
     list-style: none;
     padding-left: 20px;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    bottom: 0;
 }
 .detail-li{
     width: 100%;
@@ -175,7 +183,7 @@ body,html{
     font-size: 10px;
     text-align: center;
 }
-.del, .editThat{
+.del, .editThat, .delCollect, .lookingFor,.look, .getCools{
     width: 60px;
     height: 25px;
     margin:5px;
@@ -184,10 +192,10 @@ body,html{
     vertical-align: middle;
     cursor: pointer;
 }
-.del:hover, .editThat:hover{
+.del:hover, .editThat:hover, .lookingFor:hover, .delCollect:hover,.look:hover,.getCools:hover{
     background: #ededed;
 }
-.del:hover{
+.del:hover, .delCollect:hover{
     background: #f00;
     border:none;
     color: #fff;
@@ -231,4 +239,37 @@ body,html{
     z-index: 3;
     top: -105px;
     left: 5px;
+}
+.loading{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+}
+.addFocus{
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    border: 1px solid #ededed;
+    border-radius: 3px;
+    width: 57px;
+    font-size: 10px;
+    text-align: center;
+    cursor: pointer;
+    z-index:3;
+}
+.addFocus:hover{
+    background: #ededed;
+}
+.readed_up{
+    position: absolute;
+    left: 80%;
+    line-height: 15px;
+}
+#foot{
+    bottom: 0;
+    position: absolute;
+    z-index: 3;
+    display: none;
 }

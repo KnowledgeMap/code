@@ -1,5 +1,5 @@
-var svg_width = $("#kmap-overview").width(),
-    svg_height = $("#kmap-overview").height(),
+var svg_width = $(window).width(),
+    svg_height = $(window).height(),
     scaleX = svg_width,
     scaleY = svg_height,
     posX = 0,
@@ -57,19 +57,6 @@ $(".min").bind('click',function (){
     $(".scale").html('缩放比例 / ' + (scaleX / xxx).toFixed(1));
     setTimeout(function(){$(".scale").html('')},1500);
     document.getElementById("svg").setAttribute('viewBox',posX+','+posY+','+xxx+','+yyy+'');
-});
-
-$(".openlist").click(function (){
-    if(!flag){
-        $("#kmap-overview").animate({"left":"20%"},200);
-        $("#list").animate({"width":"20%"},200);
-        $("#list > ul > li").css("borderBottom","1px solid #000");
-    }else{
-        $("#kmap-overview").animate({"left":"0%"},200);
-        $("#list").animate({"width":"0%"},200);
-        $("#list > ul > li").css("borderBottom","none");    
-    }
-    flag = !flag;
 });
 
 $("svg").on('click',function (e){

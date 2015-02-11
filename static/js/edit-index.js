@@ -1008,7 +1008,8 @@ $(document).ready(function (){
                     type : "POST",
                     data : { "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
                     dataType : "json",
-                    url : 'http://121.199.47.141/check/save_map/',
+                    url : '/check/save_map/',
+                    // url : 'http://121.199.47.141/check/save_map/',
                     success : function (data){
                         console.log(data);
                         if(data.flag == "succeed"){
@@ -1028,7 +1029,8 @@ $(document).ready(function (){
                     type : "POST",
                     data : { map_id : __hash, "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
                     dataType : "json",
-                    url : 'http://121.199.47.141/check/update_map/',
+                    url : '/check/update_map/',
+                    // url : 'http://121.199.47.141/check/update_map/',
                     success : function (data){
                         console.log(data);
                         if(data.flag == "succeed"){
@@ -1089,7 +1091,8 @@ $(document).ready(function (){
             $.ajax({
                 type : "POST",
                 data : {map_id : __mapid},
-                url  : "http://121.199.47.141/check/get_one_map/",
+                url  : "/check/get_one_map/",
+                // url  : "http://121.199.47.141/check/get_one_map/",
                 success : function (data){
                     //console.log(data);
                     if(data.flag == "succeed"){
@@ -1124,7 +1127,7 @@ $(document).ready(function (){
             $(".commitData").click(function (){
                 var __title = title || "",
                     __tip = tip || "",
-                    __title_tip = $("<div class='title_tip'><div class='title_tip_content'><h1>仓库信息</h1><input type='text' class='title' placeholder='仓库名称' value='"+__title+"'/><textarea type='text' class='tip' placeholder='仓库描述'>"+__tip+"</textarea><button class='submit_title_tip'>保存</button><button class='rever_title_tip'>返回</button></div></div>");
+                    __title_tip = $("<div class='title_tip'><div class='title_tip_content'><h1 class='header'>仓库信息</h1><input type='text' class='title' placeholder='仓库名称' value='"+__title+"'/><textarea type='text' class='tip' placeholder='仓库描述'>"+__tip+"</textarea><button class='submit_title_tip'>保存</button><button class='rever_title_tip'>返回</button></div></div>");
                 $("body").append(__title_tip);
             });
 

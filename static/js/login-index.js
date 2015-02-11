@@ -51,7 +51,8 @@ $(document).ready(function (){
 
     $("button").click(function (){
         var __name = $(".username").val(),
-            __pass = $(".pass").val();
+            __pass = $(".pass").val(),
+            __check = $("input[type=checkbox]").is(":checked");
         if(!__name || !__pass){
             if(!$(".error").length){
                 var __x = $('<span class="help-block"><label class="error">用户名/Email或密码错误，请重新输入！</label></span>');
@@ -63,11 +64,13 @@ $(document).ready(function (){
         $.ajax({
             "type" : "POST",
             "data" : {username : __name, pass : __pass},
-            "url"  : "http://121.199.47.141/check/login/",
+            "url"  : "/check/login/",
+            // "url"  : "http://121.199.47.141/check/login/",
             success : function (data){
                 if(data.flag == "succeed"){
-                    $.cookie('yooyuName', __name, {expires: 7,path : '/'});
-                    $.cookie('yooyuNameId', data.person_id, {expires: 7,path : '/'});
+                    var __time = __check ? 7 : 1;
+                    $.cookie('yooyuName', __name, {expires: __time,path : '/'});
+                    $.cookie('yooyuNameId', data.person_id, {expires: __time,path : '/'});
                     window.location.href="/";
                 }
             },
