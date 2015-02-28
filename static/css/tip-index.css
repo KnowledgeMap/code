@@ -124,7 +124,7 @@ html,body{
 .scale{
     position: absolute;
     z-index: 90;
-    right: 30px;
+    left: 30px;
     top: 70px;
     width: 100px;
     height: 30px;

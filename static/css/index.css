@@ -17,7 +17,9 @@ html,body{
 	cursor: pointer;
 }
 #kmap-overview{
-
+    position: absolute;
+    left: 0;
+    top: 0;
 	width:100%;
 	height:100%;
 	z-index:2;
@@ -192,4 +194,7 @@ button.btn,input.form-control{
     -webkit-border-radius:20px;
     position: relative;
     margin-right: 10px;
+}
+.grayColor{
+    color: #aaa;
 }

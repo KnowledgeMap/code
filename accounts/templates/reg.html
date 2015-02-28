@@ -22,13 +22,16 @@
 </span>
 {% endif %}
 
-<div class="form-signin">
-    <img src="/static/img/myface.jpg" class="imgface">
-    <input type="text" class="username" placeholder="请输入昵称">
-    <input type="text" class="email" placeholder="请输入邮箱">
-    <input type="password" class="pass" placeholder="请输入密码">
-    <input type="password" class="pass passAgain" placeholder="确认输入">
+<div id="form" class="form-signin">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACcCAIAAAAF2lUaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAd5SURBVHja7J3NTvM6EIYTJ1CxACSQ4H4q1Itui7geJCRUsUBUTfstrGPl2Ikzdmxn7L6zgv7EyTx+Z8aOndaXy6WClWUCLgBUGKDCABUGqDBABVQYoMIAFQaoMEAFVBigwgAVBqgwQIUBKqDCABUGqDBAhQEqoMIAFQaoMECFBbD2Sq6zruv+v2VvNqkLuzwNnpMV44pCoM5hWR7dvKGGZVkM3VyhuuLcbrf9fzebTcFoM4NKZKkhnDQi41x8lRNUO1FXkH6Ms3BXHlCT4SwDLXeoFpyRWBaAljXUMaJpcFLQ8vQeX6iDRNPjnETL0IFMoTIkakHLzYccoZpEmeDMhSs7qPyJjqHl40kBot6mnVvsOcssoeZFlDNXAaLlcRUgWh5XAaLlcRXMvZMv1+uFqvXofIlSItBVQOUzBigsCAu2HkEQzg9qeTLlc5kCHby8a1lm7tepPrLcpubcFfqnndjJbShIwc+bshhMfSYqXfNMmMeVMDCk8oiHosh0chFJ7CkLSpeabHEpsbLbSzN2q1JRlFFB+Ui9Lr84Hy19SXCaOLGwUon9sS8y+xprdbTj8bhardTrh8Ph4eEhxiTG2AnI439+fr68vFTkhRlLKTUw1Mmzt3jfcs/ZdOJgK5bu4o3TcnWUFLAI1/BDGvrIzJWo3aHaB5w2VmiuH/P+/f29Blj75GazcWrXdF2QcW14pdp75aCY7N25D7XrurZtJzu+k2SJrdODxFh/Jcaw+UTCKJXii7EX7T79/v7u/9s0jfzj7u7O0qnpkg0VHk3JOsWwsBNPEWeUKHslJn369PQk//j7++u//vv7S/fyGNfJ1uu6bppG9qTD4WDvTBSuCYhWsacJ6/9svkpub2/nqMd0MbH1ruu6rrtcLrLetncmD64xnlsQbCYo0r58M9PQK23vLD7WOj3taY2OpVV6LbKMUvtns91u6SOK2IW+d0kctdFQhW5cpVI0EVCpTdPIqOg910ERaxClaldqZ8lLqZaCyBSu9opHt6UQ1Q5rnoNH7qCkdsvwJgHRwFBdA52J1nJM+S7d+xrOwXTgwfV4PHpPmdkvn2/165HA/BRzOp38BOrRetM0dV1rI2ZKmrQTraJNIsYNv0G4Sn6vr6/9t9QshLdQKK1LR3dd1x8xE5No/7Da37Hv6oSH6jcGt6RYye/r62tyooAScl1b9xvOUZqOV4pHUao31zHnylnfsSLFKe65Jnh5Lappc6BpNu1BNOy4LtZNcq12p/dKLdmoNRWn00lO5Q/OQszBqX3dbPrv70/ezf35+bEnYGLrsTe2xl14NudJHK7RKf1yFqfWUz4KJPpqwvl6svs3XtHhUQ24Hi2S81MsEc16X1uQBaqJH+tyLQ9xnpNlsztnPG59GYsaIKNDnVztAMsM6pzlfWVb1I1TItPzzsj6YSlNzxZpiMqLgVj7TojX6UXKy7jytGr6IRJXEVumUGf6YdKSK/SvLaEmC8JiwS6JgU0eSp0MvFcVje11bzyxYkapwEpYpJQpInCW4ZdD7ZfXnEMMsYoFZQqxlqNUP7EKIWZu6U0zVnGSaSSximVlandQ//W3tzdFd+zDaj9yJIqsehXH6tfpZxL7wBRdzd1VVa3X68HjWHgMvm7npx4DQ+mLxC4ets4QC8rUievpdNrtdvv9fk4Y0JpQ/07ikX+o1i2nOvOeTJAInNM49XK5nM9nO6e2bc1339/fzV14m83m8fGRDriqqvP5nEXpLpaSKVGssj6yVE9VVT0/P8tD7ff7/h4bRVTumzBP73A4yLXXHx8fskOoy5ncijkWzL29EbBcmruaMMgNGc1Bgw61e9nyruXBPvv9Xkpfe2u320m3yFyuOorZytjB/VxBfI5LluHXdaHv2FakyX8VUWU3Nzd9n26328HtdeY9/7BV8UyxzlJqwPumFrH29aSirqqBlarMQw2ekvru2BfNb7Vtu16vLRc4dvJLiZULVFfXDMLmEFdCde5loMb4oYqwDsqOaCiuYXJqKO+bxTDnGRy2XTCDHxviyZVzUPEMv7GXlnF+wnmCc5sZgZnOKA3qdXHJDp4Dw8TPd5pwcJ/9glwHcfIs5XzCb+JlvfYppGJCbsAInMH+VPORQ1W4n0HIOrtnDFW50vJ413ilSnZEq7x2kg9KNizdTH+tam5OZbJPJsiPAQU8Dqu0muszHyiPnp1ZKue7lLX1lin/mHyFOPNWqgXDGODVaqX9ukIuIF1/H9Hx09h4mkNaxQapAk34yRSWPgJHVypibyFKhYUdRhcLFVveYkREKDWb/kpPq8LjiKESKmSKnFp+2ARU9A9+UJPd5b7CMhBKzcmItZJwPRamHZzC5iJiXUapqHsRfiH6bTZQEcmhVKTVcFCDV0lIqFAq7H9yooxqALXAap/LE89g6aBiCUuOfTe1Uq+2Spp/4fT+gZyan02GTxGjp8CucUiD/lEO1Cufdkh2+cipWYYle1oVGM+U1z9Esu6GKd/CCyWkVUCFsYeK8QyUCgPU0kc1lBurIs14BqUvO6UiCyL8on8sHLSQU6FUGKDCFrF/AwDWSw8iHgbvvAAAAABJRU5ErkJggg==" class="imgface">
+    <input type="text" class="username" placeholder="请输入昵称"/>
+    <input type="text" class="email" placeholder="请输入邮箱"/>
+    <input type="password" class="pass" placeholder="请输入密码"/>
+    <input type="password" class="pass passAgain" placeholder="确认输入"/>
     <button class="btn  btn-primary btn-large btn-block"> 注册 </button>
+    <div class="shadow">
+    	点击上传头像
+    </div>
 </div>
 <script type="text/javascript" src="/static/js/reg-index.js"></script>
 {% endblock %}

@@ -45,7 +45,6 @@ input[type=checkbox]{
 	-moz-transition: all .3s ease-in;
 }
 .help-block{
-	//display: block;
 	width: 100%;
 	height: 20px;
 	line-height: 20px;
@@ -187,4 +186,103 @@ input[type=checkbox]{
     margin-left: -50px;
     left: 50%;
     border:2px solid #ededed;
+    cursor: pointer;
+}
+
+.shadow{
+    width: 100px;
+    height: 100px;
+    border: none;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    margin-left: -50px;
+    left: 50%;
+    z-index: 3;
+    background: rgba(255,255,255,.5);
+    cursor: pointer;
+    line-height: 100px;
+    text-align: center;
+    display: none;
+}
+.upload{
+	width: 600px;
+	height: 350px;
+	position: absolute;
+	margin-left: -300px;
+	margin-top: -175px;
+	left: 50%;
+	top: 50%;
+	border:1px solid #ededed;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	-webkit-border-radius:3px;
+	background: #fff;
+	text-align: center;
+}
+.upload input{
+	position: relative;
+	width: 60px;
+	height: 30px;
+	border:1px solid #ededed;
+	outline: none;
+	display: inline-block;
+	padding:3px;
+	background: #fff;
+	color: #000;
+	margin-top: 30px;
+}
+.upload_text{
+	width: 230px !important;
+}
+.upload_input_none{
+	display: none !important;
+}
+.min,.max{
+	border:1px solid #ededed;
+	position: absolute;
+	top: 100px;
+}
+.imgfaceOfUpload{
+	width: 100%;
+	height: 100%;
+}
+.min{
+	width: 50px;
+	height: 50px;
+	left: 180px;
+}
+.min:after{
+	content: '300X300';
+	position: absolute;
+	top: 50px;
+	font-size: 12px;
+	text-align: center;
+	left: 0;
+	color: #aaa;
+}
+.max{
+	width: 100px;
+	height: 100px;
+	left: 300px;
+}
+.max:after{
+	content: '600X600';
+	position: absolute;
+	top: 100px;	
+	font-size: 12px;
+	text-align: center;
+	left: 25px;
+	color: #aaa;
+}
+
+.remove{
+    position: absolute;
+    right: 5px;
+    top: 0;
+    -webkit-font-smoothing: antialiased;
+    font-size: 12px;
+    font-weight: inherit;
+    cursor: pointer;
 }

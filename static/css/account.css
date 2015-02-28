@@ -115,7 +115,7 @@ html,body{
     position: absolute;
     z-index: 999;
     width: 100px;
-    left: -110px;
+    left: -10px;
 }
 .red-circle{
     width: 13px;
@@ -136,9 +136,6 @@ html,body{
 }
 .padding{
     padding-right: 5px;
-}
-.username{
-    padding: 15px 5px;
 }
 .getResult{
     width: 300px;
@@ -238,8 +235,46 @@ html,body{
 }
 #foot{
     width: 100%;
-    height: 400px;
+    height: 100px;
     background: #000;
     position: absolute;
     top: 100%;
+}
+#foot p{
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    color: #f1f3e5;
+    font-size: 12px;
+    line-height: 20px;
+    font-family: arial,sans-serif;
+    padding:10px;
+    font-weight: thin;
+    -webkit-font-smoothing: antialiased;
+}
+.t1{
+    margin-top: 30px;
+}
+.p1{
+    padding:0 5px;
+    cursor: pointer;
+}
+.p1:hover{
+    text-decoration: underline;
+}
+.p2{
+    padding:0 10px;
+}
+.grayColor{
+    color: #aaa;
+}
+.deleteMes{
+    left: 72% !important;
+    color: #ededed;
+}
+.resend{
+    left: 80% !important;
+}
+.readMess{
+    left: 76% !important;
 }

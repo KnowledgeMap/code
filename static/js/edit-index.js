@@ -1,7 +1,7 @@
 /*
 *
 */
-var higShowVar = [],nodesArr = [],linksArr = [];
+var higShowVar = [],nodesArr = [],linksArr = [],BUFFER = {data : [],nodes : []};
 
 //建立对象存放变量
 	var svgEvent = svgEvent || {
@@ -22,7 +22,9 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 
 //点击增加节点按钮向svg中添加节点
 	svgEvent.append = function (dom) {
-		var e = e || event,points = { x : e.pageX, y : e.pageY - 50};
+
+		var e = e || window.event || arguments.callee.caller.arguments[0];
+        var points = { x : e.pageX, y : e.pageY - 50};
 		$("g,.path,.floatDiv").remove();
 		svgEvent.nodes.push(new Object({"name" : dom, "group" : svgEvent.group}));
 		svgEvent.group++;
@@ -46,7 +48,7 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 	}
 
 	$("svg").on('click',function (e){
-		var e = e || event;
+		var e = e || window.event || arguments.callee.caller.arguments[0];
 		if(e.target.tagName == "svg"){
 			var x = $('g').find('rect');
 			for(var i = 0; i < x.length; i++){
@@ -55,8 +57,6 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 			svgEvent.temp = [];
 			$(".path").css("stroke","green");
 			changeMarker($(".path"));
-           // $("#commitData").animate({"right" : "-150px"},400).html('保存地图').removeClass('borderNone');
-           // $(".commitData").fadeIn(200);
 		}
         if(e.target.tagName == "rect" || e.target.tagName == "text"){
 			var tempVar;
@@ -69,7 +69,7 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 	});
 
 	$("svg").on('dblclick',function (e){
-		var e = e || event,
+		var e = e || window.event || arguments.callee.caller.arguments[0],
             force = force;
         force ? force.stop() : "";
 		if(e.target.tagName == "svg"){
@@ -125,6 +125,42 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 		higShow(svgEvent.temp);
 	}
 
+    function saveContent(){
+
+            $("#MathInput").trigger("keydown");
+
+            setTimeout(function(){
+                var MathPreview = $("#MathPreview").find("script").text(),
+                    MathBuffer = $("#MathBuffer").find("script").text(),
+                    value = "",
+                    num = $("#cover").attr("data-index"),
+                    inputData = $("#MathInput").val();
+
+                MathPreview.length > MathBuffer.length ? value = $("#MathPreview").html() : value = $("#MathBuffer").html();
+
+                if(MathPreview.length == MathBuffer.length){
+                    value = $("#MathBuffer").html();
+                }
+
+                node[num]["name"] = value;
+
+                node[num]["LaTeX"] = inputData;
+
+                $("#cover").css("display","none");
+
+                $("#MathInput").val('');
+
+                svgEvent.loading({data : svgEvent.allLinksData});
+            },100)
+    }
+
+    $("body").on('keydown','#MathInput',function (e){
+        var e = e || window.event || arguments.callee.caller.arguments[0];
+        if(e.ctrlKey && e.keyCode == 13){
+            saveContent();
+        }
+    });
+
 //双击节点之后表示选择结束，该节点为最终目标节点
 	svgEvent.dbclickG = function (dom){
 
@@ -173,10 +209,14 @@ var higShowVar = [],nodesArr = [],linksArr = [];
 
             $("#cover").attr("data-index",num);
 
-			if(node[num].name != "双击节点进行编辑")
-				$("#MathInput").html(node[num].name)
+            $("#MathInput").val('');
 
-			$("#MathInput").trigger("keyup");
+			if(node[num].name != "双击节点进行编辑"){
+				$("#MathInput").val(node[num].name);
+                $("#MathInput").trigger("keydown");               
+            }
+
+			$("#MathInput").trigger("keydown");
 
             bindClick();
 
@@ -189,80 +229,10 @@ var higShowVar = [],nodesArr = [],linksArr = [];
         function bindClick(){
             $("#cover").on('click','button',function (){
                 
-                $("#MathInput").trigger("keydown");
-
-                var MathPreview = $("#MathPreview").find("script").text(),
-                    MathBuffer = $("#MathBuffer").find("script").text(),
-                    value = "",
-                    num = $("#cover").attr("data-index"),
-                    inputData = $("#MathInput").val();
-
-                MathPreview.length > MathBuffer.length ? value = $("#MathPreview").html() : value = $("#MathBuffer").html();
-
-                if(MathPreview.length == MathBuffer.length){
-                    value = $("#MathBuffer").html();
-                }
-
-                node[num]["name"] = value;
-
-                node[num]["LaTeX"] = inputData;
-
-                $("#cover").css("display","none");
-
-                svgEvent.loading({data : svgEvent.allLinksData});
+                saveContent();
                     
             });
         }
-
-        //Django+Python中ajax的安全性
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?  
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        var csrftoken = getCookie('csrftoken');
-
-
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-
-        function sameOrigin(url) {
-            // test that a given url is a same-origin URL
-            // url could be relative or scheme relative or absolute
-            var host = document.location.host; // host + port
-            var protocol = document.location.protocol;
-            var sr_origin = '//' + host;
-            var origin = protocol + sr_origin;
-            // Allow absolute or scheme relative URLs to same origin
-            return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-                (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-                // or any other URL that isn't scheme relative or absolute i.e relative.
-                !(/^(\/\/|http:|https:).*/.test(url));
-        }
-
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-                    // Send the token to same-origin, relative URLs only.
-                    // Send the token only if the method warrants CSRF protection
-                    // Using the CSRFToken value acquired earlier
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
 
 		$.ajax({
 			url : "/kmap/result/",
@@ -403,10 +373,22 @@ var higShowVar = [],nodesArr = [],linksArr = [];
         $(this).removeClass('small');
 
         if(x < 0){
-            svgEvent.loading({data : [], allnode : []});
-            svgEvent.nodes = [];
-            svgEvent.allLinksData = [];
+
+            $("g,.path,.floatDiv").remove();
+
+            svgEvent.loading({data : BUFFER.data, allnode : BUFFER.nodes});
+
+            svgEvent.allLinksData = BUFFER.data;
+
+            svgEvent.nodes = BUFFER.nodes;
+
             svgEvent.group = 0;
+
+            for(var i = 0; i < svgEvent.nodes.length; i++){
+                svgEvent.group++;
+            }
+
+
             $(".time").filter(function (){
                 var xx = $(this).find("div").attr('class');
                 return xx.indexOf("restart") > 0 ? false : true;
@@ -891,7 +873,7 @@ $(document).ready(function (){
 
 			$("#MathInput").focus();
 
-			$("#MathInput").trigger("keyup");
+			$("#MathInput").trigger("keydown");
 
 		});
 
@@ -914,7 +896,7 @@ $(document).ready(function (){
 
         });
 
-		$("#MathInput").on('keyup',function (){
+		$("#MathInput").on('keydown',function (){
 
 			 Previewa.Update();
              
@@ -1008,8 +990,8 @@ $(document).ready(function (){
                     type : "POST",
                     data : { "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
                     dataType : "json",
-                    url : '/check/save_map/',
-                    // url : 'http://121.199.47.141/check/save_map/',
+                    // url : '/check/save_map/',
+                    url : 'http://121.199.47.141/check/save_map/',
                     success : function (data){
                         console.log(data);
                         if(data.flag == "succeed"){
@@ -1029,8 +1011,8 @@ $(document).ready(function (){
                     type : "POST",
                     data : { map_id : __hash, "title" : __title, "tip" : __tip, "nodes" : JSON.stringify(svgEvent.nodes), "links" : JSON.stringify(svgEvent.allLinksData), "image" : __imgsrc},
                     dataType : "json",
-                    url : '/check/update_map/',
-                    // url : 'http://121.199.47.141/check/update_map/',
+                    // url : '/check/update_map/',
+                    url : 'http://121.199.47.141/check/update_map/',
                     success : function (data){
                         console.log(data);
                         if(data.flag == "succeed"){
@@ -1091,15 +1073,19 @@ $(document).ready(function (){
             $.ajax({
                 type : "POST",
                 data : {map_id : __mapid},
-                url  : "/check/get_one_map/",
-                // url  : "http://121.199.47.141/check/get_one_map/",
+                // url  : "/check/get_one_map/",
+                url  : "http://121.199.47.141/check/get_one_map/",
                 success : function (data){
                     //console.log(data);
                     if(data.flag == "succeed"){
 
                         var __obj = {};
+
                         __obj.data = JSON.parse(data.info[0].links);
+                        BUFFER.data = JSON.parse(data.info[0].links);
+
                         svgEvent.nodes = JSON.parse(data.info[0].nodes);
+                        BUFFER.nodes = JSON.parse(data.info[0].nodes);
 
                         for(var i = 0; i < svgEvent.nodes.length; i++){
                             svgEvent.group++;
